@@ -22,7 +22,7 @@ const Footer = function () {
           borderRadius:'6px',
           marginLeft:'20px',
           background:'#f7a046'
-        }}> | 分类tags</a>
+        }}> 分类tags</a>
       </p>
     </footer>
   );
