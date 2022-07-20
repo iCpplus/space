@@ -2,7 +2,7 @@ import React from 'react';
 
 import { rhythm } from 'utils/typography';
 
-const Footer = function() {
+const Footer = function () {
   return (
     <footer
       style={{
@@ -12,11 +12,14 @@ const Footer = function() {
       }}
     >
       <p>
-        
+
         <a
         >
-          Copyright:  PRC . Province Japan 
+          Copyright:  PRC . Province Japan
         </a>
+        <a href='inana.cc' style={{
+          color: '#f7a046'
+        }}> | 分类tags</a>
       </p>
     </footer>
   );
