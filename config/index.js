@@ -1,22 +1,22 @@
 const site = {
   pathPrefix: '/gatsby-simple-blog',
-  title: 'Gatsby Starter Blog',
-  author: 'Kyle Mathews',
-  description: 'A starter blog demonstrating what Gatsby can do.',
+  title: '娜娜的水瓶',
+  author: 'Kou ShiXiang',
+  description: '一个记录知识和生活的神秘小空间',
   siteUrl: 'https://gatsby-simple-blog.thundermiracle.com/',
-  twitter: 'kylemathews',
-  github: 'thundermiracle',
-  medium: 'thundermiracle',
-  facebook: 'thundermiracle',
+  // twitter: 'kylemathews',
+  // github: 'thundermiracle',
+  // medium: 'thundermiracle',
+  // facebook: 'thundermiracle',
   disqusShortName: 'gatsby-simple-blog',
   googleTrackingId: 'G-E7NM1ZBB2T',
-  lang: 'en',
+  lang: 'zh-hans',
   displayTranslations: true,
   postsPerPage: 3,
 };
 
 const supportedLanguages = {
-  en: 'English',
+  // en: 'English',
   'zh-hans': '简体中文',
 };
 

@@ -10,7 +10,7 @@ const {
   medium = '',
   facebook = '',
   disqusShortName = '',
-  lang = 'en',
+  lang = 'zh-hans',
   googleTrackingId: trackingId,
 } = require('./config').site;
 const supportedLanguages = require('./config').supportedLanguages;
