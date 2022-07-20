@@ -12,13 +12,10 @@ const Footer = function() {
       }}
     >
       <p>
-        Made of{' '}
+        
         <a
-          href="https://github.com/thundermiracle/gatsby-simple-blog"
-          target="_blank"
-          rel="noopener noreferrer"
         >
-          gatsby-simple-blog
+          Copyright:  PRC . Province Japan 
         </a>
       </p>
     </footer>
