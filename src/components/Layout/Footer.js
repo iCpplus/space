@@ -17,7 +17,7 @@ const Footer = function () {
         >
           Copyright:  PRC . Province Japan
         </a>
-        <a href='inana.cc' style={{
+        <a href='tags' style={{
           color: '#f7a046'
         }}> | 分类tags</a>
       </p>
