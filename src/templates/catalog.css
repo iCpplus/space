@@ -1,6 +1,5 @@
 .css-toc {
     padding: 15px;
-    background: #fcfaf2;
     margin-bottom: 25px;
 }
 
@@ -37,8 +36,8 @@
         bottom: 0;
         right: 0;
         width: 200px;
-        max-height: 400px;
-        overflow: scroll;
+        /* max-height: 400px;
+        overflow: scroll; */
         font-size: 14px;
 
     }
