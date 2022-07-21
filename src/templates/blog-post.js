@@ -54,6 +54,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       />
 
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
+      <div dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
 
       <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
 
