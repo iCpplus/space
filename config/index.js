@@ -16,7 +16,7 @@ const site = {
 };
 
 const supportedLanguages = {
-  // en: 'English',
+  en: 'English',
   'zh-hans': '简体中文',
 };
 
