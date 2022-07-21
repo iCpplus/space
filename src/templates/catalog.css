@@ -20,6 +20,7 @@
 
 .css-toc ul li {
     margin-bottom: 0;
+    list-style: none;
 }
 
 .css-toc ul li>p {
@@ -36,8 +37,8 @@
         bottom: 0;
         right: 0;
         width: 200px;
-        /* max-height: 400px;
-        overflow: scroll; */
+        max-height: 600px;
+        overflow: scroll;
         font-size: 14px;
 
     }
