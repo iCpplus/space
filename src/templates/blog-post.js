@@ -116,7 +116,7 @@ export const pageQuery = graphql`
       id
       excerpt(pruneLength: 160)
       html
-      tableOfContents(pathToSlugFied:"frontmatter.path")
+      tableOfContents(pathToSlugField:"frontmatter.path")
       timeToRead
       frontmatter {
         title
