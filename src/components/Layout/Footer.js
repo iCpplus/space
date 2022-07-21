@@ -17,7 +17,7 @@ const Footer = function () {
         >
           Copyright:  PRC . Province Japan
         </a>
-        <a href='tags' style={{
+        <a href='https://www.inana.cc/tags' style={{
           display:'inline-block',
           borderRadius:'6px',
           marginLeft:'20px',
