@@ -1,7 +1,7 @@
 ---
-title: http notes
+title: js notes
 date: "2022-07-20T17:00:32.169Z"
-description: http notes, ...
+description: js notes, ...
 tags: ['js']
 disqus: false
 ---
