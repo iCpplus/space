@@ -15,6 +15,8 @@ import { formatDate } from 'utils/i18n';
 import { rhythm, scale } from 'utils/typography';
 import { useLang } from 'context/LanguageContext';
 
+import './catalog.css'
+
 const BlogPostTemplate = function ({ data, pageContext, location }) {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata.title;
@@ -54,7 +56,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       />
 
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
-      <div dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
+      <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
 
       <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
 
