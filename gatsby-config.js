@@ -125,6 +125,7 @@ module.exports = {
         queries: require('./src/utils/algoliaQueries'),
       },
     },
+    { resolve: `gatsby-plugin-baidu-analytics`, options: { siteId: "36fc504c1f716d5ff530c4fa79b71445", }, },
     `gatsby-plugin-styled-components`,
     // {
     //   resolve: `gatsby-plugin-html2amp`,
