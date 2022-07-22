@@ -1,6 +1,6 @@
 const site = {
   pathPrefix: '/gatsby-simple-blog',
-  title: '娜娜的水瓶',
+  title: 'nana\'s coco\'s space',
   author: 'Kou ShiXiang',
   description: '一个记录知识和生活的神秘小空间',
   siteUrl: 'https://gatsby-simple-blog.thundermiracle.com/',

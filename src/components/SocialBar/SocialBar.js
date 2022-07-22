@@ -23,7 +23,7 @@ const SocialBar = function () {
             {twitter && <Twitter username={twitter} />}
             {github && <Github username={github} />}
             {medium && <Medium username={medium} />} */}
-            <a className="round-tag" href='https://www.inana.cc' style={{cursor:'pointer',display:'block'}}>
+            <a className="round-tag" href='https://www.inana.cc/tags' style={{cursor:'pointer',display:'block'}}>
               <div className='link'>
                 <span className="text">
                   {formatMessage('tCatalog')}
