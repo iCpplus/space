@@ -8,7 +8,7 @@ const site = {
   // github: 'thundermiracle',
   // medium: 'thundermiracle',
   // facebook: 'thundermiracle',
-  disqusShortName: 'gatsby-simple-blog',
+  disqusShortName: 'cocos space',
   googleTrackingId: 'G-E7NM1ZBB2T',
   lang: 'zh-hans',
   displayTranslations: true,

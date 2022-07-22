@@ -23,13 +23,13 @@ const SocialBar = function () {
             {twitter && <Twitter username={twitter} />}
             {github && <Github username={github} />}
             {medium && <Medium username={medium} />} */}
-            <div className="round-tag" style={{cursor:'pointer'}}>
+            <a className="round-tag" href='https://www.inana.cc' style={{cursor:'pointer',display:'block'}}>
               <div className='link'>
                 <span className="text">
                   {formatMessage('tCatalog')}
                 </span>
               </div>
-            </div>
+            </a>
           </div>
         );
       }}
