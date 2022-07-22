@@ -61,9 +61,16 @@
         font-weight: 600;
     }
 
-    .css-toc li::marker {
-        color: #8f5b23;
+    .css-toc > ul > li > a {
+        background: var(--inlineCode-bg);
+        border-radius: 7px;
+        padding-left: 10px;
+        font-weight: 600;
     }
+
+    /* .css-toc li::marker {
+        color: #8f5b23;
+    } */
 
     /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
     ::-webkit-scrollbar {
