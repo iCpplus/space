@@ -12,17 +12,10 @@ const Footer = function () {
       }}
     >
       <p>
-
         <a
         >
           Copyright:  PRC . Province Japan
         </a>
-        <a href='https://www.inana.cc/tags' style={{
-          display:'inline-block',
-          borderRadius:'6px',
-          marginLeft:'20px',
-          background:'#f7a046'
-        }}> 分类tags</a>
       </p>
     </footer>
   );

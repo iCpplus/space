@@ -1,9 +1,11 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
+import { formatMessage } from 'utils/i18n';
+import '../Tag/Tag.css'
 
 import { Github, Twitter, Facebook, Medium } from '../icons';
 
-const SocialBar = function() {
+const SocialBar = function () {
   return (
     <StaticQuery
       // eslint-disable-next-line no-use-before-define
@@ -14,14 +16,20 @@ const SocialBar = function() {
           <div
             style={{
               display: 'flex',
-              justifyContent: 'space-evenly',
               margin: 'auto',
             }}
           >
-            {facebook && <Facebook username={facebook} />}
+            {/* {facebook && <Facebook username={facebook} />}
             {twitter && <Twitter username={twitter} />}
             {github && <Github username={github} />}
-            {medium && <Medium username={medium} />}
+            {medium && <Medium username={medium} />} */}
+            <div className="round-tag" style={{cursor:'pointer'}}>
+              <div className='link'>
+                <span className="text">
+                  {formatMessage('tCatalog')}
+                </span>
+              </div>
+            </div>
           </div>
         );
       }}

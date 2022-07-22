@@ -12,6 +12,7 @@ const TranslationsLink = function({ translationsLink, langKey, ...restProps }) {
 
   return (
     <div className="translation-root" {...restProps}>
+      <span style={{color:'var(--tag-bg)',marginRight:'10px'}}>翻译/translate into: </span>
       {translationsLink.map(({ name, url }) => (
         <Link key={name} to={url} className="translation-link">
           {name}

@@ -14,7 +14,7 @@ import './Bio.css';
 
 import SocialBar from '../SocialBar';
 
-const Bio = function() {
+const Bio = function () {
   return (
     <StaticQuery
       // eslint-disable-next-line no-use-before-define

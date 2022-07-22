@@ -40,31 +40,52 @@
         max-height: 500px;
         overflow-y: scroll;
         font-size: 14px;
+        color: #f7a046;
+    }
+
+    .css-toc a {
+        color: #8f5b23;
+        display: block;
+        width: 100%;
+    }
+
+    .css-toc a:hover {
+        text-decoration: underline;
+    }
 
 
+    .css-toc p {
+        background: var(--inlineCode-bg);
+        border-radius: 7px;
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    .css-toc li::marker {
+        color: #8f5b23;
     }
 
     /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-    .css-toc::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         width: 7px;
         height: 7px;
-        background-color: #f5f5f5;
+        background-color: var(--scrollbar-bg);
     }
 
     /*定义滚动条轨道 内阴影+圆角*/
-    .css-toc::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    ::-webkit-scrollbar-track {
+        /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); */
         border-radius: 10px;
-        background-color: #f5f5f5;
+        /* background-color: var(--scrollbar-cl); */
     }
 
     /*定义滑块 内阴影+圆角*/
-    .css-toc::-webkit-scrollbar-thumb {
+    ::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-        background-color: #c8c8c8;
+        /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);  */
+        background-color: var(--scrollbar-cl);
     }
 
     /* .css-toc li>ul {

@@ -3,6 +3,7 @@ module.exports = {
   tRelativePosts: 'Relative Posts',
   tFollowTwitterDescription: 'You should follow him on Twitter',
   tTags: 'Tags',
+  tCatalog:'All Tags',
   tIndTitle: 'All posts',
   taIndKeywords: [`blog`, `gatsby`, `javascript`, `react`],
   tfIndCountPosts: ({ count, from, to }) => `${count} Posts (${from} - ${to})`,
