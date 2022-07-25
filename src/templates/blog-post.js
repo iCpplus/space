@@ -52,7 +52,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         <span id={post.fields.slug} className="leancloud_visitors" data-flag-title={post.fields.slug}>
           {' • '}
           <img src={readIcon} alt='' className="post-meta-item-text" />
-          <i className="leancloud-visitors-count">???</i>
+          <i className="leancloud-visitors-count">0</i>
         </span>
       </p>
 
