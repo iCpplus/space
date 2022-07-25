@@ -6,7 +6,10 @@ import '../Tag/Tag.css'
 import { Github, Twitter, Facebook, Medium } from '../icons';
 
 const SocialBar = function () {
-  const url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en/tags/' : 'https://www.inana.cc/tags/'
+  let url = ''
+  useEffect(()=>{
+    url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en' : 'https://www.inana.cc'
+  },[])
   return (
     <StaticQuery
       // eslint-disable-next-line no-use-before-define

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { rhythm } from 'utils/typography';
 import { formatMessage } from 'utils/i18n';
 import footIcon1 from '../../assets/jump.jpg'
 
 const Footer = function () {
-  const url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en' : 'https://www.inana.cc'
+  let url = ''
+  useEffect(()=>{
+    url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en' : 'https://www.inana.cc'
+  },[])
   return (
     <footer
       style={{
