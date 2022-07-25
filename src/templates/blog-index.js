@@ -12,7 +12,8 @@ import { formatMessage } from 'utils/i18n';
 
 const BlogIndex = function ({ pageContext, data, location }) {
   const { from, to, currentPage, numPages } = pageContext;
-  const siteTitle = data.site.siteMetadata.title;
+  // const siteTitle = data.site.siteMetadata.title;
+  const siteTitle = formatMessage('title');
   const posts = data.allMarkdownRemark.edges;
 
   const { lang, homeLink } = useLang();

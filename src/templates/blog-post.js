@@ -9,6 +9,7 @@ import TagList from 'components/TagList';
 import RelativePosts from 'components/RelativePosts';
 import Disqus from 'components/Disqus';
 import TranslationsLink from 'components/TranslationsLink';
+import Valine from 'gatsby-plugin-valine'
 
 import { formatReadingTime } from 'utils/helpers';
 import { formatDate } from 'utils/i18n';
@@ -94,6 +95,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       </ul>
 
       <Disqus identifier={post.id} show={post.frontmatter.disqus} title={post.frontmatter.title} />
+      <Valine path={post.fields.slug} />
     </Layout>
   );
 };
@@ -129,7 +131,8 @@ export const pageQuery = graphql`
         disqus
       }
       fields {
-        langKey
+        langKey,
+        slug
       }
     }
   }

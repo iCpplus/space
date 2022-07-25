@@ -1,7 +1,7 @@
 import React from 'react';
 import { rhythm } from 'utils/typography';
 import { formatMessage } from 'utils/i18n';
-import footIcon1 from '../../assets/pig.jpg'
+import footIcon1 from '../../assets/jump.jpg'
 
 const Footer = function () {
   return (
@@ -20,8 +20,8 @@ const Footer = function () {
         }}>
           <img style={{
             borderRadius: '50%',
-            width: '30px',
-            heght: '30px',
+            width: '40px',
+            heght: '40px',
             marginRight:'20px'
           }} src={footIcon1} alt='' />
           <span style={{color:'#ffa5b0'}}>{formatMessage('tfootContent')}</span>

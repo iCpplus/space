@@ -10,7 +10,9 @@ import { StaticQuery, graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 
 import { rhythm } from 'utils/typography';
+import { formatMessage } from 'utils/i18n';
 import './Bio.css';
+
 
 import SocialBar from '../SocialBar';
 
@@ -20,7 +22,8 @@ const Bio = function () {
       // eslint-disable-next-line no-use-before-define
       query={bioQuery}
       render={(data) => {
-        const { author, description } = data.site.siteMetadata;
+        const { author } = data.site.siteMetadata;
+        const description = formatMessage('desc')
         return (
           <div
             style={{

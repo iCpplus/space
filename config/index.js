@@ -2,7 +2,7 @@ const site = {
   pathPrefix: '/gatsby-simple-blog',
   title: 'space of nana\'s coco',
   author: 'Kou ShiXiang',
-  description: '一个记录知识和生活的神秘小空间',
+  description: '一个记录知识和生活的神秘小空间',  
   siteUrl: 'https://gatsby-simple-blog.thundermiracle.com/',
   // twitter: 'kylemathews',
   // github: 'thundermiracle',

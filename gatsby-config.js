@@ -125,6 +125,14 @@ module.exports = {
         queries: require('./src/utils/algoliaQueries'),
       },
     },
+    {
+      resolve: `gatsby-plugin-valine`,
+      options: {
+        appId: `y5NRkY47PYzeHEOlgSaXDI9P-gzGzoHsz`,
+        appKey: `UP7Xe10qeba3wTdIWWMAsr0j`,
+        avatar: `robohash`,
+      },
+    },
     { resolve: `gatsby-plugin-baidu-analytics`, options: { siteId: "36fc504c1f716d5ff530c4fa79b71445", }, },
     `gatsby-plugin-styled-components`,
     // {
