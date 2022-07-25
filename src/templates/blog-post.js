@@ -103,7 +103,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       </ul>
 
       <Disqus identifier={post.id} show={post.frontmatter.disqus} title={post.frontmatter.title} />
-      <Valine placeholder={} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP meta={['nick', 'mail']} />
+      <Valine placeholder={placeholder} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP meta={['nick', 'mail']} />
     </Layout>
   );
 };
