@@ -1,5 +1,5 @@
 ---
-title: React Stufy
+title: React Study
 date: "2022-07-25T18:00:32.169Z"
 description: 我的React学习过程，一些笔记...
 tags: ['React']
