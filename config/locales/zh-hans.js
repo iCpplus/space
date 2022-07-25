@@ -9,5 +9,6 @@ module.exports = {
   tfTagHeader: (totalCount, tag) => `在 "${tag}" 里共有 ${totalCount} 篇文章`,
   tfootContent: '欢迎来到CoCo\'s Space',
   desc:'一个记录知识和生活的神秘小空间',
-  title:'CoCo的小空间'
+  title:'CoCo的小空间',
+  tRead:'阅读量'
 };

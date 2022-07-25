@@ -13,5 +13,6 @@ module.exports = {
   t404Content: 'You just hit a route that doesn&#39;t exist... the sadness.',
   tfootContent: 'Welcome to CoCo\'s Space',
   desc:'A mysterious little space to record knowledge and life',
-  title:'Space of nana\'s CoCo'
+  title:'Space of nana\'s CoCo',
+  tRead:'read amount'
 };

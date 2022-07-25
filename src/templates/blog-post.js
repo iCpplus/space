@@ -12,10 +12,9 @@ import TranslationsLink from 'components/TranslationsLink';
 import Valine from 'gatsby-plugin-valine'
 
 import { formatReadingTime } from 'utils/helpers';
-import { formatDate } from 'utils/i18n';
+import { formatDate, formatMessage } from 'utils/i18n';
 import { rhythm, scale } from 'utils/typography';
 import { useLang } from 'context/LanguageContext';
-import {readIcon} from '../assets/readCount.png'
 
 import './catalog.css'
 
@@ -49,10 +48,9 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         {formatDate(post.frontmatter.date)}
         {` • ${formatReadingTime(post.timeToRead)}`}
 
-        <span id={post.fields.slug} className="leancloud_visitors" data-flag-title={post.fields.slug}>
-          {' • '}
-          <img src={readIcon} alt='' className="post-meta-item-text" />
-          <i className="leancloud-visitors-count">0</i>
+        <span style={{ marginLeft: '40px', color: 'var(--tag-bg)' }} id={post.fields.slug} className="leancloud_visitors" data-flag-title={post.fields.slug}>
+          <em>{formatMessage('tRead') + ' : '}</em>
+          <i className="leancloud-visitors-count">•••</i>
         </span>
       </p>
 
