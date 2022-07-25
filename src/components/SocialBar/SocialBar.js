@@ -8,7 +8,7 @@ import { Github, Twitter, Facebook, Medium } from '../icons';
 const SocialBar = function () {
   let url = ''
   useEffect(()=>{
-    url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en' : 'https://www.inana.cc'
+    url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en/' : 'https://www.inana.cc/'
   },[])
   return (
     <StaticQuery
