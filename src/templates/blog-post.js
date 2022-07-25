@@ -100,7 +100,11 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       </ul>
 
       <Disqus identifier={post.id} show={post.frontmatter.disqus} title={post.frontmatter.title} />
-      <Valine pageSize={5} path={post.fields.slug} enableQQ visitor recordIP requiredFields={['mail']} meta={['nick', 'mail']} />
+      <Valine placeholder={`
+      • 请大家友善评论，遵纪守法
+      • 昵称可以输入qq账号，评论头像、昵称、邮箱将自动引用qq相关头像昵称邮箱哦
+      • thaks
+      `} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP requiredFields={['mail']} meta={['nick', 'mail']} />
     </Layout>
   );
 };
