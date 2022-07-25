@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, graphql } from 'gatsby';
 
@@ -22,9 +22,10 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata.title;
   const { previous, next, previousInSameTag, nextInSameTag, translationsLink } = pageContext;
-  let language = 'zh-CN'
+  const  [language,setLanguage] = useState('zh-CN')
   useEffect(()=>{
-    language = window.location.href.split('/').includes('en') ? 'en' : 'zh-CN'
+    const u = window.location.href.split('/').includes('en') ? 'en' : 'zh-CN'
+    setLanguage(u)
   },[])
   const placeholder = `
   • 请大家友善评论,遵纪守法。爱国、敬业、诚信、友善

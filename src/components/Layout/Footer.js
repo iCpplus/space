@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { rhythm } from 'utils/typography';
 import { formatMessage } from 'utils/i18n';
 import footIcon1 from '../../assets/jump.jpg'
 
 const Footer = function () {
-  let url = ''
-  useEffect(()=>{
-    url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en/' : 'https://www.inana.cc/'
-  },[])
+  const [goHome, setGoHome] = useState()
+  useEffect(() => {
+    const u = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en/' : 'https://www.inana.cc/'
+    const f = () => {
+      window.location.href = u
+    }
+    setGoHome(f)
+  }, [])
+
   return (
     <footer
       style={{
@@ -17,10 +22,11 @@ const Footer = function () {
       }}
     >
       <p>
-        <a href={url} style={{
+        <div role='presentation' onClick={goHome} style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          cursor:'pointer'
         }}>
           <img style={{
             borderRadius: '50%',
@@ -29,7 +35,7 @@ const Footer = function () {
             marginRight: '20px'
           }} src={footIcon1} alt='' />
           <span style={{ color: '#ffa5b0' }}>{formatMessage('tfootContent')}</span>
-        </a>
+        </div>
       </p>
     </footer>
   );
