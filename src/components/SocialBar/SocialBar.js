@@ -33,7 +33,7 @@ const SocialBar = function () {
             {twitter && <Twitter username={twitter} />}
             {github && <Github username={github} />}
             {medium && <Medium username={medium} />} */}
-            <div role='presentation' className="round-tag" onClick={()=>goTags} style={{ cursor: 'pointer', display: 'block' }}>
+            <div role='presentation' className="round-tag" onClick={goTags} style={{ cursor: 'pointer', display: 'block' }}>
               <div className='link'>
                 <span className="text">
                   {formatMessage('tCatalog')}

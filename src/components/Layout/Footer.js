@@ -24,7 +24,7 @@ const Footer = function () {
       }}
     >
       <p>
-        <div role='presentation' onClick={()=>goHome} style={{
+        <div role='presentation' onClick={goHome} style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

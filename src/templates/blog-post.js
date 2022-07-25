@@ -22,14 +22,18 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata.title;
   const { previous, next, previousInSameTag, nextInSameTag, translationsLink } = pageContext;
-  const  [language,setLanguage] = useState('zh-CN')
-  useEffect(()=>{
-    const u = window.location.href.split('/').includes('en') ? 'en' : 'zh-CN'
+  const [language, setLanguage] = useState('zh-CN')
+  const [placeholder, setPlaceholder] = useState('')
+  useEffect(() => {
+    const flag = window.location.href.split('/').includes('en')
+    const u = flag ? 'en' : 'zh-CN'
+    const p = flag ? `
+    Please kindly comment`: `
+    • 请大家友善评论,遵纪守法。爱国、敬业、诚信、友善
+    • 昵称输入qq账号,将自动引用qq相关头像昵称邮箱哦`
     setLanguage(u)
-  },[])
-  const placeholder = `
-  • 请大家友善评论,遵纪守法。爱国、敬业、诚信、友善
-  • 昵称输入qq账号,将自动引用qq相关头像昵称邮箱哦`
+    setPlaceholder(p)
+  }, [])
 
   const { lang, homeLink } = useLang();
 
