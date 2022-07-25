@@ -12,7 +12,9 @@ const SocialBar = function () {
     const f = ()=>{
       window.location.href = u
     }
-    setGoTags(f)
+    setGoTags(()=>{
+      return f
+    })
   },[])
   return (
     <StaticQuery

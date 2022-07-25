@@ -10,7 +10,9 @@ const Footer = function () {
     const f = () => {
       window.location.href = u
     }
-    setGoHome(f)
+    setGoHome(()=>{
+      return f
+    })
   }, [])
 
   return (
