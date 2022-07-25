@@ -48,9 +48,9 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         {formatDate(post.frontmatter.date)}
         {` • ${formatReadingTime(post.timeToRead)}`}
 
-        <span style={{ marginLeft: '40px', color: 'var(--tag-bg)' }} id={post.fields.slug} className="leancloud_visitors" data-flag-title={post.fields.slug}>
-          <em>{formatMessage('tRead') + ' : '}</em>
-          <i className="leancloud-visitors-count">•••</i>
+        <span style={{ marginLeft: '20px', color: 'var(--tag-bg)' }} id={post.fields.slug} className="leancloud_visitors" data-flag-title={post.fields.slug}>
+          <span>{formatMessage('tRead') + ' : '}</span>
+          <span className="leancloud-visitors-count">•••</span>
         </span>
       </p>
 
