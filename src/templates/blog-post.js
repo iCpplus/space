@@ -101,10 +101,10 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
 
       <Disqus identifier={post.id} show={post.frontmatter.disqus} title={post.frontmatter.title} />
       <Valine placeholder={`
-        评论一下...\n
-      • 请大家友善评论，遵纪守法。爱国、敬业、诚信、友善\n
-      • 昵称可以输入qq账号，评论头像、昵称、邮箱将自动引用qq相关头像昵称邮箱哦\n
-      • Thanks
+        评论一下...
+      * 请大家友善评论,遵纪守法。爱国、敬业、诚信、友善
+      * 昵称输入qq账号,将自动引用qq相关头像昵称邮箱哦
+      * Thanks
       `} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP requiredFields={['mail']} meta={['nick', 'mail']} />
     </Layout>
   );
