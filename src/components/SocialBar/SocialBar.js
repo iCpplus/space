@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { formatMessage } from 'utils/i18n';
 import '../Tag/Tag.css'
