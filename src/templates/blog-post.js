@@ -15,6 +15,7 @@ import { formatReadingTime } from 'utils/helpers';
 import { formatDate } from 'utils/i18n';
 import { rhythm, scale } from 'utils/typography';
 import { useLang } from 'context/LanguageContext';
+import {readIcon} from '../assets/readCount.png'
 
 import './catalog.css'
 
@@ -47,6 +48,12 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       >
         {formatDate(post.frontmatter.date)}
         {` • ${formatReadingTime(post.timeToRead)}`}
+
+        <span id={post.fields.slug} className="leancloud_visitors" data-flag-title={post.fields.slug}>
+          {' • '}
+          <img src={readIcon} alt='' className="post-meta-item-text" />
+          <i className="leancloud-visitors-count">???</i>
+        </span>
       </p>
 
       {tags}
@@ -95,7 +102,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       </ul>
 
       <Disqus identifier={post.id} show={post.frontmatter.disqus} title={post.frontmatter.title} />
-      <Valine path={post.fields.slug} enableQQ visitor recordIP requiredFields={['mail']} meta={['nick','mail']} />
+      <Valine path={post.fields.slug} enableQQ visitor recordIP requiredFields={['mail']} meta={['nick', 'mail']} />
     </Layout>
   );
 };
