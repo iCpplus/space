@@ -4,6 +4,7 @@ import { formatMessage } from 'utils/i18n';
 import footIcon1 from '../../assets/jump.jpg'
 
 const Footer = function () {
+  const url = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en' : 'https://www.inana.cc'
   return (
     <footer
       style={{
@@ -13,7 +14,7 @@ const Footer = function () {
       }}
     >
       <p>
-        <a href='https://www.inana.cc/' style={{
+        <a href={url} style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -22,9 +23,9 @@ const Footer = function () {
             borderRadius: '50%',
             width: '40px',
             heght: '40px',
-            marginRight:'20px'
+            marginRight: '20px'
           }} src={footIcon1} alt='' />
-          <span style={{color:'#ffa5b0'}}>{formatMessage('tfootContent')}</span>
+          <span style={{ color: '#ffa5b0' }}>{formatMessage('tfootContent')}</span>
         </a>
       </p>
     </footer>
