@@ -15,5 +15,5 @@ module.exports = {
   desc:'A mysterious little space to record knowledge and life',
   title:'Space of nana\'s CoCo',
   tRead:'read amount',
-  tResume:'my resume'
+  tResume:'My Resume'
 };
