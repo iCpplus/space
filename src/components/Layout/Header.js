@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'gatsby';
-
+import { formatMessage } from 'utils/i18n';
 import { scale } from 'utils/typography';
 
 /**
@@ -11,8 +11,10 @@ import { scale } from 'utils/typography';
  * @param {*object} { location, title, base}
  */
 const Header = function({ location, title, base }) {
+  console.log(title); //不使用配置文件的title，使用英汉配置的title
   // eslint-disable-next-line no-undef
   const rootPath = `${__PATH_PREFIX__}${base}`;
+  const tTitle = formatMessage('title')
 
   if (location.pathname === rootPath) {
     return (
@@ -31,7 +33,7 @@ const Header = function({ location, title, base }) {
           }}
           to={base}
         >
-          {title}
+          {tTitle}
         </Link>
       </h1>
     );
@@ -54,7 +56,7 @@ const Header = function({ location, title, base }) {
         }}
         to={base}
       >
-        {title}
+        {tTitle}
       </Link>
     </h3>
   );
