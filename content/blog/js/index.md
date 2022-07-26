@@ -3,7 +3,7 @@ title: Javascript小笔记
 date: "2022-07-20T17:00:32.169Z"
 description: js日常小笔记，持续更新...
 tags: ['js']
-disqus: false
+disqus: true
 ---
 # 数据类型
 

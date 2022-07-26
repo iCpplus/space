@@ -7,7 +7,6 @@ import Layout from 'components/Layout';
 import SEO from 'components/SEO';
 import TagList from 'components/TagList';
 import RelativePosts from 'components/RelativePosts';
-import Disqus from 'components/Disqus';
 import TranslationsLink from 'components/TranslationsLink';
 import Valine from 'gatsby-plugin-valine'
 
@@ -110,9 +109,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
           )}
         </li>
       </ul>
-
-      <Disqus identifier={post.id} show={post.frontmatter.disqus} title={post.frontmatter.title} />
-      <Valine lang={language} placeholder={placeholder} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP meta={['nick', 'mail']} />
+      <Valine lang={language} style={{ display: post.frontmatter.disqus ? 'unset' : 'none' }} placeholder={placeholder} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP meta={['nick', 'mail']} />
     </Layout>
   );
 };

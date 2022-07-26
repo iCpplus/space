@@ -8,7 +8,7 @@ description: 我的React学习过程，一些笔记...
 
 tags: ['React']
 
-disqus: false
+disqus: true
 
 ---
 
