@@ -10,8 +10,8 @@ import { scale } from 'utils/typography';
  *
  * @param {*object} { location, title, base}
  */
-const Header = function({ location, title, base }) {
-  console.log(title); //不使用配置文件的title，使用英汉配置的title
+const Header = function ({ location, title, base }) {
+  console.log(title); // 不使用配置文件的title，使用英汉配置的title
   // eslint-disable-next-line no-undef
   const rootPath = `${__PATH_PREFIX__}${base}`;
   const tTitle = formatMessage('title')
