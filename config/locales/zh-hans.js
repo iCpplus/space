@@ -10,5 +10,6 @@ module.exports = {
   tfootContent: '欢迎来到CoCo\'s Space',
   desc:'一个记录知识和生活的神秘小空间',
   title:'CoCo的小空间',
-  tRead:'阅读量'
+  tRead:'阅读量',
+  tResume:'个人简历'
 };
