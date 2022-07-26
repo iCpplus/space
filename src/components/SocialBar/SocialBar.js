@@ -49,7 +49,7 @@ const SocialBar = function () {
                 </span>
               </div>
             </div>
-            <div role='presentation' className="round-tag" onClick={goResume} style={{ cursor: 'pointer', display: 'block',marginLeft:'10px' }}>
+            <div role='presentation' className="round-tag" onClick={goResume} style={{ cursor: 'pointer', display: 'block',marginLeft:'30px' }}>
               <div className='link'>
                 <span className="text">
                   {formatMessage('tResume')}
