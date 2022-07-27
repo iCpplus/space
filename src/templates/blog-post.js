@@ -75,7 +75,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
 
-      <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
+      <RelativePosts style={{ display: post.frontmatter.relative ? 'unset' : 'none' }} postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
 
       <hr
         style={{
@@ -143,6 +143,7 @@ export const pageQuery = graphql`
         description
         tags
         disqus
+        relative
       }
       fields {
         langKey,
