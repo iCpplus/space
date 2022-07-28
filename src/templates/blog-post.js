@@ -9,6 +9,7 @@ import TagList from 'components/TagList';
 import RelativePosts from 'components/RelativePosts';
 import TranslationsLink from 'components/TranslationsLink';
 import Valine from 'gatsby-plugin-valine'
+import './valine.css'
 
 import { formatReadingTime } from 'utils/helpers';
 import { formatDate, formatMessage } from 'utils/i18n';
@@ -74,9 +75,10 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
 
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
-
-      <RelativePosts style={{ display: post.frontmatter.relative ? 'unset' : 'none' }} postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
-
+      {
+        post.frontmatter.relative && <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
+      }
+      
       <hr
         style={{
           marginBottom: rhythm(1),
@@ -109,7 +111,10 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
           )}
         </li>
       </ul>
-      <Valine lang={language} style={{ display: post.frontmatter.disqus ? 'unset' : 'none' }} placeholder={placeholder} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP meta={['nick', 'mail']} />
+      {
+        post.frontmatter.disqus && <Valine className='valine' lang={language} placeholder={placeholder} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP meta={['nick', 'mail']} />
+      }
+      
     </Layout>
   );
 };
