@@ -66,6 +66,8 @@ class App extends React.Component {
     </span>
   </summary>
 
+<div style='width:100%'>
+
 ```js
 export function scheduleUpdateOnFiber(
   fiber: Fiber,
@@ -122,6 +124,10 @@ export function scheduleUpdateOnFiber(
   }
 }
 ```
+
+</div>
+
+
 </details>
 
 **可以看到, 是否同步渲染调度决定代码是flushSyncCallbackQueue(). 进入该分支的条件:**
