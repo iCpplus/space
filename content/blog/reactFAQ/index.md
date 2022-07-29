@@ -40,7 +40,7 @@ class App extends React.Component {
 
 **结果：** 钩子函数中的 `setState` 无法立马拿到更新后的值，所以前两次都是输出0，当执行到 `setTimeout` 里的时候，前面两个state的值已经被更新，由于 `setState` 批量更新的策略， `this.state.val` 只对最后一次的生效，为1，而在 `setTimeout` 中 `setState` 是可以同步拿到更新结果，所以 `setTimeout` 中的两次输出2，3，最终结果就为 `0, 0, 2, 3 `。
 
-### 总结
+### 结论
 
 > 合成事件：即`react`为了解决跨平台，兼容性问题，自己封装了一套事件机制，代理了原生的事件，像在`jsx`中常见的`onClick`、`onChange`这些都是合成事件。
 
@@ -58,7 +58,7 @@ class App extends React.Component {
 > 不仅仅是setState了, 在对 function 类型组件中的 hook 进行操作时也是一样, 最终决定setState是同步渲染还是异步渲染的关键因素是ReactFiberWorkLoop工作空间的执行上下文.
 
 <details>
-<summary>详细代码如下</summary>
+<summary><span style='cursor:pointer;margin-bottom:20px;background:#f7a046;display:inline-block;padding:3px;border-radius:3px;color:#fff;font-weight:600'>详细代码点击查看</span></summary>
 
 ```js
 export function scheduleUpdateOnFiber(
