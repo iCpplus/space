@@ -59,6 +59,69 @@ class App extends React.Component {
 
 <details>
   <summary>
+  click me
+  </summary>
+
+```js
+export function scheduleUpdateOnFiber(
+  fiber: Fiber,
+  expirationTime: ExpirationTime,
+) {
+  const priorityLevel = getCurrentPriorityLevel();
+
+  if (expirationTime === Sync) {
+    if (
+      // Check if we're inside unbatchedUpdates
+      (executionContext & LegacyUnbatchedContext) !== NoContext &&
+      // Check if we're not already rendering
+      (executionContext & (RenderContext | CommitContext)) === NoContext
+    ) {
+      performSyncWorkOnRoot(root);
+    } else {
+      ensureRootIsScheduled(root);
+      schedulePendingInteractions(root, expirationTime);
+      if (executionContext === NoContext) {
+        // Flush the synchronous work now, unless we're already working or inside
+        // a batch. This is intentionally inside scheduleUpdateOnFiber instead of
+        // scheduleCallbackForFiber to preserve the ability to schedule a callback
+        // without immediately flushing it. We only do this for user-initiated
+        // updates, to preserve historical behavior of legacy mode.
+        flushSyncCallbackQueue();
+      }
+    }
+  } else {
+    // Schedule a discrete update but only if it's not Sync.
+    if (
+      (executionContext & DiscreteEventContext) !== NoContext &&
+      // Only updates at user-blocking priority or greater are considered
+      // discrete, even inside a discrete event.
+      (priorityLevel === UserBlockingPriority ||
+        priorityLevel === ImmediatePriority)
+    ) {
+      // This is the result of a discrete event. Track the lowest priority
+      // discrete update per root so we can flush them early, if needed.
+      if (rootsWithPendingDiscreteUpdates === null) {
+        rootsWithPendingDiscreteUpdates = new Map([[root, expirationTime]]);
+      } else {
+        const lastDiscreteTime = rootsWithPendingDiscreteUpdates.get(root);
+        if (
+          lastDiscreteTime === undefined ||
+          lastDiscreteTime > expirationTime
+        ) {
+          rootsWithPendingDiscreteUpdates.set(root, expirationTime);
+        }
+      }
+    }
+    // Schedule other updates after in case the callback is sync.
+    ensureRootIsScheduled(root);
+    schedulePendingInteractions(root, expirationTime);
+  }
+}
+```
+</details>
+
+<details>
+  <summary>
     <span 
     title='Click Me'
     style='cursor:pointer;margin-bottom:20px;background:#f7a046;display:inline-block;padding:1px 8px;border-radius:5px;color:#fff;font-weight:600'>
