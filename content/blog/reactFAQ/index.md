@@ -11,7 +11,8 @@ relative: false
 
 ### 举个🌰
 
-```jsx
+```jsx {1}
+//  legacy模式下
 class App extends React.Component {
   state = { val: 0 }
 
@@ -43,11 +44,86 @@ class App extends React.Component {
 
 > 合成事件：即`react`为了解决跨平台，兼容性问题，自己封装了一套事件机制，代理了原生的事件，像在`jsx`中常见的`onClick`、`onChange`这些都是合成事件。
 
+**`legacy`模式下**
+
 * `setState` 只在合成事件和钩子函数中是“异步”的，在原生事件和 `setTimeout` 中都是同步的。
 * `setState`的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形式了所谓的“异步”，当然可以通过第二个参数 `setState(partialState, callback)` 中的`callback`拿到更新后的结果。
 * `setState` 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和`setTimeout` 中不会批量更新，在“异步”中如果对同一个值进行多次 `setState` ， `setState` 的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时 `setState` 多个不同的值，在更新时会对其进行合并批量更新。
 
-**个人简单的认为，只要原生的js范围内`setState`都表现为‘同步’，`react`的范围内都表现为‘异步’。（后续可能会更深入去分析setState）**
+**`concurrent`模式下**
+
+* 都表现为‘异步’
+
+### 原理
+> 不仅仅是setState了, 在对 function 类型组件中的 hook 进行操作时也是一样, 最终决定setState是同步渲染还是异步渲染的关键因素是ReactFiberWorkLoop工作空间的执行上下文.
+
+<details>
+<summary>详细代码如下</summary>
+
+```js
+export function scheduleUpdateOnFiber(
+  fiber: Fiber,
+  expirationTime: ExpirationTime,
+) {
+  const priorityLevel = getCurrentPriorityLevel();
+
+  if (expirationTime === Sync) {
+    if (
+      // Check if we're inside unbatchedUpdates
+      (executionContext & LegacyUnbatchedContext) !== NoContext &&
+      // Check if we're not already rendering
+      (executionContext & (RenderContext | CommitContext)) === NoContext
+    ) {
+      performSyncWorkOnRoot(root);
+    } else {
+      ensureRootIsScheduled(root);
+      schedulePendingInteractions(root, expirationTime);
+      if (executionContext === NoContext) {
+        // Flush the synchronous work now, unless we're already working or inside
+        // a batch. This is intentionally inside scheduleUpdateOnFiber instead of
+        // scheduleCallbackForFiber to preserve the ability to schedule a callback
+        // without immediately flushing it. We only do this for user-initiated
+        // updates, to preserve historical behavior of legacy mode.
+        flushSyncCallbackQueue();
+      }
+    }
+  } else {
+    // Schedule a discrete update but only if it's not Sync.
+    if (
+      (executionContext & DiscreteEventContext) !== NoContext &&
+      // Only updates at user-blocking priority or greater are considered
+      // discrete, even inside a discrete event.
+      (priorityLevel === UserBlockingPriority ||
+        priorityLevel === ImmediatePriority)
+    ) {
+      // This is the result of a discrete event. Track the lowest priority
+      // discrete update per root so we can flush them early, if needed.
+      if (rootsWithPendingDiscreteUpdates === null) {
+        rootsWithPendingDiscreteUpdates = new Map([[root, expirationTime]]);
+      } else {
+        const lastDiscreteTime = rootsWithPendingDiscreteUpdates.get(root);
+        if (
+          lastDiscreteTime === undefined ||
+          lastDiscreteTime > expirationTime
+        ) {
+          rootsWithPendingDiscreteUpdates.set(root, expirationTime);
+        }
+      }
+    }
+    // Schedule other updates after in case the callback is sync.
+    ensureRootIsScheduled(root);
+    schedulePendingInteractions(root, expirationTime);
+  }
+}
+```
+</details>
+
+**可以看到, 是否同步渲染调度决定代码是flushSyncCallbackQueue(). 进入该分支的条件:**
+
+* 必须是legacy模式, concurrent模式下expirationTime不会为Sync
+* executionContext === NoContext, 执行上下文必须要为空.
+
+**两个条件缺一不可。**
 
 ## Fiber
 
