@@ -1,7 +1,9 @@
 ---
-title: React 常见问题
-date: "2022-07-01T00:00:00.000Z"
-disqus: false
+title: React常见问题
+date: "2022-07-29T17:00:32.169Z"
+description: React常见的问题及解答，持续更新...
+tags: ['React']
+disqus: true
 relative: false
 ---
 
@@ -35,7 +37,7 @@ class App extends React.Component {
 }
 ```
 
-**结果：**钩子函数中的 `setState` 无法立马拿到更新后的值，所以前两次都是输出0，当执行到 `setTimeout` 里的时候，前面两个state的值已经被更新，由于 `setState` 批量更新的策略， `this.state.val` 只对最后一次的生效，为1，而在 `setTimeout` 中 `setState` 是可以同步拿到更新结果，所以 `setTimeout` 中的两次输出2，3，最终结果就为 `0, 0, 2, 3 `。
+**结果：** 钩子函数中的 `setState` 无法立马拿到更新后的值，所以前两次都是输出0，当执行到 `setTimeout` 里的时候，前面两个state的值已经被更新，由于 `setState` 批量更新的策略， `this.state.val` 只对最后一次的生效，为1，而在 `setTimeout` 中 `setState` 是可以同步拿到更新结果，所以 `setTimeout` 中的两次输出2，3，最终结果就为 `0, 0, 2, 3 `。
 
 ### 总结
 
