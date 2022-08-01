@@ -73,7 +73,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         style={{ margin: '-0.5rem 0 1.5rem' }}
       />
 
-      <div dangerouslySetInnerHTML={{ __html: post.html }} />
+      <div className='css-post' dangerouslySetInnerHTML={{ __html: post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {
         post.frontmatter.relative && <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />

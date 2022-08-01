@@ -31,6 +31,10 @@
     margin-top: 0;
 } */
 
+.css-post .gatsby-highlight pre{
+    float: none;
+}
+
 @media screen and (min-width: 1045px) {
     .css-toc {
         position: fixed;
