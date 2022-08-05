@@ -252,7 +252,7 @@ function create(Con, ...args) {
 
 在[JS的指向问题](https://link.juejin.cn?target=https%3A%2F%2Flijing0906.github.io%2Fpost%2FJSthis)中讲**new绑定**时讲了`new`操作符其实做了以下四步：
 
-```
+```js
 var obj = new Object(); // 创建一个空对象
 obj.__proto__ = F.prototype; // obj的__proto__指向构造函数的prototype
 var result = F.call(obj); // 把构造函数的this指向obj，并执行构造函数把结果赋值给result
@@ -337,7 +337,7 @@ fn1.call(想要将this指向哪里, 函数实参1, 函数实参2);
 fn1.apply(想要将this指向哪里, [函数实参1, 函数实参2]);
 ```
 
-```
+```js
 新函数 = fn1.bind(想要将this指向哪里, 函数实参1, 函数实参2);
 ```
 
@@ -346,7 +346,7 @@ fn1.apply(想要将this指向哪里, [函数实参1, 函数实参2]);
 ><https://juejin.cn/post/6844903638238756878>
 ><https://juejin.cn/post/6844903657264136200>
 
-```
+```js
 Promise.resolve().then(()=>{
   console.log('Promise1')  
   setTimeout(()=>{
@@ -425,7 +425,7 @@ const mySetInterval = (cb, time) => {
 
 ## Object.is()
 
-```plain
+```js
 Object.is(value1, value2);
 ```
 
