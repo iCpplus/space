@@ -6,7 +6,8 @@ import footIcon1 from '../../assets/jump.jpg'
 const Footer = function () {
   const [goHome, setGoHome] = useState()
   useEffect(() => {
-    const u = window.location.href.split('/').includes('en') ? 'https://www.inana.cc/en/' : 'https://www.inana.cc/'
+    const origin = window.location.origin
+    const u = window.location.href.split('/').includes('en') ? `${origin}/en/` : `${origin}/`
     const f = () => {
       window.location.href = u
     }

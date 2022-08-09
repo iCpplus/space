@@ -10,8 +10,9 @@ const SocialBar = function () {
   const [goResume, setGoResume] = useState()
   useEffect(() => {
     const flag = window.location.href.split('/').includes('en')
-    const u = flag ? 'https://www.inana.cc/en/tags/' : 'https://www.inana.cc/tags/'
-    const r = flag ? 'https://www.inana.cc/en/resume' : 'https://www.inana.cc/resume'
+    const origin = window.location.origin
+    const u = flag ? `${origin}/en/tags/` : `${origin}/tags/`
+    const r = flag ? `${origin}/en/resume` : `${origin}/resume`
     const f1 = () => {
       window.location.href = u
     }
