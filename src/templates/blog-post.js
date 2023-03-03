@@ -15,7 +15,7 @@ import { formatReadingTime } from 'utils/helpers';
 import { formatDate, formatMessage } from 'utils/i18n';
 import { rhythm, scale } from 'utils/typography';
 import { useLang } from 'context/LanguageContext';
-
+import Private from './private'
 import './catalog.css'
 
 const BlogPostTemplate = function ({ data, pageContext, location }) {
@@ -41,6 +41,14 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
   if (post.frontmatter.tags) {
     tags = <TagList tags={post.frontmatter.tags} baseUrl={`${homeLink}tags`} />;
   }
+
+  const [update,setUpdate] = useState('')
+
+  const updateParent = ()=>{
+    setUpdate(new Date().getTime())
+  }
+
+  console.log(post.frontmatter);
 
   return (
     <Layout location={location} title={siteTitle} breadcrumbs={[{ text: post.frontmatter.title }]}>
@@ -72,13 +80,13 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         langKey={lang}
         style={{ margin: '-0.5rem 0 1.5rem' }}
       />
-
+      {(post.frontmatter.private&&sessionStorage.getItem('password')!=='ningning')&&<Private updateParent={updateParent}/>}
       <div className='css-post' dangerouslySetInnerHTML={{ __html: post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {
         post.frontmatter.relative && <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
       }
-      
+
       <hr
         style={{
           marginBottom: rhythm(1),
@@ -114,7 +122,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       {
         post.frontmatter.disqus && <Valine className='valine' lang={language} placeholder={placeholder} pageSize={5} path={post.fields.slug} enableQQ visitor recordIP meta={['nick', 'mail']} />
       }
-      
+
     </Layout>
   );
 };
@@ -149,6 +157,7 @@ export const pageQuery = graphql`
         tags
         disqus
         relative
+        private
       }
       fields {
         langKey,

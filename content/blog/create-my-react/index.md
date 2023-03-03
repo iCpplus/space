@@ -5,6 +5,7 @@ description: 一步步自己写一个简单的React
 tags: ['React']
 disqus: true
 relative: false
+private: false
 ---
 
 ## 简单小🌰

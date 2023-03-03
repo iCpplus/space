@@ -2,7 +2,26 @@
 .css-post .gatsby-highlight pre{
     float: none;
 }
-
+.mask{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fffae0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+.main-contain > :nth-child(2){
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
 @media screen and (min-width: 1045px) {
     .css-toc {
         position: fixed;
