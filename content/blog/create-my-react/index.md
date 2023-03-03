@@ -301,6 +301,7 @@ const element = (
 const container = document.getElementById("root")
 Myact.render(element, container)
 ```
+
 </details>
 
 ![img](images/2022-08-02-14-16-29.png)
@@ -342,11 +343,12 @@ function performUnitOfWork(nextUnitOfWork) {
 }
 ```
 
-## Fiber 
+## Fiber
 
 为了组织我们的工作单元，我们需要一种数据结构：fiber树。每一个元素节点都将有一个fiber对应，而每一个fiber都将是一个工作单元。
 
 小例子🌰
+
 ```js
 Myact.render(
   <div>
@@ -431,6 +433,8 @@ function performUnitOfWork(fiber) {
   // TODO 返回下一个单元任务
 }
 ```
+
+### 执行工作单元函数
 
 接下来我们来完成performUnitOfWork函数的三件事。👌
 
@@ -574,6 +578,22 @@ function performUnitOfWork(fiber) {
 
 }
 ```
+
+</details>
+
+### vue为什么不需要fiber架构
+
+<details>
+  <summary style='outline:none'>
+    <span
+    title='Click Me'
+    style='cursor:pointer;margin-bottom:20px;background:#f7a046;display:inline-block;padding:1px 8px;border-radius:5px;color:#fff;font-weight:600'>
+    点击查看
+    </span>
+  </summary>
+
+[为什么有react fiber，而没有vue fiber](/reactFiberAndVue)
+
 </details>
 
 ## render commit阶段
@@ -656,3 +676,308 @@ function commitWork(fiber) {
 
 我们已经完成了commit阶段😋。
 
+## Reconciliation
+
+现在我们已经完成了第一次渲染，但是还有更新删除页面节点的操作。现在当我们渲染时需要去比较旧的fiber树。所以我们需要在commit阶段记录上一次的fiber树，我们将它记录为`currentRoot`。我们也在每个fiber上添加一个新的属性`alternate`，这个属性指向旧的fiber树即我们上次commit阶段的提交的fiber树。
+
+```js{3,13,19}
+function commitRoot() {
+  commitWork(wipRoot.child)
+  currentRoot = wipRoot
+  wipRoot = null
+}
+
+function render(element, container) {
+  wipRoot = {
+    dom: container,
+    props: {
+      children: [element],
+    },
+    alternate: currentRoot,
+  }
+  nextUnitOfWork = wipRoot
+}
+​
+let nextUnitOfWork = null
+let currentRoot = null
+let wipRoot = null
+```
+
+现在我们来先把`performUnitOfWork`中创建新fiber的代码抽离到一个新的函数中：`reconcileChildren`。
+
+```js{7,14}
+function performUnitOfWork(fiber) {
+  //为fiber创建dom
+  ...
+​
+  // 为元素的子元素创建fiber
+  const elements = fiber.props.children
+  reconcileChildren(fiber,elements)
+
+  //返回下一个fiber
+  ...
+
+}
+
+function reconcileChildren(wipFiber, elements) {
+  let index = 0
+  let prevSibling = null
+​
+  while (index < elements.length) {
+    const element = elements[index]
+​
+    const newFiber = {
+      type: element.type,
+      props: element.props,
+      parent: wipFiber,
+      dom: null,
+    }
+​
+    if (index === 0) {
+      wipFiber.child = newFiber
+    } else {
+      prevSibling.sibling = newFiber
+    }
+​
+    prevSibling = newFiber
+    index++
+  }
+}
+```
+
+现在我们在`reconcileChildren`函数对新旧fiber进行对比。
+
+```js
+function reconcileChildren(wipFiber, elements) {
+  let index = 0
+  let oldFiber = wipFiber.alternate && wipFiber.alternate.child
+  let prevSibling = null
+​
+  while (index < elements.length || oldFiber!=null) {
+    const element = elements[index]
+    let newFiber = null
+
+    // TODO 比较新旧fiber
+  }
+
+  if (oldFiber) {
+      oldFiber = oldFiber.sibling
+  }
+}
+```
+
+我们使用fiber的type进行比较新旧fiber：
+
+* 如果新旧fiber的type相同，我们将使用原来的dom，只需要更新props即可。
+* 如果没有旧fiber，有新fiber，则说明我们需要新增元素节点，新增一全新的fiber。
+* 如果有旧fiber，但是没有新增fiber，则说明我们需要删除旧fiber。
+
+```js{12-21}
+function reconcileChildren(wipFiber, elements) {
+  let index = 0
+  let oldFiber = wipFiber.alternate && wipFiber.alternate.child
+  let prevSibling = null
+​
+  while (index < elements.length || oldFiber!=null) {
+    const element = elements[index]
+    let newFiber = null
+
+    // 比较新旧fiber
+
+    const sameType = oldFiber && element && element.type == oldFiber.type
+    if (sameType) {
+      // TODO 更新节点
+    }
+    if (element && !sameType) {
+      // TODO 新增节点
+    }
+    if (oldFiber && !sameType) {
+      // TODO 删除旧fiber节点
+    }
+  }
+
+  if (oldFiber) {
+      oldFiber = oldFiber.sibling
+  }
+}
+```
+
+接下来我们来完成reconcile中的更新节点、新增节点、删除节点。我们先给三种不同的操作fiber打上不同的tag属性，后续commit阶段将会用到。
+
+* 更新节点我们直接只需要更新旧fiber的props即可，其它都复用旧fiber
+* 新增节点，新增一个全新的fiber，、
+* 删除节点，只为旧fiber打上删除标记，存入当前渲染fiber树中的deletions数组中
+
+```js
+    const sameType = oldFiber && element && element.type == oldFiber.type
+    if (sameType) {
+      newFiber = {
+        type: oldFiber.type,
+        props: element.props,
+        dom: oldFiber.dom,
+        parent: wipFiber,
+        alternate: oldFiber,
+        effectTag: "UPDATE",
+      }
+    }
+    if (element && !sameType) {
+      newFiber = {
+        type: element.type,
+        props: element.props,
+        dom: null,
+        parent: wipFiber,
+        alternate: null,
+        effectTag: "PLACEMENT",
+      }
+    }
+    if (oldFiber && !sameType) {
+      oldFiber.effectTag = "DELETION"
+      deletions.push(oldFiber)
+    }
+```
+
+新增deletions数组,在每次render时初始化该数组。
+
+```js{9,16}
+function render(element, container) {
+  wipRoot = {
+    dom: container,
+    props: {
+      children: [element],
+    },
+    alternate: currentRoot,
+  }
+  deletions = []
+  nextUnitOfWork = wipRoot
+}
+​
+let nextUnitOfWork = null
+let currentRoot = null
+let wipRoot = null
+let deletions = null
+```
+
+每次render都会收集deletions元素及要删除的旧fiber，那么我们对应的需要在commit阶段删除这些fiber。
+
+```js{2}
+function commitRoot() {
+  deletions.forEach(commitWork)
+  commitWork(wipRoot.child)
+  currentRoot = wipRoot
+  wipRoot = null
+}
+```
+
+改造commitWork函数，上面我们已经为更新、新增、删除fiber打上了tag标记，现在我们根据这些标记改造commitWork函数，完成dom的更新。
+
+```js{6}
+function commitWork(fiber) {
+  if (!fiber) {
+    return
+  }
+  const domParent = fiber.parent.dom
+  domParent.appendChild(fiber.dom)   //❌删除 现在我们需要根据不同的fiber标记情况，对dom进行操作。
+  commitWork(fiber.child)
+  commitWork(fiber.sibling)
+}
+```
+
+* 如果effectTag是PLACEMENT，则为新增节点，我们直接将其dom插入父元素中。
+* 如果effectTag是DELETION，则为删除节点，我们将该dom元素移除。
+* 如果effectTag是UPDATE，则为更新节点，我们将更新dom的props。（update比较复杂，我们将其代码抽出为updateDom函数）
+
+```js{8-24}
+function commitWork(fiber) {
+  if (!fiber) {
+    return
+  }
+  const domParent = fiber.parent.dom
+  
+  //操作dom
+   if (
+    fiber.effectTag === "PLACEMENT" &&
+    fiber.dom != null
+  ) {
+    domParent.appendChild(fiber.dom)
+  } else if (
+    fiber.effectTag === "UPDATE" &&
+    fiber.dom != null
+  ) {
+    updateDom(
+      fiber.dom,
+      fiber.alternate.props,
+      fiber.props
+    )
+  } else if (fiber.effectTag === "DELETION") {
+    domParent.removeChild(fiber.dom)
+  }
+
+  commitWork(fiber.child)
+  commitWork(fiber.sibling)
+}
+
+function updateDom(dom, prevProps, nextProps) {
+  // TODO
+}
+ ```
+
+接下来我们来完成updateDom函数。
+
+```js
+//是否为属性
+const isProperty = key => key !== "children"
+//是否为新添加的节点
+const isNew = (prev, next) => key => prev[key] !== next[key]
+//是否为要删除的节点
+const isGone = (prev, next) => key => !(key in next)
+
+function updateDom(dom, prevProps, nextProps) {
+  // 移除旧属性
+  Object.keys(prevProps)
+    .filter(isProperty)
+    .filter(isGone(prevProps, nextProps))
+    .forEach(name => {
+      dom[name] = ""
+    })
+​
+  // 设置新的或者更新的属性
+  Object.keys(nextProps)
+    .filter(isProperty)
+    .filter(isNew(prevProps, nextProps))
+    .forEach(name => {
+      dom[name] = nextProps[name]
+    })
+}
+```
+
+还需要注意的是，节点的属性有可能是绑定的事件，所以我们需要进行处理。on开始的我们需要进行不同的操作。
+
+```js
+//是否事件函数
+const isEvent = key => key.startsWith("on")
+//是否为属性
+const isProperty = key =>  key !== "children" && !isEvent(key)
+
+//是否为新添加的节点
+const isNew = (prev, next) => key => prev[key] !== next[key]
+//是否为要删除的节点
+const isGone = (prev, next) => key => !(key in next)
+
+function updateDom(dom, prevProps, nextProps) {
+  // 移除旧属性
+  Object.keys(prevProps)
+    .filter(isProperty)
+    .filter(isGone(prevProps, nextProps))
+    .forEach(name => {
+      dom[name] = ""
+    })
+​
+  // 设置新的或者更新的属性
+  Object.keys(nextProps)
+    .filter(isProperty)
+    .filter(isNew(prevProps, nextProps))
+    .forEach(name => {
+      dom[name] = nextProps[name]
+    })
+}
+````
