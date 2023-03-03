@@ -17,7 +17,7 @@ const Private = function ({updateParent}) {
     }
 
     const confirmPassWord = ()=>{
-        sessionStorage.setItem('password',password)
+        window.sessionStorage.setItem('password',password)
         updateParent()
     }
 

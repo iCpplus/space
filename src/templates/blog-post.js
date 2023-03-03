@@ -42,11 +42,16 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
     tags = <TagList tags={post.frontmatter.tags} baseUrl={`${homeLink}tags`} />;
   }
 
+  const [mySession,setMySession] = useState()
   const [update,setUpdate] = useState('')
 
   const updateParent = ()=>{
     setUpdate(new Date().getTime())
   }
+
+  useEffect(()=>{
+    setMySession(window.sessionStorage)
+  },[])
 
   console.log(post.frontmatter);
 
@@ -80,7 +85,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         langKey={lang}
         style={{ margin: '-0.5rem 0 1.5rem' }}
       />
-      {(post.frontmatter.private&&sessionStorage.getItem('password')!=='ningning')&&<Private updateParent={updateParent}/>}
+      {(post.frontmatter.private&& (mySession?.getItem('password')!=='ningning'))&&<Private updateParent={updateParent}/>}
       <div className='css-post' dangerouslySetInnerHTML={{ __html: post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {
