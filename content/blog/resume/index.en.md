@@ -8,7 +8,7 @@ relative: false
     Kou
 </div>
 <div style="margin-bottom: 5px">
-    <span>phone：151****6937</span> | <span>email：1248****29@qq.com</span>
+    <span>phone：199****8657</span> | <span>email：1248****29@qq.com</span>
 </div>
 <div style="margin-bottom: 5px">
     <span>birthday：1999-10</span> | <span>gender：male</span>
