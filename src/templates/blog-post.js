@@ -61,7 +61,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
-      <Love show={post.frontmatter.tags.includes('爱情')||post.frontmatter.tags.includes('love')}/>
+      <Love show={(post.frontmatter.tags&&post.frontmatter.tags.includes('爱情')||post.frontmatter.tags&&post.frontmatter.tags.includes('love'))||false}/>
       <h1>{post.frontmatter.title}</h1>
       <p
         style={{
