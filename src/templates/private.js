@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 /**
  * 
  */
-const Private = function ({updateParent}) {
+const Private = function ({updateParent,question,answer}) {
 
     const [password,setPassword] = useState('')
     const goBack =()=>{
@@ -19,15 +19,19 @@ const Private = function ({updateParent}) {
     const confirmPassWord = ()=>{
         window.sessionStorage.setItem('password',password)
         updateParent()
+        if(password!==answer){
+            window.alert('回答错误')
+        }
     }
 
     return <div className='mask'>
-        <div className='main-contain' style={{width:'362px'}}>
+        <div className='main-contain' >
             <div>
-                <span>输入密码访问隐私内容：</span><input onChange={inputOnChange} style={{width:''}} type='password' />
+                <span>{question}</span>
             </div>
+            <div style={{margin:'5px 0'}}><input onChange={inputOnChange} style={{width:''}} /></div>
             <div>
-                <button type='button' onClick={goBack} style={{ marginRight: '20px' }}>返回</button>
+                <button type='button' onClick={goBack} style={{ marginRight: '10px' }}>返回</button>
                 <button type='button' onClick={confirmPassWord}>确定</button>
             </div>
         </div>
@@ -37,6 +41,8 @@ const Private = function ({updateParent}) {
 
 Private.propTypes = {
     updateParent: PropTypes.func.isRequired,
+    question:PropTypes.string.isRequired,
+    answer:PropTypes.string.isRequired
   };
 
 export default Private;

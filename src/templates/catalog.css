@@ -16,11 +16,11 @@
     flex-direction: column;
     
 }
-.main-contain > :nth-child(2){
+.main-contain > :nth-child(3){
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 @media screen and (min-width: 1045px) {
     .css-toc {

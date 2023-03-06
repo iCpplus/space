@@ -85,7 +85,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         langKey={lang}
         style={{ margin: '-0.5rem 0 1.5rem' }}
       />
-      {(post.frontmatter.private&& (mySession?.getItem('password')!=='ningning'))&&<Private updateParent={updateParent}/>}
+      {(post.frontmatter.private&& (mySession?.getItem('password')!==post.frontmatter.password))&&<Private question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent}/>}
       <div className='css-post' dangerouslySetInnerHTML={{ __html: post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {
@@ -163,6 +163,8 @@ export const pageQuery = graphql`
         disqus
         relative
         private
+        question
+        password
       }
       fields {
         langKey,

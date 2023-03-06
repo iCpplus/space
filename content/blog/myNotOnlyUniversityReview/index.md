@@ -6,6 +6,8 @@ tags: ['个人','生活']
 disqus: true
 relative: false
 private: true
+question: "我毕业于哪个大学？"
+password: "中原工学院"
 ---
 
 ## 写在前面
