@@ -53,7 +53,6 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
   useEffect(()=>{
     setMySession(window.sessionStorage)
   },[])
-  console.log(post.frontmatter.tags.includes('爱情'));
 
   return (
     <Layout location={location} title={siteTitle} breadcrumbs={[{ text: post.frontmatter.title }]}>
