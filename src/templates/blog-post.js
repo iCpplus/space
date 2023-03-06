@@ -16,6 +16,7 @@ import { formatDate, formatMessage } from 'utils/i18n';
 import { rhythm, scale } from 'utils/typography';
 import { useLang } from 'context/LanguageContext';
 import Private from './private'
+import Love from './love'
 import './catalog.css'
 
 const BlogPostTemplate = function ({ data, pageContext, location }) {
@@ -52,8 +53,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
   useEffect(()=>{
     setMySession(window.sessionStorage)
   },[])
-
-  console.log(post.frontmatter);
+  console.log(post.frontmatter.tags.includes('爱情'));
 
   return (
     <Layout location={location} title={siteTitle} breadcrumbs={[{ text: post.frontmatter.title }]}>
@@ -61,6 +61,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
+      <Love show={post.frontmatter.tags.includes('爱情')||post.frontmatter.tags.includes('love')}/>
       <h1>{post.frontmatter.title}</h1>
       <p
         style={{
