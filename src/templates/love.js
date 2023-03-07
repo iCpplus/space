@@ -13,7 +13,7 @@ const LoveCom = function ({ show }) {
         }
     }, [show])
 
-    return <canvas id='cavs' style={{ position: 'fixed', zIndex: '999', left: '0', right: '0', top: '0', bottom: '0',pointerEvents: 'none' }} />;
+    return <canvas id='cavs' style={{ position: 'fixed', zIndex: '9999', left: '0', right: '0', top: '0', bottom: '0',pointerEvents: 'none' }} />;
 }
 
 LoveCom.propTypes = {
