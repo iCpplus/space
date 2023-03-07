@@ -1,4 +1,4 @@
-function drawLove(canvas){
+function drawLove(canvas) {
     const WIDTH = window.innerWidth;
     const HEIGHT = window.innerHeight;
     canvas.setAttribute("width", WIDTH);
@@ -21,7 +21,7 @@ function drawLove(canvas){
         (function () {
             rand();
         }());
-        me.draw = ()=> {
+        me.draw = () => {
             if (me.alpha < 0.01) rand();
             if (me.curScale < me.maxScale) me.curScale += 0.3;
             const x = me.x;
@@ -54,7 +54,7 @@ function drawLove(canvas){
             this.createLove();
         },
         createLove() {
-            for (let i = 0; i < WIDTH / 59; i+=1) {
+            for (let i = 0; i < WIDTH / 59; i += 1) {
                 const love = new Love();
                 this.loves.push(love);
             }
@@ -63,10 +63,7 @@ function drawLove(canvas){
         drawLove() {
             context.clearRect(0, 0, WIDTH, HEIGHT);
             const keys = Object.keys(this.loves)
-            // for (const key in this.loves) {
-            //     this.loves[key].draw();
-            // }
-            keys.forEach(item=>{
+            keys.forEach(item => {
                 this.loves[item].draw();
 
             })
@@ -74,9 +71,7 @@ function drawLove(canvas){
     }
 
 
-    window.onload = ()=> {
-        start.begin();
-    }
+    start.begin();
 }
 
 module.exports = drawLove;
