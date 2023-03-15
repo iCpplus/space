@@ -86,7 +86,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         style={{ margin: '-0.5rem 0 1.5rem' }}
       />
       {(post.frontmatter.private&& (mySession?.getItem('password')!==post.frontmatter.password))&&<Private question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent}/>}
-      <div className='css-post' dangerouslySetInnerHTML={{ __html: post.html }} />
+      <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private&& (mySession?.getItem('password')!==post.frontmatter.password))?'私密内容':post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {
         post.frontmatter.relative && <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
