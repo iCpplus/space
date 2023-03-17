@@ -1,11 +1,13 @@
 ---
-title: 我和你
+title: you and I
 date: "2023-02-12T17:00:32.169Z"
-description: 记录我和你
-tags: ['爱情']
+description: record for we
+tags: ['love']
 disqus: true
 relative: false
 private: true
+question: "里面记录的是我和谁？"
+password: "宁宁"
 ---
 
 no translate
