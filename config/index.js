@@ -1,5 +1,5 @@
 const site = {
-  pathPrefix: '/gatsby-simple-blog',
+  // pathPrefix: '/gatsby-simple-blog',
   title: 'coco\'s space',
   author: 'Kou ShiXiang',
   description: '一个记录知识和生活的神秘小空间',  
