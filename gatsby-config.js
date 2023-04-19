@@ -18,6 +18,9 @@ const supportedLanguages = require('./config').supportedLanguages;
 require('dotenv').config();
 
 module.exports = {
+  flags: {
+    DEV_SSR: true,
+  },
   pathPrefix,
   siteMetadata: {
     title,
