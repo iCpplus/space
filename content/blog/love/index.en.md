@@ -10,4 +10,4 @@ question: "里面记录的是我和谁？"
 password: "宁宁"
 ---
 
-no translate.
+no translate..
