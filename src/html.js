@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { themeOper } from './utils/IIFE';
+import { Analytics } from '@vercel/analytics/react';
 
-const HTML = function({
+const HTML = function ({
   htmlAttributes,
   headComponents,
   bodyAttributes,
@@ -13,6 +14,7 @@ const HTML = function({
 }) {
   return (
     <html lang="en" {...htmlAttributes}>
+      <Analytics/>
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
