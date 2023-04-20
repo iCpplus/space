@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { themeOper } from './utils/IIFE';
-import { Analytics } from '@vercel/analytics/react';
+import { inject } from '@vercel/analytics';
 
 const HTML = function ({
   htmlAttributes,
@@ -12,9 +12,9 @@ const HTML = function ({
   body,
   postBodyComponents,
 }) {
+  inject()
   return (
     <html lang="en" {...htmlAttributes}>
-      <Analytics/>
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
