@@ -54,7 +54,7 @@ function drawLove(canvas) {
             this.createLove();
         },
         createLove() {
-            for (let i = 0; i < WIDTH / 9; i += 1) {
+            for (let i = 0; i < WIDTH / 200; i += 1) {
                 const love = new Love();
                 this.loves.push(love);
             }
