@@ -49,7 +49,7 @@ function drawLove(canvas) {
     }
     const start = {
         loves: [],
-        DURATION: 30,
+        DURATION: 1000,
         begin() {
             this.createLove();
         },
