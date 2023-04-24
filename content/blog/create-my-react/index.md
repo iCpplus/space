@@ -982,3 +982,140 @@ function updateDom(dom, prevProps, nextProps) {
     })
 }
 ````
+
+## Function组件
+
+我们将Myact支持函数组件。我们从一个小栗子开始。
+
+```js
+function App(props) {
+  return <h1>Hi {props.name}</h1>
+}
+const element = <App name="foo" />
+const container = document.getElementById("root")
+Myact.render(element, container)
+```
+
+上述jsx代码将会编译成js为：
+
+```js
+function App(props) {
+  return Myact.createElement(
+    "h1",
+    null,
+    "Hi ",
+    props.name
+  )
+}
+const element = Myact.createElement(App, {
+  name: "foo",
+})
+const container = document.getElementById("root")
+Myact.render(element, container)
+```
+
+```js
+function performUnitOfWork(fiber) {
+  if (!fiber.dom) {
+    fiber.dom = createDom(fiber)
+  }
+​
+  const elements = fiber.props.children
+  reconcileChildren(fiber, elements)
+
+  ...
+}
+```
+
+函数组件有两处不同点：
+* 来自function组件的fiber没有dom节点
+* 并且它的children不是直接从其props中获取，而是通过运行function
+
+我们检查fiber的类型是否为function，并且根据是否为function去执行不同的更新。updateHostComponent做之前我们做的操作，updateFunctionComponent去执行function组件获取children。
+
+```js {2-7,20,24}
+function performUnitOfWork(fiber) {
+  const isFunctionComponent = fiber.type instanceof Function
+  if (isFunctionComponent) {
+    updateFunctionComponent(fiber)
+  } else {
+    updateHostComponent(fiber)
+  }
+  if (fiber.child) {
+    return fiber.child
+  }
+  let nextFiber = fiber
+  while (nextFiber) {
+    if (nextFiber.sibling) {
+      return nextFiber.sibling
+    }
+    nextFiber = nextFiber.parent
+  }
+}
+
+function updateFunctionComponent(fiber) {
+  // TODO
+}
+​
+function updateHostComponent(fiber) {
+  if (!fiber.dom) {
+    fiber.dom = createDom(fiber)
+  }
+  reconcileChildren(fiber, fiber.props.children)
+}
+
+
+```
+
+我们这个小栗子，App函数组件，运行后将会return h1节点。
+我们得到fiber的children后，后续的reconciliation阶段将和原来保持一致。
+
+```js {2}
+function updateFunctionComponent(fiber) {
+  const children = [fiber.type(fiber.props)]
+  reconcileChildren(fiber, children)
+}
+```
+因为函数组件fiber没有dom，我们也需要更改commitWork function。
+
+首先，要找到DOM节点的父节点，沿着fiber树向上查找，直到找到具有DOM节点的fiber。
+
+并且在删除一个节点时，我们也需要直到找到一个具有 DOM 节点的子节点。
+
+```js {6}
+function commitWork(fiber) {
+  if (!fiber) {
+    return
+  }
+​
+  const domParent = fiber.parent.dom  //删除❌
+
+  ...
+}
+```
+
+```js {5-9,15}
+function commitWork(fiber) {
+  if (!fiber) {
+    return
+  }
+  let domParentFiber = fiber.parent
+  while (!domParentFiber.dom) {
+    domParentFiber = domParentFiber.parent
+  }
+  const domParent = domParentFiber.dom
+​
+  if (
+    fiber.effectTag === "PLACEMENT" &&
+    fiber.dom != null
+  ) {
+    domParent.appendChild(fiber.dom)
+  } else if (
+    fiber.effectTag === "UPDATE" &&
+    fiber.dom != null
+  ) {...}
+  ...
+}
+
+```
+
