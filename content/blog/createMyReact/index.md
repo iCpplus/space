@@ -1082,23 +1082,16 @@ function updateFunctionComponent(fiber) {
 
 并且在删除一个节点时，我们也需要直到找到一个具有 DOM 节点的子节点。
 
-```js {6}
+
+
+```js {6,8-12,18,29,30}
 function commitWork(fiber) {
   if (!fiber) {
     return
   }
-​
+
   const domParent = fiber.parent.dom  //删除❌
 
-  ...
-}
-```
-
-```js {5-9,15}
-function commitWork(fiber) {
-  if (!fiber) {
-    return
-  }
   let domParentFiber = fiber.parent
   while (!domParentFiber.dom) {
     domParentFiber = domParentFiber.parent
@@ -1113,9 +1106,79 @@ function commitWork(fiber) {
   } else if (
     fiber.effectTag === "UPDATE" &&
     fiber.dom != null
-  ) {...}
-  ...
-}
+  ) {
+    updateDom(
+      fiber.dom,
+      fiber.alternate.props,
+      fiber.props
+    )
+  } else if (fiber.effectTag === "DELETION") {
+    domParent.removeChild(fiber.dom) //删除❌
+    commitDeletion(fiber, domParent)
+  }
 
+  commitWork(fiber.child)
+  commitWork(fiber.sibling)
+}
 ```
 
+```js
+function commitDeletion(fiber, domParent) {
+  if (fiber.dom) {
+    domParent.removeChild(fiber.dom)
+  } else {
+    commitDeletion(fiber.child, domParent)
+  }
+}
+```
+## Hooks
+
+我们已经有了函数式组件了。🎉 接下来我们给组件添加state。
+
+我们从一个新栗子开始。
+
+```js
+function Counter() {
+  const [state, setState] = Myact.useState(1)
+  return (
+    <h1 onClick={() => setState(c => c + 1)}>
+      Count: {state}
+    </h1>
+  )
+}
+const element = <Counter />
+const container = document.getElementById("root")
+Myact.render(element, container)
+```
+
+为Myact增加了一个useState hook。
+
+```js {4}
+const Myact = {
+  createElement,
+  render,
+  useState,
+}
+
+function useState(initial) {
+  // TODO
+}
+```
+
+初始化一些全局变量供useState函数使用。
+首先设置当前工作中的fiber。然后为该fiber添加一个hook数组，以支持同意组件多次调用useState函数。
+
+```js {1,2,5-7}
+let wipFiber = null
+let hookIndex = null
+
+function updateFunctionComponent(fiber) {
+  wipFiber = fiber
+  hookIndex = 0
+  wipFiber.hooks = []
+  const children = [fiber.type(fiber.props)]
+  reconcileChildren(fiber, children)
+}
+```
+
+当函数式组件调用useState时，

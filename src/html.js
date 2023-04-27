@@ -14,7 +14,7 @@ const HTML = function ({
 }) {
   inject()
   return (
-    <html lang="en" {...htmlAttributes}>
+    <html lang="en" {...htmlAttributes} style={{scrollBehavior: 'smooth'}}>
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
