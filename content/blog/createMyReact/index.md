@@ -1181,4 +1181,22 @@ function updateFunctionComponent(fiber) {
 }
 ```
 
-当函数式组件调用useState时，
+当函数式组件调用useState时，通过fiber身上的alternate去判断是否有旧hook：fiber.alternate.hooks[hookIndex]，有则需要使用初始化状态，反之不需要。
+然后我们向fiber上添加新hook，hook下标增加，返回状态。
+
+```js
+function useState(initial) {
+  const oldHook =
+    wipFiber.alternate &&
+    wipFiber.alternate.hooks &&
+    wipFiber.alternate.hooks[hookIndex]
+  const hook = {
+    state: oldHook ? oldHook.state : initial,
+  }
+​
+  wipFiber.hooks.push(hook)
+  hookIndex++
+  return [hook.state]
+}
+```
+
