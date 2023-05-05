@@ -6,7 +6,7 @@ function MapSpace() {
         mapboxgl.accessToken = `pk.eyJ1IjoiYW55c2NyaXB0IiwiYSI6ImNsaGE1dnBnaTBlYzQzZm51bHJybGhnYXgifQ.NbDgFlm8VttYCgacUezBcw`
         const map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/anyscript/clha6byne011001p6heehgmxa',
+            style: 'mapbox://styles/anyscript/clha7tez0000t01rf6r143i40',
             center: [113.65, 34.73],
             zoom: 4.5,
             projection: 'globe' 
