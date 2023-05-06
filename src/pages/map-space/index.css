@@ -1,0 +1,31 @@
+.love-popup {
+    background: rgb(246, 189, 199);
+    border-radius: 8px;
+    color: '#fff';
+    padding: 10px;
+}
+
+.love-popup .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.love-popup .content {
+    font-size: 14px;
+    margin-top:8px;
+}
+
+.mapboxgl-popup-content {
+    padding: 0;
+    background: none;
+}
+
+.mapboxgl-popup {
+    padding: 0;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+    align-self: center;
+    border-bottom: none;
+    border-top-color: transparent;
+}
