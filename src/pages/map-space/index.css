@@ -1,7 +1,7 @@
 .love-popup {
     background: rgb(246, 189, 199);
     border-radius: 8px;
-    color: '#fff';
+    color: #fff;
     padding: 10px;
 }
 
@@ -12,7 +12,34 @@
 
 .love-popup .content {
     font-size: 14px;
-    margin-top:8px;
+    margin-top: 8px;
+}
+
+.love-popup .time {
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.college-popup {
+    background: rgb(19, 34, 122);
+    border-radius: 8px;
+    color: #fff;
+    padding: 10px;
+}
+
+.college-popup .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.college-popup .content {
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.college-popup .time {
+    font-size: 12px;
+    margin-top: 8px;
 }
 
 .mapboxgl-popup-content {
@@ -28,4 +55,8 @@
     align-self: center;
     border-bottom: none;
     border-top-color: transparent;
+}
+
+.mapboxgl-popup-close-button {
+    outline: none;
 }
