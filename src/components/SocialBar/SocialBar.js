@@ -8,16 +8,22 @@ import { Github, Twitter, Facebook, Medium } from '../icons';
 const SocialBar = function () {
   const [goTags, setGoTags] = useState()
   const [goResume, setGoResume] = useState()
+  const [goMapSpace, setMapSpace] = useState()
   useEffect(() => {
     const flag = window.location.href.split('/').includes('en')
     const origin = window.location.origin
     const u = flag ? `${origin}/en/tags/` : `${origin}/tags/`
     const r = flag ? `${origin}/en/resume` : `${origin}/resume`
+    const s = `${origin}/map-space`
+
     const f1 = () => {
       window.location.href = u
     }
     const f2 = () => {
       window.location.href = r
+    }
+    const f3 = () => {
+      window.location.href = s
     }
     setGoTags(() => {
       return f1
@@ -25,13 +31,15 @@ const SocialBar = function () {
     setGoResume(()=>{
       return f2
     })
+    setMapSpace(()=>{
+      return f3
+    })
   }, [])
   return (
     <StaticQuery
       // eslint-disable-next-line no-use-before-define
       query={socialQuery}
       render={data => {
-        const { twitter, github, medium, facebook } = data.site.siteMetadata.social;
         return (
           <div
             style={{
@@ -54,6 +62,13 @@ const SocialBar = function () {
               <div className='link'>
                 <span className="text">
                   {formatMessage('tResume')}
+                </span>
+              </div>
+            </div>
+            <div role='presentation' className="round-tag" onClick={goMapSpace} style={{ cursor: 'pointer', display: 'block',marginLeft:'30px' }}>
+              <div className='link'>
+                <span className="text">
+                  space
                 </span>
               </div>
             </div>
