@@ -233,7 +233,7 @@ exports.onCreateNode = ({ node, actions }) => {
   }
 };
 
-exports.onCreateWebpackConfig = ({ stage, actions, getConfig }) => {
+exports.onCreateWebpackConfig = ({ stage, actions,loaders, getConfig }) => {
   if (stage === 'build-javascript' || stage === 'develop') {
     const config = getConfig();
     const miniCssExtractPlugin = config.plugins.find(
