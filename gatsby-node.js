@@ -233,7 +233,7 @@ exports.onCreateNode = ({ node, actions }) => {
   }
 };
 
-exports.onCreateWebpackConfig = ({ stage, actions,loaders, getConfig }) => {
+exports.onCreateWebpackConfig = ({ stage, actions, getConfig }) => {
   if (stage === 'build-javascript' || stage === 'develop') {
     const config = getConfig();
     const miniCssExtractPlugin = config.plugins.find(
@@ -244,17 +244,17 @@ exports.onCreateWebpackConfig = ({ stage, actions,loaders, getConfig }) => {
     }
     actions.replaceWebpackConfig(config);
   }
-  if (stage === "build-html") {
-    actions.setWebpackConfig({
-      module: {
-        rules: [
-          {
-            test: /mapbox-gl/,
-            use: loaders.null(),
-          },
-        ],
-      },
-    })
-  }
+  // if (stage === "build-html") {
+  //   actions.setWebpackConfig({
+  //     module: {
+  //       rules: [
+  //         {
+  //           test: /mapbox-gl/,
+  //           use: loaders.null(),
+  //         },
+  //       ],
+  //     },
+  //   })
+  // }
 
 };

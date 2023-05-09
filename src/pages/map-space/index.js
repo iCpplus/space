@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 import getMarkIcon from 'utils/getMarkIcon';
 import antiShake from 'utils/antiShake';
-import getGoneProvince from './utils/getGoneProvince';
+import getGoneProvince from '../../utils/map-space/getGoneProvince';
 import './index.css'
 
 const provinceData = require('../../assets/map-space/geojson/china.json');
