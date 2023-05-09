@@ -4,7 +4,7 @@ const getGoneProvince = (map) => {
 
     if (!map) return
 
-    const zoom = map.getZoom();
+    const zoom = map.getZoom&&map.getZoom();
     console.log(zoom);
     if (zoom <= zoomThreshold) {
         map.setFilter('provinces-layer', ['in', 'name', '河南省', '陕西省']);
