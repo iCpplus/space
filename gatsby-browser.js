@@ -3,8 +3,12 @@
 // custom typefaces
 import 'typeface-montserrat';
 import 'typeface-merriweather';
+import { inject } from '@vercel/analytics';
 
 import React from 'react';
 import { LanguageProvider } from './src/context/LanguageContext';
 
-export const wrapRootElement = ({ element }) => <LanguageProvider>{element}</LanguageProvider>;
+export const wrapRootElement = ({ element }) => {
+    inject()
+    return <LanguageProvider>{element}</LanguageProvider>
+}

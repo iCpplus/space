@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { themeOper } from './utils/IIFE';
-import { inject } from '@vercel/analytics';
 
 const HTML = function ({
   htmlAttributes,
@@ -12,7 +11,6 @@ const HTML = function ({
   body,
   postBodyComponents,
 }) {
-  inject()
   return (
     <html lang="en" {...htmlAttributes} style={{scrollBehavior: 'smooth'}}>
       <head>
