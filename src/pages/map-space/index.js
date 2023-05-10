@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -28,7 +28,8 @@ const geojson = {
                 time: '2022-02-12',
                 defaultShow: true,
                 minZoom: 0,
-                maxZoom: 9
+                maxZoom: 9,
+                images:'https://img.picgo.net/2023/05/10/107956067_p0_master12007095a4d2bf91b5ca.jpeg'
             },
             'geometry': {
                 'type': 'Point',
@@ -44,7 +45,8 @@ const geojson = {
                 content: '在中原工学院的四年大学生活...',
                 time: '2018-2022',
                 minZoom: 0,
-                maxZoom: 9
+                maxZoom: 9,
+                images:'https://img.picgo.net/2023/05/10/107956067_p0_master12007095a4d2bf91b5ca.jpeg'
             },
             'geometry': {
                 'type': 'Point',
@@ -98,9 +100,6 @@ function MapSpace() {
             antiShakeFn.current.antiShakeShowGoneProvinceByZoom(map.current)
             antiShakeFn.current.antiShakeShowMarkersByZoom (map.current, markers.current)
         });
-
-
-
     }, [])
 
     return (
