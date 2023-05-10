@@ -46,7 +46,7 @@ const geojson = {
                 time: '2018-2022',
                 minZoom: 0,
                 maxZoom: 9,
-                images:'https://img.picgo.net/2023/05/10/107956067_p0_master12007095a4d2bf91b5ca.jpeg'
+                images:'https://img.picgo.net/2023/05/10/107956067_p0_master12007095a4d2bf91b5ca.jpeg,https://img.picgo.net/2023/05/10/107818736_p004dfe1bcd16f9c43.jpeg,https://img.picgo.net/2023/05/10/107956067_p0_master12007095a4d2bf91b5ca.jpeg,https://img.picgo.net/2023/05/10/107956067_p0_master12007095a4d2bf91b5ca.jpeg'
             },
             'geometry': {
                 'type': 'Point',

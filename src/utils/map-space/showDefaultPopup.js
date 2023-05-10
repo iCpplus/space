@@ -18,13 +18,18 @@ const showDefaultPopup = (map, geojson) => {
 
         if (defaultShow) {
             let imageElements = ''
-            images.split(',').forEach(item => {
-                imageElements += `<a target='_blank' href='${item}'><img src='${item}' /></a>`
-            })
+            const imgUrls = images.split(',')
+            if (imgUrls.length > 1) {
+                imgUrls.forEach(item => {
+                    imageElements += `<a href='${item}' target='_blank'><img style='width:106px;height:106px' src='${item}' /></a>`
+                })
+            } else {
+                imageElements = `<a href='${imgUrls[0]}' target='_blank'><img style='width:212px;height:212px' src='${imgUrls[0]}' /></a>`
+            }
 
             new mapboxgl.Popup()
                 .setLngLat(marker.geometry.coordinates)
-                .setHTML(`<div class='${type}-popup'><div class='title'>${title}</div><div class='content'>${content}</div><div class='images'>${imageElements}</div><div class='time'>${time}</div></div>`)
+                .setHTML(`<div class='${type}-popup'><div class='title'>${title}</div><div class='content'><div>${content}</div><div class='images'>${imageElements}</div></div><div class='time'>${time}</div></div>`)
                 .addTo(map);
         }
 

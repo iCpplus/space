@@ -1,3 +1,16 @@
+.images {
+    line-height: 0;
+}
+
+.images img {
+    border-radius: 1px;
+}
+
+.images a {
+    outline: none;
+    display: contents;
+}
+
 .love-popup {
     background: rgb(246, 189, 199);
     border-radius: 8px;
@@ -5,19 +18,24 @@
     padding: 10px;
 }
 
-.love-popup .title {
+.title {
     font-size: 16px;
     font-weight: bold;
 }
 
-.love-popup .content {
+.content {
+    box-sizing: border-box;
     font-size: 14px;
     margin-top: 8px;
+    max-height: 252px;
+    overflow-y: auto;
+    padding-right: 3px;
+    word-break:break-all;
+    white-space: normal;
 }
 
-.love-popup .time {
+.time {
     font-size: 12px;
-    margin-top: 8px;
 }
 
 .college-popup {
@@ -27,20 +45,6 @@
     padding: 10px;
 }
 
-.college-popup .title {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.college-popup .content {
-    font-size: 14px;
-    margin-top: 8px;
-}
-
-.college-popup .time {
-    font-size: 12px;
-    margin-top: 8px;
-}
 
 .mapboxgl-popup-content {
     padding: 0;
@@ -59,4 +63,25 @@
 
 .mapboxgl-popup-close-button {
     outline: none;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: rgba(226, 209, 209, 0.3);
+}
+
+
+::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); */
+    border-radius: 10px;
+    background-color: rgba(226, 209, 209, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);  */
+    background-color: var(--scrollbar-cl);
 }
