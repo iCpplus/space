@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import getMarkIcon from 'utils/getMarkIcon';
 import antiShake from 'utils/antiShake';
-import getGoneProvince from '../../utils/map-space/getGoneProvince';
+import showGoneProvinceByZoom from 'utils/map-space/showGoneProvinceByZoom';
+import showDefaultPopup from 'utils/map-space/showDefaultPopup';
+import showMarkersByZoom from 'utils/map-space/showMarkersByZoom';
+import getMarkers from 'utils/map-space/getMarkers';
 import './index.css'
 
 const provinceData = require('../../assets/map-space/geojson/china.json');
@@ -24,7 +26,9 @@ const geojson = {
                 title: '相遇',
                 content: '我们在西安相遇，放大来看看我们在西安的足迹吧...',
                 time: '2022-02-12',
-                defaultShow: true
+                defaultShow: true,
+                minZoom: 0,
+                maxZoom: 9
             },
             'geometry': {
                 'type': 'Point',
@@ -38,7 +42,9 @@ const geojson = {
                 iconSize: [25, 25],
                 title: '我的大学',
                 content: '在中原工学院的四年大学生活...',
-                time: '2018-2022'
+                time: '2018-2022',
+                minZoom: 0,
+                maxZoom: 9
             },
             'geometry': {
                 'type': 'Point',
@@ -52,7 +58,7 @@ function MapSpace() {
 
     const map = useRef()
     const antiShakeFn = useRef({})
-
+    const markers = useRef([])
 
     useEffect(() => {
         mapboxgl.accessToken = `pk.eyJ1IjoiYW55c2NyaXB0IiwiYSI6ImNsaGE1dnBnaTBlYzQzZm51bHJybGhnYXgifQ.NbDgFlm8VttYCgacUezBcw`
@@ -64,34 +70,6 @@ function MapSpace() {
             projection: 'globe'
         });
 
-        // const marker = new mapboxgl.Marker()
-        //     .setLngLat([113.65, 34.73])
-        //     .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>")) // add popup
-        //     .addTo(map.current);
-
-        geojson.features.forEach(marker => {
-            const el = document.createElement('div');
-            const width = marker.properties.iconSize[0];
-            const height = marker.properties.iconSize[1];
-            const { type, title, content, time, defaultShow } = marker.properties
-            el.className = 'marker';
-            el.style.backgroundImage = `url(${getMarkIcon(type)})`;
-            el.style.width = `${width}px`;
-            el.style.height = `${height}px`;
-            el.style.backgroundSize = '100%';
-
-            // Add markers to the map.current.
-            new mapboxgl.Marker(el)
-                .setLngLat(marker.geometry.coordinates).setPopup(new mapboxgl.Popup().setHTML(`<div class='${type}-popup'><div class='title'>${title}</div><div class='content'>${content}</div><div class='time'>${time}</div></div>`))
-                .addTo(map.current);
-            if (defaultShow) {
-                new mapboxgl.Popup()
-                    .setLngLat(marker.geometry.coordinates)
-                    .setHTML(`<div class='${type}-popup'><div class='title'>${title}</div><div class='content'>${content}</div><div class='time'>${time}</div></div>`)
-                    .addTo(map.current);
-            }
-
-        })
 
 
         map.current.on('load', () => {
@@ -106,12 +84,19 @@ function MapSpace() {
                 'source': 'provinces', // reference the data source
                 'layout': {},
             });
-            getGoneProvince(map.current)
-            antiShakeFn.current.antiShakeGetGoneProvince = antiShake((e) => getGoneProvince(e), 500)
+            showGoneProvinceByZoom(map.current)
+            antiShakeFn.current.antiShakeShowGoneProvinceByZoom = antiShake((e) => showGoneProvinceByZoom(e), 500)
+            markers.current = getMarkers(geojson)
+            showDefaultPopup(map.current,geojson)
+            showMarkersByZoom(map.current,markers.current)
+            antiShakeFn.current.antiShakeShowMarkersByZoom = antiShake((e,f) => showMarkersByZoom(e,f), 500)
+
+
         })
 
         map.current.on('zoom', function () {
-            antiShakeFn.current.antiShakeGetGoneProvince(map.current)
+            antiShakeFn.current.antiShakeShowGoneProvinceByZoom(map.current)
+            antiShakeFn.current.antiShakeShowMarkersByZoom (map.current, markers.current)
         });
 
 

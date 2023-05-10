@@ -1,6 +1,6 @@
 const zoomThreshold = 3.7
 
-const getGoneProvince = (map) => {
+const showGoneProvinceByZoom = (map) => {
 
     if (!map) return
 
@@ -15,4 +15,4 @@ const getGoneProvince = (map) => {
 
 }
 
-export default getGoneProvince;
+export default showGoneProvinceByZoom;

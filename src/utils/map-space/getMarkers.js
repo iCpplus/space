@@ -1,0 +1,27 @@
+import mapboxgl from 'mapbox-gl';
+import getMarkIcon from 'utils/getMarkIcon';
+
+const getMarkers = (geojson) => {
+    const markers = []
+
+    geojson.features.forEach(marker => {
+        const el = document.createElement('div');
+        const width = marker.properties.iconSize[0];
+        const height = marker.properties.iconSize[1];
+        const { type, title, content, time, defaultShow, minZoom, maxZoom } = marker.properties
+        el.className = 'marker';
+        el.style.backgroundImage = `url(${getMarkIcon(type)})`;
+        el.style.width = `${width}px`;
+        el.style.height = `${height}px`;
+        el.style.backgroundSize = '100%';
+
+        const m = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).setPopup(new mapboxgl.Popup().setHTML(`<div class='${type}-popup'><div class='title'>${title}</div><div class='content'>${content}</div><div class='time'>${time}</div></div>`))
+        m.minZoom = minZoom
+        m.maxZoom = maxZoom
+        m.defaultShow = defaultShow
+        markers.push(m)
+    })
+    return markers
+}
+
+export default getMarkers;
