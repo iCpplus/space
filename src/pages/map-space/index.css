@@ -45,6 +45,12 @@
     padding: 10px;
 }
 
+.travel-popup {
+    background: rgb(18, 150, 219);
+    border-radius: 8px;
+    color: #fff;
+    padding: 10px;
+}
 
 .mapboxgl-popup-content {
     padding: 0;

@@ -9,7 +9,7 @@ const LoveCom = function ({ show }) {
     useEffect(() => {
         const canvas = document.getElementById("cavs");
         if (show) {
-            // drawLove(canvas)
+            drawLove(canvas)
         }
     }, [show])
 

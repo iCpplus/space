@@ -8,7 +8,7 @@ const showGoneProvinceByZoom = (map) => {
     console.log(zoom);
     if (zoom <= zoomThreshold) {
         map.setFilter('provinces-layer', ['in', 'name', '河南省', '陕西省']);
-        map.setPaintProperty('provinces-layer', 'fill-color', '#005fb8', 0.2);
+        map.setPaintProperty('provinces-layer', 'fill-color', 'rgba(97, 201, 255,0.2)', 0.2);
     } else {
         map.setFilter('provinces-layer', ['==', 'name', '***',]);
     }

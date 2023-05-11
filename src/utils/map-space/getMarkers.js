@@ -17,11 +17,11 @@ const getMarkers = (geojson) => {
 
         let imageElements = ''
         const imgUrls = images.split(',')
-        if (imgUrls.length > 1) {
+        if (imgUrls.length !== 1) {
             imgUrls.forEach(item => {
                 imageElements += `<a href='${item}' target='_blank'><img style='width:106px;height:106px' src='${item}' /></a>`
             })
-        } else {
+        } else if (imgUrls[0]) {
             imageElements = `<a target='_blank' href='${imgUrls[0]}'><img style='width:212px;height:212px' src='${imgUrls[0]}' /></a>`
         }
 
