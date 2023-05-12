@@ -110,12 +110,12 @@ const geojson = {
 };
 
 function MapSpace() {
-    console.log(getApiData());
     const map = useRef()
     const antiShakeFn = useRef({})
     const markers = useRef([])
 
     useEffect(() => {
+    console.log(getApiData());
         mapboxgl.accessToken = `pk.eyJ1IjoiYW55c2NyaXB0IiwiYSI6ImNsaGE1dnBnaTBlYzQzZm51bHJybGhnYXgifQ.NbDgFlm8VttYCgacUezBcw`
         map.current = new mapboxgl.Map({
             container: 'map',
