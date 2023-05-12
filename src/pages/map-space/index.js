@@ -7,6 +7,7 @@ import showGoneProvinceByZoom from 'utils/map-space/showGoneProvinceByZoom';
 import showDefaultPopup from 'utils/map-space/showDefaultPopup';
 import showMarkersByZoom from 'utils/map-space/showMarkersByZoom';
 import getMarkers from 'utils/map-space/getMarkers';
+import getApiData from 'utils/map-space/getApiData';
 import './index.css'
 
 const provinceData = require('../../assets/map-space/geojson/china.json');
@@ -109,7 +110,7 @@ const geojson = {
 };
 
 function MapSpace() {
-
+    console.log(getApiData());
     const map = useRef()
     const antiShakeFn = useRef({})
     const markers = useRef([])

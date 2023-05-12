@@ -50,7 +50,8 @@
     "import/resolver": {
       "babel-module": {
         "root": ["./"]
-      }
+      },
+      "typescript": {}
     }
   }
 }
