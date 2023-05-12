@@ -42,7 +42,7 @@ const geojson = {
                 type: 'college',
                 iconSize: [20, 20],
                 title: '我的大学',
-                content: '中原工大学',
+                content: '中原工学院',
                 time: '2018-2022',
                 minZoom: 9,
                 maxZoom: 25,
