@@ -51,7 +51,7 @@
       "babel-module": {
         "root": ["./"]
       },
-      "typescript": {}
+      // "typescript": {}
     }
   }
 }
