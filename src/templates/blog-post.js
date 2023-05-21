@@ -43,16 +43,16 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
     tags = <TagList tags={post.frontmatter.tags} baseUrl={`${homeLink}tags`} />;
   }
 
-  const [mySession,setMySession] = useState()
-  const [update,setUpdate] = useState('')
+  const [mySession, setMySession] = useState()
+  const [update, setUpdate] = useState('')
 
-  const updateParent = ()=>{
+  const updateParent = () => {
     setUpdate(new Date().getTime())
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setMySession(window.sessionStorage)
-  },[])
+  }, [])
 
   return (
     <Layout location={location} title={siteTitle} breadcrumbs={[{ text: post.frontmatter.title }]}>
@@ -60,7 +60,8 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
-      <Love show={(post.frontmatter.tags&&post.frontmatter.tags.includes('爱情')||post.frontmatter.tags&&post.frontmatter.tags.includes('love'))||false}/>
+      <Love show={(post.frontmatter.tags && post.frontmatter.tags.includes('爱情') || post.frontmatter.tags && post.frontmatter.tags.includes('love')) || false} />
+
       <h1>{post.frontmatter.title}</h1>
       <p
         style={{
@@ -80,13 +81,19 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
       </p>
 
       {tags}
+
       <TranslationsLink
         translationsLink={translationsLink}
         langKey={lang}
         style={{ margin: '-0.5rem 0 1.5rem' }}
       />
-      {(post.frontmatter.private&& (mySession?.getItem('password')!==post.frontmatter.password))&&<Private question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent}/>}
-      <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private&& (mySession?.getItem('password')!==post.frontmatter.password))?'私密内容':post.html }} />
+      {post.frontmatter.cover && <img src={post.frontmatter.cover} style={{
+        width: '100%',
+        height: '280px',
+        objectFit: 'cover'
+      }} alt='' />}
+      {(post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) && <Private question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent} />}
+      <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) ? '私密内容' : post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {
         post.frontmatter.relative && <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
@@ -165,6 +172,7 @@ export const pageQuery = graphql`
         private
         question
         password
+        cover
       }
       fields {
         langKey,
