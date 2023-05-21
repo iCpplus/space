@@ -27,7 +27,7 @@ const Bio = function () {
         return (
           <div
             style={{
-              marginBottom: rhythm(2.5),
+              marginBottom: rhythm(0.6),
             }}
           >
             <div className="bio">

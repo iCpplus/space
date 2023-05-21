@@ -5,6 +5,7 @@ description: React常见的问题及解答，持续更新...
 tags: ['React']
 disqus: true
 relative: false
+cover: https://img.picgo.net/2023/05/21/addthis-react-flux-javascript-scaling1c0ee04d487f0756.png
 ---
 
 ## setState是同步还是异步的

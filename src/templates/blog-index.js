@@ -24,10 +24,11 @@ const BlogIndex = function ({ pageContext, data, location }) {
       <aside>
         <Bio />
       </aside>
-      <h3>
+      <div style={{fontWeight:'700',fontSize:'22px'}}>
         {formatMessage('tfIndCountPosts', { count: data.allMarkdownRemark.totalCount, from, to })}
-      </h3>
-      {posts.map(({ node }) => {
+      </div>
+      {posts.map(({ node },index) => {
+        const layoutFlag = index%2===0?0:1
         const title = node.frontmatter.title || node.fields.slug;
         return (
           <PostAbbrev
@@ -40,6 +41,8 @@ const BlogIndex = function ({ pageContext, data, location }) {
             title={title}
             excerpt={node.frontmatter.description || node.excerpt}
             tags={node.frontmatter.tags}
+            cover={node.frontmatter.cover}
+            layoutFlag={layoutFlag}
           />
         );
       })}
@@ -85,6 +88,7 @@ export const pageQuery = graphql`
             title
             description
             tags
+            cover
           }
         }
       }

@@ -1,5 +1,5 @@
 ---
-title: 为什么有react fiber 而没有vue fiber
+title: 为什么没有vue fiber
 date: "2022-11-28T17:00:32.169Z"
 description: react实现了fiber架构，为什么react需要该架构，vue却没有选择fiber架构呢。
 tags: ['React','vue']

@@ -3,7 +3,7 @@ const site = {
   title: 'coco\'s space',
   author: 'Kou ShiXiang',
   description: '一个记录知识和生活的神秘小空间',  
-  siteUrl: 'https://gatsby-simple-blog.thundermiracle.com/',
+  siteUrl: 'https://anyspace.cc',
   // twitter: 'kylemathews',
   // github: 'thundermiracle',
   // medium: 'thundermiracle',
