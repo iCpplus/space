@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { rhythm } from 'utils/typography';
 import { formatMessage } from 'utils/i18n';
 import footIcon1 from '../../assets/jump.jpg'
+import './Footer.css'
 
 const Footer = function () {
   const [goHome, setGoHome] = useState()
@@ -31,10 +32,10 @@ const Footer = function () {
           justifyContent: 'center',
           cursor:'pointer'
         }}>
-          <img style={{
+          <img className='footer-icon' style={{
             borderRadius: '50%',
             width: '40px',
-            heght: '40px',
+            height: '40px',
             marginRight: '20px'
           }} src={footIcon1} alt='' />
           <span style={{ color: '#ffa5b0' }}>{formatMessage('tfootContent')}</span>

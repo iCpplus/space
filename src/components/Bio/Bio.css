@@ -7,6 +7,21 @@
   margin-bottom: 0;
   min-width: 70px;
   border-radius: 100%;
+  animation-name: scale;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .bio .description {
