@@ -24,7 +24,7 @@
     /* margin-top: 20px; */
 }
 
-@media screen and (min-width: 1045px) {
+@media screen and (min-width: 1200px) {
     .css-toc {
         position: fixed;
         top: 90px;
@@ -68,7 +68,7 @@
 
 }
 
-@media screen and (max-width: 1045px) {
+@media screen and (max-width: 1200px) {
     .css-toc {
         display: none
     }

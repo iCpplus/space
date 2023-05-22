@@ -14,7 +14,7 @@ const defaultProps = {};
 const Setting = function ({ changeTheme }) {
 
     const [show, setShow] = useState(false)
-    const themes = [{url:'',icon:''},{ url: 'https://img.picgo.net/2023/05/22/F62693A5EC4421E93510138A6D5FFB12d6e014626935f6e4.jpeg', icon: '' }, { url: 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg', icon: '' }]
+    const themes = [{url:'',icon:''},{url:'https://img.picgo.net/2023/05/22/v2-5be85da269fe107f03bca63ef33fddf8_b3ddee6508df67149.jpeg',icon:''},{url:'https://img.picgo.net/2023/05/22/v2-c83a7decb86f518cd823b5685e8c44d2_r24b075b1b1b1f4d6.jpeg',icon:''}]
 
     const changeThemeSetting = (url) => {
         localStorage.setItem('themeBackgroundUrl', url)
