@@ -12,7 +12,7 @@ const HTML = function ({
   postBodyComponents,
 }) {
   return (
-    <html lang="en" {...htmlAttributes} style={{scrollBehavior: 'smooth'}}>
+    <html lang="en" {...htmlAttributes}>
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />

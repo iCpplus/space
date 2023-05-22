@@ -7,6 +7,7 @@ body {
 
 body.light {
   --bg: rgba(255, 255, 255,0.85);
+  --bg-outer:transparent;
   --header: var(--pink);
   --textNormal: #222;
   --textTitle: #222;
@@ -29,6 +30,8 @@ body.dark {
   -webkit-font-smoothing: antialiased;
 
   --bg: rgba(40, 44, 53,0.85);
+  --bg-outer:rgba(40, 44, 53,0.25);
+
   --header: #ffffff;
   --textNormal: rgba(255, 255, 255, 0.88);
   --textTitle: #ffffff;

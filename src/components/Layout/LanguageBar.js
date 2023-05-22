@@ -59,7 +59,7 @@ const LanguageBar = function({ lang: langKey }) {
         return (
           <div
             style={{
-              maxWidth: rhythm(26),
+              maxWidth: rhythm(28),
               margin: 'auto',
               background:'var(--bg)',
               position:'sticky',

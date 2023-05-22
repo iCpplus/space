@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useLang } from 'context/LanguageContext';
@@ -9,37 +9,52 @@ import Header from './Header';
 import Footer from './Footer';
 import ReadModeToggle from './ReadModeToggle';
 import Breadcrumbs from '../Breadcrumbs';
+import ThemeBackground from './themeBackground';
+import Setting from './setting';
 
-const Layout = function({ children, location, title, breadcrumbs }) {
+const Layout = function ({ children, location, title, breadcrumbs }) {
   const { lang, homeLink, refresh } = useLang();
+  const [themeBackgroundUrl, setThemeBackgroundUrl] = useState('')
+
+  const changeTheme = (url) => {
+    setThemeBackgroundUrl(url)
+  }
 
   React.useEffect(() => {
     refresh(location);
   }, [location, refresh]);
+  
+  useLayoutEffect(() => {
+    const url = localStorage.getItem('themeBackgroundUrl')
+    if (url) {
+        setThemeBackgroundUrl(url)
+    }
+}, [])
 
   return (
     <div
       style={{
         color: 'var(--textNormal)',
-        // background: 'var(--bg)',
-        transition: 'color 0.2s ease-out, background 0.2s ease-out',
+        background: 'var(--bg-outer)',
+        transition: 'color 1s, background 1s',
         maxHeight: '100vh',
         fontFamily: 'var(--systemFont)',
-        backgroundImage:'url(https://img.picgo.net/2023/05/22/F62693A5EC4421E93510138A6D5FFB12d6e014626935f6e4.jpeg)',
-        // backgroundSize:'cover',
-        // backgroundRepeat:'no-repeat',
-        height:'100vh',
-        overflow:'auto'
+        height: '100vh',
+        overflow: 'auto',
+        scrollBehavior: 'smooth'
       }}
     >
+      {/* <ThemeBackground /> */}
+      <Setting changeTheme={changeTheme} />
+      <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url(${themeBackgroundUrl})`, zIndex: -1, transition: 'color 1s, background 1s', }} />
       <LanguageBar lang={lang} />
       <div
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
-          maxWidth: rhythm(26),
+          maxWidth: rhythm(28),
           padding: `2.625rem ${rhythm(3 / 4)}`,
-          background:'var(--bg)',
+          background: 'var(--bg)',
         }}
       >
         <header
