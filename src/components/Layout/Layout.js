@@ -9,8 +9,7 @@ import Header from './Header';
 import Footer from './Footer';
 import ReadModeToggle from './ReadModeToggle';
 import Breadcrumbs from '../Breadcrumbs';
-import ThemeBackground from './themeBackground';
-import Setting from './setting';
+import ThemeBackground from './ThemeBackground';
 
 const Layout = function ({ children, location, title, breadcrumbs }) {
   const { lang, homeLink, refresh } = useLang();
@@ -44,9 +43,8 @@ const Layout = function ({ children, location, title, breadcrumbs }) {
         scrollBehavior: 'smooth'
       }}
     >
-      {/* <ThemeBackground /> */}
-      <Setting changeTheme={changeTheme} />
-      <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url(${themeBackgroundUrl})`, zIndex: -1, transition: 'color 1s, background 1s', }} />
+      <ThemeBackground />
+      
       <LanguageBar lang={lang} />
       <div
         style={{

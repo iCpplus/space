@@ -1,9 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
-import Setting from './setting';
-
+import SettingBox from './SettingBox';
 
 const propTypes = {};
 
@@ -26,10 +23,10 @@ const ThemeBackground = () => {
             setThemeBackgroundUrl(url)
         }
     }, [])
-    
+
     return <>
-        <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url(${themeBackgroundUrl})`, zIndex: -1, transition: 'color 1s, background 1s', }} />
-        <Setting changeTheme={changeTheme} />
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url(${themeBackgroundUrl})`, zIndex: -1 }} />
+        <SettingBox changeTheme={changeTheme} />
     </>
 }
 
