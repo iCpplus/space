@@ -1,8 +1,8 @@
-
-.css-post .gatsby-highlight pre{
+.css-post .gatsby-highlight pre {
     float: none;
 }
-.mask{
+
+.mask {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -14,14 +14,16 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
+
 }
-.main-contain > :nth-child(3){
+
+.main-contain> :nth-child(3) {
     width: 100%;
     display: flex;
     justify-content: flex-end;
     /* margin-top: 20px; */
 }
+
 @media screen and (min-width: 1045px) {
     .css-toc {
         position: fixed;
@@ -52,7 +54,7 @@
         font-weight: 600;
     }
 
-    .css-toc > ul > li > a {
+    .css-toc>ul>li>a {
         background: var(--inlineCode-bg);
         border-radius: 7px;
         padding-left: 10px;
@@ -63,32 +65,7 @@
         color: #8f5b23;
     } */
 
-    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-    ::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
-        background-color: var(--scrollbar-bg);
-    }
 
-    /*定义滚动条轨道 内阴影+圆角*/
-    ::-webkit-scrollbar-track {
-        /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); */
-        border-radius: 10px;
-        /* background-color: var(--scrollbar-cl); */
-    }
-
-    /*定义滑块 内阴影+圆角*/
-    ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);  */
-        background-color: var(--scrollbar-cl);
-    }
-
-    /* .css-toc li>ul {
-        margin-left: 1rem;
-    } */
 }
 
 @media screen and (max-width: 1045px) {
@@ -97,3 +74,30 @@
     }
 
 }
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: var(--scrollbar-bg);
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); */
+    border-radius: 10px;
+    /* background-color: var(--scrollbar-cl); */
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);  */
+    background-color: var(--scrollbar-cl);
+}
+
+/* .css-toc li>ul {
+        margin-left: 1rem;
+    } */

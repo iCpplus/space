@@ -5,6 +5,7 @@ description: react实现了fiber架构，为什么react需要该架构，vue却�
 tags: ['React','vue']
 disqus: true
 relative: false
+cover: https://img.picgo.net/2023/05/22/F62693A5EC4421E93510138A6D5FFB12d6e014626935f6e4.jpeg
 ---
 
 ## vue为什么不需要fiber架构

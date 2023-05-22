@@ -92,7 +92,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         height: '280px',
         objectFit: 'cover'
       }} alt='' />}
-      {(post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) && <Private question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent} />}
+      {(post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) && <Private cover={post.frontmatter.cover} question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent} />}
       <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) ? '私密内容' : post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {

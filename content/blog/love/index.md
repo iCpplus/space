@@ -8,6 +8,7 @@ relative: false
 private: true
 question: "里面记录的是我和谁？"
 password: "宁宁"
+cover: https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg
 ---
 
 ## 写在前面

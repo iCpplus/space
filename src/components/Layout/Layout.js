@@ -21,10 +21,15 @@ const Layout = function({ children, location, title, breadcrumbs }) {
     <div
       style={{
         color: 'var(--textNormal)',
-        background: 'var(--bg)',
+        // background: 'var(--bg)',
         transition: 'color 0.2s ease-out, background 0.2s ease-out',
-        minHeight: '100vh',
+        maxHeight: '100vh',
         fontFamily: 'var(--systemFont)',
+        backgroundImage:'url(https://img.picgo.net/2023/05/22/F62693A5EC4421E93510138A6D5FFB12d6e014626935f6e4.jpeg)',
+        // backgroundSize:'cover',
+        // backgroundRepeat:'no-repeat',
+        height:'100vh',
+        overflow:'auto'
       }}
     >
       <LanguageBar lang={lang} />
@@ -32,8 +37,9 @@ const Layout = function({ children, location, title, breadcrumbs }) {
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
-          maxWidth: rhythm(24),
+          maxWidth: rhythm(26),
           padding: `2.625rem ${rhythm(3 / 4)}`,
+          background:'var(--bg)',
         }}
       >
         <header

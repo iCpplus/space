@@ -67,8 +67,12 @@ const PostAbbrev = function ({ slug, title, date, timeToRead, excerpt, tags, bas
         </div>
 
       </div>
-      <div className='img-contain'><img src={cover || 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg'} alt='' /></div>
-    </div>
+      <div className='img-contain'>
+        <Link style={{ boxShadow: 'none' }} to={slug} rel="bookmark">
+          <img src={cover || 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg'} alt='' />
+        </Link>
+      </div>
+    </div >
   );
 }
 
