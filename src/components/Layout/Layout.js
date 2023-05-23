@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useLang } from 'context/LanguageContext';
@@ -13,22 +13,10 @@ import ThemeBackground from './ThemeBackground';
 
 const Layout = function ({ children, location, title, breadcrumbs }) {
   const { lang, homeLink, refresh } = useLang();
-  const [themeBackgroundUrl, setThemeBackgroundUrl] = useState('')
-
-  const changeTheme = (url) => {
-    setThemeBackgroundUrl(url)
-  }
 
   React.useEffect(() => {
     refresh(location);
   }, [location, refresh]);
-  
-  useLayoutEffect(() => {
-    const url = localStorage.getItem('themeBackgroundUrl')
-    if (url) {
-        setThemeBackgroundUrl(url)
-    }
-}, [])
 
   return (
     <div

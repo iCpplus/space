@@ -7,7 +7,7 @@ import { graphql } from 'gatsby';
 
 import Layout from 'components/Layout';
 import SEO from 'components/SEO';
-import PostAbbrev from 'components/PostAbbrev';
+import PostAbbrev from 'components/PostAbbrev/PostAbbrevSimple';
 import Bio from 'components/Bio';
 import { useLang } from 'context/LanguageContext';
 import { formatMessage } from 'utils/i18n';

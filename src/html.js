@@ -27,8 +27,10 @@ const HTML = function ({
             `,
           }}
         />
+        <script src = "http://publicjs.supmiao.com/live2dcubismcore.min.js"></script>
         {preBodyComponents}
         <div key="body" id="___gatsby" dangerouslySetInnerHTML={{ __html: body }} />
+
         {postBodyComponents}
       </body>
     </html>

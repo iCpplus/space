@@ -5,6 +5,13 @@ body {
   --systemFont: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif';
 }
 
+#live2d{
+  width: 200px;
+}
+#live2d-container{
+  right: unset !important;
+}
+
 body.light {
   --bg: rgba(255, 255, 255,0.85);
   --bg-outer:transparent;
