@@ -6,16 +6,16 @@ body {
 }
 
 .pio-container .pio-show {
-  left: -1.2em;
-  bottom: -0.2em;
-  width: 6em;
-  height: 6.8em;
-  display: none;
-  cursor: pointer;
-  position: absolute;
-  transition: all .3s;
-  background: url(https://img.picgo.net/2023/05/24/avatarc42967510ca4a23c.png) center/contain;
-  opacity: 0.7;
+  left: -1.2em !important;
+  bottom: -0.2em !important;
+  width: 6em !important;
+  height: 6.8em !important;
+  /* display: none !important; */
+  cursor: pointer !important;
+  position: absolute !important;
+  transition: all .3s !important;
+  background: url(https://img.picgo.net/2023/05/24/avatarc42967510ca4a23c.png) center/contain !important;
+  opacity: 0.7 !important;
 }
 .pio-container.right {
   right: unset !important;
