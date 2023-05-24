@@ -16,7 +16,7 @@ export const wrapRootElement = ({ element }) => {
         <ReactLive2d
             bottom={'0px'}
             left={'10px'}
-            MobileShow={true}
+            // MobileShow={true}
             ModelList={['Hiyori']}
             menuList={[]}
             TouchDefault={["欢迎来到coco's space",'请不要乱碰哦']}
