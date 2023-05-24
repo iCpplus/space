@@ -20,6 +20,7 @@ const Layout = function ({ children, location, title, breadcrumbs }) {
 
   return (
     <div
+    id='main-contain'
       style={{
         color: 'var(--textNormal)',
         background: 'var(--bg-outer)',
