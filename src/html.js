@@ -30,7 +30,6 @@ const HTML = function ({
         {preBodyComponents}
         <div key="body" id="___gatsby" dangerouslySetInnerHTML={{ __html: body }} />
         {postBodyComponents}
-        <script src="http://localhost:8000/live2d-jaran.js"></script>
       </body>
     </html>
   );
