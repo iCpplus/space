@@ -17,10 +17,10 @@ export const wrapRootElement = ({ element }) => {
             bottom={'0px'}
             left={'10px'}
             MobileShow={true}
-            // ModelList={['Haru']}
+            ModelList={['Hiyori']}
             menuList={[]}
             TouchDefault={["欢迎来到coco's space",'请不要乱碰哦']}
-            PathFull='http://publicjs.supmiao.com/Resources/'
+            PathFull={location.href+'live2d-models/'}
         />
     </>
 }
