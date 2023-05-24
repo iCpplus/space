@@ -31,9 +31,6 @@ body {
 /* @media screen and (max-width: 768px){
 
 } */
-.pio-container {
-  pointer-events: unset !important;
-}
 
 
 body.light {
