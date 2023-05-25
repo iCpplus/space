@@ -17,14 +17,17 @@ body {
   background: url(https://img.picgo.net/2023/05/24/avatarc42967510ca4a23c.png) center/contain !important;
   opacity: 0.7 !important;
 }
+
 .pio-container.right {
   right: unset !important;
 }
+
 .pio-container.right .pio-action {
   left: unset !important;
   right: 0 !important;
 }
-.pio-action .pio-info{
+
+.pio-action .pio-info {
   display: none;
 }
 
@@ -37,8 +40,11 @@ body {
 
 
 body.light {
-  --bg: rgba(255, 255, 255,0.85);
-  --bg-outer:transparent;
+  --bg: rgba(255, 255, 255, 0.6);
+  --bg-outer: transparent;
+  --bg-article: rgba(255, 255, 255, 0.2);
+  --bg-article-shadow: 0 1px 20px -6px rgba(0, 0, 0, .5);
+
   --header: var(--pink);
   --textNormal: #222;
   --textTitle: #222;
@@ -60,8 +66,10 @@ body.light {
 body.dark {
   -webkit-font-smoothing: antialiased;
 
-  --bg: rgba(40, 44, 53,0.85);
-  --bg-outer:rgba(40, 44, 53,0.25);
+  --bg: rgba(40, 44, 53, 0.6);
+  --bg-outer: rgba(40, 44, 53, 0.25);
+  --bg-article: rgba(40, 44, 53, 0.6);
+  --bg-article-shadow: 0 1px 20px -6px rgba(255, 255, 255, .3);
 
   --header: #ffffff;
   --textNormal: rgba(255, 255, 255, 0.88);
@@ -249,6 +257,6 @@ pre[data-line] {
   min-width: 100%;
 }
 
-html{
+html {
   overflow-y: auto;
 }

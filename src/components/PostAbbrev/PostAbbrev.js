@@ -51,7 +51,7 @@ const PostAbbrev = function ({ slug, title, date, timeToRead, excerpt, tags, bas
   // <article>
 
   return (
-    <div className='article' >
+    <div className='article' style={{background:'var(--bg-article)'}} >
       <div className='article-doc'>
         <div className='title'>
           <Link style={{ boxShadow: 'none' }} to={slug} rel="bookmark">
