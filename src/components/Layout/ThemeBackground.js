@@ -25,7 +25,7 @@ const ThemeBackground = ({setSimpleTheme}) => {
     }, [])
 
     return <>
-        <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url(${themeBackgroundUrl})`, zIndex: -1 }} />
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url(${themeBackgroundUrl})`,backgroundSize: 'cover', zIndex: -1 }} />
         <SettingBox setSimpleTheme={setSimpleTheme} changeTheme={changeTheme} />
     </>
 }
