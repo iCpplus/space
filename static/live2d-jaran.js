@@ -79,6 +79,15 @@
 `
 
   // 用到的库
+  // const LIBS = [
+  //   'https://cdn.jsdelivr.net/gh/journey-ad/blog-img@94eb7e2/live2d/lib/pio.css',
+  //   'https://cdn.jsdelivr.net/npm/greensock@1.20.2/dist/TweenLite.js',
+  //   'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
+  //   'https://cdn.jsdelivr.net/npm/pixi.js@5.3.6/dist/pixi.min.js',
+  //   'https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.3.1/dist/cubism4.min.js',
+  //   'https://cdn.jsdelivr.net/gh/journey-ad/blog-img@94eb7e2/live2d/lib/pio_sdk4.js',
+  //   'https://cdn.jsdelivr.net/gh/journey-ad/blog-img@94eb7e2/live2d/lib/pio.js',
+  // ]
   const LIBS = [
     'https://cdn.jsdelivr.net/gh/journey-ad/blog-img@94eb7e2/live2d/lib/pio.css',
     'https://cdn.jsdelivr.net/npm/greensock@1.20.2/dist/TweenLite.js',
@@ -86,7 +95,7 @@
     'https://cdn.jsdelivr.net/npm/pixi.js@5.3.6/dist/pixi.min.js',
     'https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.3.1/dist/cubism4.min.js',
     'https://cdn.jsdelivr.net/gh/journey-ad/blog-img@94eb7e2/live2d/lib/pio_sdk4.js',
-    'https://cdn.jsdelivr.net/gh/journey-ad/blog-img@94eb7e2/live2d/lib/pio.js'
+    `${location.origin}/live2d-lib/pio.js`
   ]
 
   const reqArr = LIBS.map(src => loadSource(src))
@@ -142,16 +151,20 @@
     pio_alignment = "right" // 右下角
 
     const closeBtn = document.querySelector(".pio-container .pio-action .pio-close")
-    closeBtn.insertAdjacentHTML('beforebegin', '<span class="pio-top"></span>')
+    if(closeBtn){
+      closeBtn.insertAdjacentHTML('beforebegin', '<span class="pio-top"></span>')
+    }
     const topBtn = document.querySelector(".pio-container .pio-action .pio-top")
     // 返回顶部
-    topBtn.onclick = function () {
-      const contain = document.getElementById('main-contain')
-      contain.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-    topBtn.onmouseover = function () {
-      pio_reference.modules.render("想回到页面顶部吗？");
-    };
+    if(topBtn){
+      topBtn.onclick = function () {
+        const contain = document.getElementById('main-contain')
+        contain.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+      topBtn.onmouseover = function () {
+        pio_reference.modules.render("想回到页面顶部吗？");
+      };
+    }
 
     // Then apply style
     pio_refresh_style()
