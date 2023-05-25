@@ -14,14 +14,12 @@
 }
 
 .setting-item {
-    width: 40px;
-    height: 40px;
+    flex: 1;
     background: #c1c1c1;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    border-radius: 4px;
 }
 .setting-item:hover{
     background: #3b86e8;

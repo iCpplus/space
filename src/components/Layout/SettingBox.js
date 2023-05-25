@@ -40,7 +40,7 @@ const Setting = function ({ changeTheme, setSimpleTheme }) {
         }
     }, [])
 
-    return <div style={{ position: 'fixed', bottom: '30px', right: '30px', display: 'flex', justifyContent: 'flex-end' }}>
+    return <div style={{ position: 'fixed', bottom: '30px', right: '30px', display: 'flex', justifyContent: 'flex-end',flexDirection:'column',zIndex:10 }}>
         {show && <div className='setting-box'>
             <div style={{display:'flex'}}>
                 {themes.map((item, index) => <button onClick={() => changeThemeSetting(item.url)} key={item.url} className='setting-item'>
