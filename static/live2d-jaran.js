@@ -346,6 +346,7 @@
         "Part16", // 惊讶特效
         "Part12" // 小心心
       ]
+      
       const hidePartsIndex = hideParts.map(id => coreModel._partIds.indexOf(id))
       hidePartsIndex.forEach(idx => {
         coreModel._partOpacities[idx] = 0

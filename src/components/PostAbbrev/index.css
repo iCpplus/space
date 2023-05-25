@@ -1,4 +1,4 @@
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 650px) {
     .article {
         display: flex;
         margin: 20px 0 20px;
@@ -47,7 +47,7 @@
     } */
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 650px) {
     .article:nth-child(odd) {
         flex-direction: row-reverse;
     }
@@ -140,6 +140,11 @@ img {
 
 .article:hover img {
     transform: scale(1.5) rotate(10deg);
+}
+
+.simple-article {
+    animation: article-show 1s;
+    -webkit-animation: article-show 1s;
 }
 
 

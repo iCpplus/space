@@ -29,7 +29,7 @@ const PostAbbrev = function ({ slug, title, date, timeToRead, excerpt, tags, bas
   }
 
   return (
-    <article>
+    <article className='simple-article'>
       <header>
         <h3
           style={{

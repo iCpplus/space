@@ -11,7 +11,7 @@ import ReadModeToggle from './ReadModeToggle';
 import Breadcrumbs from '../Breadcrumbs';
 import ThemeBackground from './ThemeBackground';
 
-const Layout = function ({ children, location, title, breadcrumbs }) {
+const Layout = function ({ children, location, title, breadcrumbs,setSimpleTheme }) {
   const { lang, homeLink, refresh } = useLang();
 
   React.useEffect(() => {
@@ -32,7 +32,7 @@ const Layout = function ({ children, location, title, breadcrumbs }) {
         scrollBehavior: 'smooth'
       }}
     >
-      <ThemeBackground />
+      <ThemeBackground setSimpleTheme={setSimpleTheme}/>
       
       <LanguageBar lang={lang} />
       <div

@@ -1,4 +1,4 @@
-.footer-icon {
+.footer-contain:hover .footer-icon {
     animation-name: bounce;
     animation-duration: 1.5s;
     animation-iteration-count: infinite;

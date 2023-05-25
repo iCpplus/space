@@ -12,7 +12,7 @@ const Footer = function () {
     const f = () => {
       window.location.href = u
     }
-    setGoHome(()=>{
+    setGoHome(() => {
       return f
     })
   }, [])
@@ -26,11 +26,11 @@ const Footer = function () {
       }}
     >
       <p>
-        <div role='presentation' onClick={goHome} style={{
+        <div className='footer-contain' role='presentation' onClick={goHome} style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          cursor:'pointer'
+          cursor: 'pointer'
         }}>
           <img className='footer-icon' style={{
             borderRadius: '50%',
