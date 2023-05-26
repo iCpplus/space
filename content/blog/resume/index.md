@@ -3,7 +3,6 @@ title: 个人简历
 date: "2022-07-01T00:00:00.000Z"
 disqus: false
 relative: false
-cover: https://img.picgo.net/2023/05/26/107882088_p0_master1200b0f40f956184cc74.md.jpeg
 ---
 <div style="font-size: 2rem; font-weight: 600; margin-bottom: 5px">
     CoCo
