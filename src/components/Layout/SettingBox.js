@@ -14,7 +14,7 @@ const defaultProps = {};
 const Setting = function ({ changeTheme, setSimpleTheme }) {
     const [inputValue, setInputValue] = useState(null)
     const [show, setShow] = useState(false)
-    const themes = [{ url: '', icon: '' }, { url: 'https://img.picgo.net/2023/05/22/v2-5be85da269fe107f03bca63ef33fddf8_b3ddee6508df67149.jpeg', icon: '' }, { url: 'https://img.picgo.net/2023/05/22/v2-c83a7decb86f518cd823b5685e8c44d2_r24b075b1b1b1f4d6.jpeg', icon: '' }]
+    const themes = [{ url: '', icon: '' }, { url: 'https://img.picgo.net/2023/05/22/F62693A5EC4421E93510138A6D5FFB12d6e014626935f6e4.jpeg', icon: '' }, { url: 'https://img.picgo.net/2023/05/25/105796514_p0_master1200e576dce956d100f4.jpeg', icon: '' }]
 
     const changeThemeSetting = (url) => {
         localStorage.setItem('themeBackgroundUrl', url)
@@ -40,19 +40,19 @@ const Setting = function ({ changeTheme, setSimpleTheme }) {
         }
     }, [])
 
-    return <div style={{ position: 'fixed', bottom: '30px', right: '30px', display: 'flex', justifyContent: 'flex-end',flexDirection:'column',zIndex:10 }}>
+    return <div style={{ position: 'fixed', bottom: '30px', right: '30px', display: 'flex', justifyContent: 'flex-end', flexDirection: 'column', zIndex: 10 }}>
         {show && <div className='setting-box'>
-            <div style={{display:'flex'}}>
+            <div style={{ display: 'flex' }}>
                 {themes.map((item, index) => <button onClick={() => changeThemeSetting(item.url)} key={item.url} className='setting-item'>
                     {index + 1}
                 </button>)}
             </div>
 
             <div>
-                <input placeholder='可以输入网络图片地址设置为主题背景哦' value={inputValue} onChange={(e) => { setInputValue(e.target.value) }} />
+                <input placeholder='图片地址可设置为背景哦' value={inputValue} onChange={(e) => { setInputValue(e.target.value) }} />
                 <button onClick={setCustomThemeBackground}>确定</button>
             </div>
-            <button onClick={changeThemeSimple}>极简风</button>
+            {setSimpleTheme && <button onClick={changeThemeSimple}>极简风</button>}
         </div>}
         <div onClick={() => { setShow(!show) }} className='setting-btn'><img className='setting-icon' src={SettingIcon} alt='' /><span>主题设置</span> </div>
     </div>;

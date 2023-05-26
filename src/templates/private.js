@@ -24,7 +24,9 @@ const Private = function ({ updateParent, question, answer, cover }) {
         }
     }
 
-    return <div className='mask' style={{ backgroundImage: `url(${cover || ''})` }}>
+    // return <div className='mask' style={{ backgroundImage: `url(${cover || ''})` }}>
+    return <div className='mask'>
+
         <div className='main-contain' >
             <div>
                 <span>{question}</span>

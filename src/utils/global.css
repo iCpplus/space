@@ -31,12 +31,13 @@ body {
   display: none;
 }
 
-/* @media screen and (max-width: 768px){
-
-} */
-.pio-container {
-  pointer-events: unset !important;
+@media screen and (max-width: 650px){
+  .pio-container {
+    /* pointer-events: unset !important; */
+    display: none !important;
+  }
 }
+
 
 
 body.light {
@@ -44,7 +45,7 @@ body.light {
   --bg-outer: transparent;
   --bg-article: rgba(197, 196, 196, 0.15);
   --bg-article-shadow: 0 1px 20px -6px rgba(0, 0, 0, .5);
-
+  --article-backdrop:blur(6px);
   --header: var(--pink);
   --textNormal: #222;
   --textTitle: #222;
@@ -70,7 +71,7 @@ body.dark {
   --bg-outer: rgba(40, 44, 53, 0.25);
   --bg-article: rgba(40, 44, 53, 0.6);
   --bg-article-shadow: 0 1px 20px -6px rgba(255, 255, 255, .3);
-
+  --article-backdrop:blur(1px);
   --header: #ffffff;
   --textNormal: rgba(255, 255, 255, 0.88);
   --textTitle: #ffffff;

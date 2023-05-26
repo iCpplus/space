@@ -22,7 +22,7 @@
   const 引流 = []
 
   const CUSTOM_CSS = `#pio-container {
-  display: block !important;
+  display: block;
   bottom: -0.3rem;
   z-index: 22637261;
   transition: transform 0.3s;

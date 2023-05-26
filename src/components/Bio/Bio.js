@@ -31,6 +31,7 @@ const Bio = function () {
             }}
           >
             <div className="bio">
+              <div style={{width:'70px',height:'70px',marginRight:'10px'}}>
               <GatsbyImage
                 image={data.avatar.childImageSharp.gatsbyImageData}
                 alt={author}
@@ -42,6 +43,8 @@ const Bio = function () {
                   borderRadius: '50%',
                 }}
               />
+              </div>
+
               <div className="description">
                 <p>{description}</p>
                 <SocialBar />

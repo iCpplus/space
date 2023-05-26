@@ -93,7 +93,7 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         objectFit: 'cover'
       }} alt='' />}
       {(post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) && <Private cover={post.frontmatter.cover} question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent} />}
-      <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) ? '私密内容' : post.html }} />
+      <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) ? '小机灵鬼，这是私密内容，老实回答正确问题才可以查看内容哦O(∩_∩)O' : post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
       {
         post.frontmatter.relative && <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />

@@ -8,7 +8,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fffae0;
+    background: rgba(255, 255, 255, .1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     z-index: 999;
     display: flex;
     justify-content: center;
@@ -33,11 +35,10 @@
         max-height: 500px;
         overflow-y: auto;
         font-size: 14px;
-        color: #f7a046;
     }
 
     .css-toc a {
-        color: #8f5b23;
+        color: var(--tag-bg);
         display: block;
         width: 100%;
     }
