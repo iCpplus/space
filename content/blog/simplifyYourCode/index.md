@@ -5,6 +5,7 @@ description: es5语法之后，新语法使我们的代码更简洁语义化，�
 tags: ['js','代码优化']
 disqus: true
 relative: false
+cover: https://img.picgo.net/2023/05/26/108393607_p0_master120009c0f4611a2a0159.md.jpeg
 ---
 
 ## 取值

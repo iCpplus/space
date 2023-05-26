@@ -6,6 +6,7 @@ tags: ['React']
 disqus: true
 relative: false
 private: false
+cover: https://img.picgo.net/2023/05/26/107005305_p0_master120034a1ad8996e9aff6.md.jpeg
 ---
 
 ## 简单小🌰
