@@ -77,6 +77,8 @@
         -webkit-animation: article-show 1s;
         opacity: 1;
         flex-direction: row-reverse;
+        -webkit-backdrop-filter: var(--article-backdrop);
+        backdrop-filter: var(--article-backdrop);
     }
 
     .article-doc {

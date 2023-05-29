@@ -12,7 +12,7 @@ const site = {
   googleTrackingId: 'G-E7NM1ZBB2T',
   lang: 'zh-hans',
   displayTranslations: true,
-  postsPerPage: 3,
+  postsPerPage: 5,
 };
 
 const supportedLanguages = {
