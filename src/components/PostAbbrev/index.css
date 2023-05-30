@@ -26,6 +26,8 @@
         border-radius: 10px;
         flex: 2;
         overflow: hidden;
+        position: relative;
+
     }
 
     .article-doc {
