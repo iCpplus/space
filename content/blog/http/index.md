@@ -5,7 +5,7 @@ description: http日常小笔记，持续更新...
 tags: ['计算机网络','http']
 disqus: true
 relative: false
-cover: https://img.picgo.net/2023/05/26/107882088_p0_master1200b0f40f956184cc74.md.jpeg
+cover: https://img.picgo.net/2023/05/26/107882088_p0_master1200b0f40f956184cc74.jpeg
 ---
 # 三次握手四次挥手
 

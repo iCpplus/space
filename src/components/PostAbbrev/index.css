@@ -91,6 +91,7 @@
     .img-contain {
         flex: 1;
         overflow: hidden;
+        position: relative;
     }
 
     .article-bottom {
