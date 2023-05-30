@@ -30,10 +30,13 @@ const PostAbbrev = function ({ slug, title, date, timeToRead, excerpt, tags, bas
       <TagList style={{ margin: '0.5rem 0 -0.5rem -0.5rem' }} tags={tags} baseUrl={`${base}tags`} />
     );
   }
-  const arr = cover.split('.')
-  arr.splice(arr.length - 1, 0, 'th')
-  const lowCover = arr.join('.')
-  console.log(lowCover);
+  let lowCover
+  if (cover) {
+    const arr = cover.split('.')
+    arr.splice(arr.length - 1, 0, 'th')
+    lowCover = arr.join('.')
+  }
+
   return (
     <div className='article' style={{ background: 'var(--bg-article)' }} >
       <div className='article-doc'>
@@ -53,8 +56,8 @@ const PostAbbrev = function ({ slug, title, date, timeToRead, excerpt, tags, bas
       </div>
       <div className='img-contain'>
         <Link style={{ boxShadow: 'none' }} to={slug} rel="bookmark">
-          <img loading='lazy' decoding="async" src={lowCover || 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg'} alt='' />
-          <img loading='lazy' decoding="async" style={{position:'absolute',top:'0px',left:'0px'}} src={cover || 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg'} alt='' />
+          <img loading='lazy' decoding="async" src={lowCover || 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.th.jpeg'} alt='' />
+          <img loading='lazy' decoding="async" style={{ position: 'absolute', top: '0px', left: '0px' }} src={cover || 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg'} alt='' />
         </Link>
       </div>
     </div >
