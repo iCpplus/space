@@ -54,6 +54,13 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
     setMySession(window.sessionStorage)
   }, [])
 
+  let lowCover
+  if (post.frontmatter.cover) {
+    const arr = post.frontmatter.cover.split('.')
+    arr.splice(arr.length - 1, 0, 'th')
+    lowCover = arr.join('.')
+  }
+
   return (
     <Layout location={location} title={siteTitle} breadcrumbs={[{ text: post.frontmatter.title }]}>
       <SEO
@@ -87,11 +94,23 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
         langKey={lang}
         style={{ margin: '-0.5rem 0 1.5rem' }}
       />
-      {post.frontmatter.cover && <img src={post.frontmatter.cover} style={{
+      {post.frontmatter.cover && <div style={{
         width: '100%',
         height: '280px',
-        objectFit: 'cover'
-      }} alt='' />}
+        position: 'relative'
+      }}>
+        <img src={lowCover} style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        }} alt='' />
+        <img src={post.frontmatter.cover} style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          position: 'absolute', top: '0px', left: '0px'
+        }} alt='' />
+      </div>}
       {(post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) && <Private cover={post.frontmatter.cover} question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent} />}
       <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) ? '小机灵鬼，这是私密内容，老实回答正确问题才可以查看内容哦O(∩_∩)O' : post.html }} />
       <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
