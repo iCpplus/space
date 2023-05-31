@@ -11,6 +11,8 @@ import ReadModeToggle from './ReadModeToggle';
 import Breadcrumbs from '../Breadcrumbs';
 import ThemeBackground from './ThemeBackground';
 
+import './Layout.css'
+
 const Layout = function ({ children, location, title, breadcrumbs, setSimpleTheme }) {
   const { lang, homeLink, refresh } = useLang();
   const scrollHeight = useRef(0)
@@ -42,7 +44,7 @@ const Layout = function ({ children, location, title, breadcrumbs, setSimpleThem
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'center', position: 'relative',width:'calc(100% - 5px)' }}>
+      <div className='top-bar-contain' style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
         <LanguageBar lang={lang} base={homeLink} />
       </div>
 
