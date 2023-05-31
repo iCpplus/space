@@ -41,6 +41,8 @@
         color: var(--tag-bg);
         display: block;
         width: 100%;
+        border-radius: 7px;
+        padding-left: 10px;
     }
 
     .css-toc a:hover {
@@ -50,8 +52,7 @@
 
     .css-toc p {
         background: var(--inlineCode-bg);
-        border-radius: 7px;
-        padding-left: 10px;
+
         font-weight: 600;
     }
 

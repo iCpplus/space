@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { fromPairs } from 'ramda';
+import { Link } from 'gatsby';
 
 import { rhythm } from 'utils/typography';
+import { formatMessage } from 'utils/i18n';
 
 import LangButton from '../LangButton';
 import BalloonField from '../BalloonField';
@@ -21,7 +23,7 @@ const searchIndices = [
  *
  * @param {*object} { lang }
  */
-const LanguageBar = function({ lang: langKey }) {
+const LanguageBar = function ({ lang: langKey, base }) {
   const [displayLang, toggleDisplayLang] = useState(false);
 
   const handleToggleLanguage = React.useCallback(() => {
@@ -37,6 +39,7 @@ const LanguageBar = function({ lang: langKey }) {
       overflow: 'initial',
     };
   }
+  const tTitle = formatMessage('title')
 
   return (
     <StaticQuery
@@ -58,18 +61,36 @@ const LanguageBar = function({ lang: langKey }) {
 
         return (
           <div
+            id='top-bar'
             style={{
               maxWidth: rhythm(28),
               margin: 'auto',
-              background:'var(--bg)',
-              position:'sticky',
-              top:'0px',
-              zIndex:'9'
+              background: 'var(--bg)',
+              position:'absolute',
+              top: '0px',
+              zIndex: '99',
+              width:'100%',
+              transition: 'transform 0.5s',
             }}
           >
+
             <div className="bar">
-              <LangButton lang={language} focused={displayLang} onClick={handleToggleLanguage} />
-              <Search indices={searchIndices} />
+              <Link
+                style={{
+                  boxShadow: 'none',
+                  textDecoration: 'none',
+                  color: 'rgb(255, 167, 196)',
+                }}
+                to={base}
+              >
+                <span id='home-link' style={{display:'none',fontWeight:'900'}}>{tTitle}</span>
+              </Link>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Search indices={searchIndices} />
+                <LangButton lang={language} focused={displayLang} onClick={handleToggleLanguage} />
+              </div>
+
+
             </div>
             <div className="toggle-content" style={toggleStyle}>
               <BalloonField style={{ padding: 20 }}>
