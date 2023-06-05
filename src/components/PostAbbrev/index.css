@@ -132,7 +132,7 @@
 
 
 
-img {
+.img-contain img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -143,9 +143,7 @@ img {
 }
 
 
-
-
-.article:hover img {
+.article:hover .img-contain img {
     transform: scale(1.5) rotate(10deg);
 }
 

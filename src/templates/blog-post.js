@@ -14,10 +14,12 @@ import './valine.css'
 import { formatReadingTime } from 'utils/helpers';
 import { formatDate, formatMessage } from 'utils/i18n';
 import { rhythm, scale } from 'utils/typography';
+import setCatalog from 'utils/setCatalog';
 import { useLang } from 'context/LanguageContext';
 import Private from './private'
 import Love from './love'
 import './catalog.css'
+
 
 const BlogPostTemplate = function ({ data, pageContext, location }) {
   const post = data.markdownRemark;
@@ -50,8 +52,18 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
     setUpdate(new Date().getTime())
   }
 
+  const initCatalog=()=>{
+    const anchors = document.querySelectorAll('.anchor')
+    const catalogsContain = document.querySelector('.css-toc')
+    const catalogs = catalogsContain.getElementsByTagName("a")
+    const anchorsContain = document.querySelector('#main-contain')
+
+    setCatalog(anchors,catalogs,anchorsContain)
+  }
+
   useEffect(() => {
     setMySession(window.sessionStorage)
+    initCatalog()
   }, [])
 
   let lowCover

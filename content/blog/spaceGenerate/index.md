@@ -84,6 +84,53 @@ space网站已经运行了十个月，代码更新提交了188次了。构建部
 
 ![图片](images/Snipaste_2023-05-26_16-43-18.png)
 
-## ...
+## 优化网页顶部（2023.06.01）
 
-......
+以前网页顶部始终固定在顶部且顶部并没有返回主页的操作，当看文章看一半时想返回主页会不太方便，所以有了此优化。向下滑动一定距离后，顶部菜单会隐藏，向上滑动会显示顶部。且顶部左侧会出现返回主页的link。
+
+## 目录优化（2023.06.05）
+
+以前的版本中只是简单做了文章的目录功能，可以点击跳转到文章相应位置，但是在阅读文章中并没有实时高亮当前阅读的位置。此次做了阅读文章自定高亮相应目录的功能。
+
+具体实现如下代码：
+
+```js
+//anchors：文章锚点节点 catalogs：文章目录节点 anchorsContain：文章容器（及滚动容器）
+const setCatalog = (anchors, catalogs, anchorsContain) => {
+
+    let anchorsInfo = []
+    
+    const antiShakeAnchorsContainScroll = antiShake(() => {
+        let newAnchorsInfo = []
+        for (let index = 0; index < anchors.length; index++) {
+            console.log(anchors[index], anchors[index].getBoundingClientRect());
+
+            const bottom = anchors[index].getBoundingClientRect().bottom
+            const isShow = bottom <= window.innerHeight && bottom >= 0
+            if (isShow) {
+                newAnchorsInfo.push(true)
+            } else {
+                newAnchorsInfo.push(false)
+            }
+        }
+
+        const highlightAnchorIndex = newAnchorsInfo.findIndex(item => item === true)
+        const oldHighlightAnchorIndex = newAnchorsInfo.findIndex(item => item === true)
+
+        const highlightIndex = highlightAnchorIndex > -1 ? highlightAnchorIndex : oldHighlightAnchorIndex > -1 ? highlightAnchorIndex : -1
+        if (highlightIndex > -1) {
+            [...catalogs].forEach((item, index) => {
+                if (index === highlightAnchorIndex) {
+                    item.style.borderLeft = '8px solid #6d4534'
+                    item.style.textDecoration = 'underline 1.5px'
+                } else {
+                    item.style.borderLeft = '8px solid transparent'
+                    item.style.textDecoration = 'unset'
+                }
+            })
+        }
+        anchorsInfo = newAnchorsInfo
+    }, 10)
+    anchorsContain.addEventListener("scroll", antiShakeAnchorsContainScroll)
+}
+```
