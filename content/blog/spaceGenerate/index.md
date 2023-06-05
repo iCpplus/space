@@ -99,7 +99,7 @@ space网站已经运行了十个月，代码更新提交了188次了。构建部
 const setCatalog = (anchors, catalogs, anchorsContain) => {
 
     let anchorsInfo = []
-    
+
     const antiShakeAnchorsContainScroll = antiShake(() => {
         let newAnchorsInfo = []
         for (let index = 0; index < anchors.length; index++) {

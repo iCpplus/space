@@ -1,10 +1,8 @@
 import antiShake from "./antiShake"
 
 const setCatalog = (anchors, catalogs, anchorsContain) => {
-
     let anchorsInfo = []
-    const antiShakeAnchorsContainScroll = antiShake(() => {
-
+    const anchorsContainScroll = () => {
         let newAnchorsInfo = []
 
         for (let index = 0; index < anchors.length; index++) {
@@ -38,9 +36,10 @@ const setCatalog = (anchors, catalogs, anchorsContain) => {
                 }
             })
         }
-
         anchorsInfo = newAnchorsInfo
-    }, 10)
+    }
+
+    const antiShakeAnchorsContainScroll = antiShake(anchorsContainScroll, 10)
     anchorsContain.addEventListener("scroll", antiShakeAnchorsContainScroll)
 
 }

@@ -364,9 +364,9 @@ setTimeout(()=>{
 复制代码
 ```
 
-#### 这回是嵌套，大家可以看看，最后输出结果是Promise1，setTimeout1，Promise2，setTimeout2
+这回是嵌套，最后输出结果是Promise1，setTimeout1，Promise2，setTimeout2
 
-### 宏任务
+## 宏任务
 
 | **#**                 | **浏览器** | **Node** |
 | :-------------------- | :--------- | :------- |
@@ -380,7 +380,7 @@ setTimeout(()=>{
 
  *`requestAnimationFrame`**姑且也算是宏任务吧，**`requestAnimationFrame`**在*[MDN的定义](https://link.juejin.cn?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FWindow%2FrequestAnimationFrame)*为，下次页面重绘前所执行的操作，而重绘也是作为宏任务的一个步骤来存在的，且该步骤晚于微任务的执行*
 
-### 微任务
+## 微任务
 
 | **#**                      | **浏览器** | **Node** |
 | :------------------------- | :--------- | :------- |
