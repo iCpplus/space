@@ -41,7 +41,7 @@ const Header = function ({ location, title, base }) {
   return (
     <h3
       style={{
-        fontFamily: 'Montserrat, sans-serif',
+        // fontFamily: 'Montserrat, sans-serif',
         marginTop: 0,
         marginBottom: 0,
         height: 42,
