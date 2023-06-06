@@ -3,11 +3,17 @@ body {
   background-color: var(--bg);
   --breadcrumbsDividerSize: 20px;
   /* --systemFont: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif'; */
-  --systemFont: "LXGW WenKai Screen", sans-serif !important;
+  --systemFont: '"LXGW WenKai Screen", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif';
 
 }
-h1, h2, h3, h4, h5, h6 {
-  font-family: "LXGW WenKai Screen", sans-serif !important;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: '"LXGW WenKai Screen", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif' !important;
 }
 
 .pio-container .pio-show {
@@ -36,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-@media screen and (max-width: 650px){
+@media screen and (max-width: 650px) {
   .pio-container {
     /* pointer-events: unset !important; */
     display: none !important;
@@ -50,7 +56,7 @@ body.light {
   --bg-outer: transparent;
   --bg-article: rgba(197, 196, 196, 0.15);
   --bg-article-shadow: 0 1px 20px -6px rgba(0, 0, 0, .5);
-  --article-backdrop:blur(6px);
+  --article-backdrop: blur(6px);
   --header: var(--pink);
   --textNormal: #222;
   --textTitle: #222;
@@ -76,7 +82,7 @@ body.dark {
   --bg-outer: rgba(40, 44, 53, 0.25);
   --bg-article: rgba(40, 44, 53, 0.6);
   --bg-article-shadow: 0 1px 20px -6px rgba(255, 255, 255, .3);
-  --article-backdrop:blur(1px);
+  --article-backdrop: blur(1px);
   --header: #ffffff;
   --textNormal: rgba(255, 255, 255, 0.88);
   --textTitle: #ffffff;

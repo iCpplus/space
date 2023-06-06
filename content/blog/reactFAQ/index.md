@@ -59,10 +59,10 @@ class App extends React.Component {
 > 不仅仅是setState了, 在对 function 类型组件中的 hook 进行操作时也是一样, 最终决定setState是同步渲染还是异步渲染的关键因素是ReactFiberWorkLoop工作空间的执行上下文.
 
 <details>
-  <summary style='outline:none'>
+  <summary style='outline:none;margin-bottom:20px'>
     <span
     title='Click Me'
-    style='cursor:pointer;margin-bottom:20px;background:#f7a046;display:inline-block;padding:1px 8px;border-radius:5px;color:#fff;font-weight:600'>
+    style='cursor:pointer;background:#f7a046;padding:1px 8px;border-radius:5px;color:#fff'>
     详细代码点击查看
     </span>
   </summary>

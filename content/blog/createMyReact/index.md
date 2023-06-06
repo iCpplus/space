@@ -229,10 +229,10 @@ function render(element, container) {
 😍👍我们的Myact库构建完成了！
 
 <details>
-  <summary style='outline:none'>
+  <summary style='outline:none;margin-bottom:20px'>
     <span
     title='Click Me'
-    style='cursor:pointer;margin-bottom:20px;background:#f7a046;display:inline-block;padding:1px 8px;border-radius:5px;color:#fff;font-weight:600'>
+    style='cursor:pointer;background:#f7a046;padding:1px 8px;border-radius:5px;color:#fff'>
     点击查看Myact完整代码
     </span>
   </summary>
@@ -522,10 +522,10 @@ function performUnitOfWork(fiber) {
 我们的performUnitOfWork函数完成啦！🎉
 
 <details>
-  <summary style='outline:none'>
+  <summary style='outline:none;margin-bottom:20px'>
     <span
     title='Click Me'
-    style='cursor:pointer;margin-bottom:20px;background:#f7a046;display:inline-block;padding:1px 8px;border-radius:5px;color:#fff;font-weight:600'>
+    style='cursor:pointer;background:#f7a046;padding:1px 8px;border-radius:5px;color:#fff'>
     点击查看该函数完整代码
     </span>
   </summary>
@@ -586,10 +586,10 @@ function performUnitOfWork(fiber) {
 ### vue为什么不需要fiber架构
 
 <details>
-  <summary style='outline:none'>
+  <summary style='outline:none;margin-bottom:20px'>
     <span
     title='Click Me'
-    style='cursor:pointer;margin-bottom:20px;background:#f7a046;display:inline-block;padding:1px 8px;border-radius:5px;color:#fff;font-weight:600'>
+    style='cursor:pointer;background:#f7a046;padding:1px 8px;border-radius:5px;color:#fff'>
     点击查看
     </span>
   </summary>
