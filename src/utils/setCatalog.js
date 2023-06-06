@@ -6,7 +6,6 @@ const setCatalog = (anchors, catalogs, anchorsContain) => {
         let newAnchorsInfo = []
 
         for (let index = 0; index < anchors.length; index++) {
-            console.log(anchors[index], anchors[index].getBoundingClientRect());
 
             const bottom = anchors[index].getBoundingClientRect().bottom
             const isShow = bottom <= window.innerHeight && bottom >= 0
