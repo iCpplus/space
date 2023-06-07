@@ -123,6 +123,7 @@ export function scheduleUpdateOnFiber(
   }
 }
 ```
+</details>
 
 **可以看到, 是否同步渲染调度决定代码是flushSyncCallbackQueue(). 进入该分支的条件:**
 
@@ -145,7 +146,6 @@ const fiber = {
     return,       // 父节点
 }
 ```
-</details>
 
 ### 为什么引入Fiber
 
