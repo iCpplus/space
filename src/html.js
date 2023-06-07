@@ -18,6 +18,7 @@ const HTML = function ({
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no, shrink-to-fit=no" />
+        <meta name="google-site-verification" content="WMpB6sL6Q-CDBdh81_PNJv7AoOV6jeQTDGbbXTccNBs" />
         <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css"></link>
 
         {headComponents}
