@@ -1,6 +1,6 @@
 const site = {
   // pathPrefix: '/gatsby-simple-blog',
-  title: 'coco\'s space',
+  title: 'coco space',
   author: 'Kou ShiXiang',
   description: '一个记录知识和生活的神秘小空间',  
   siteUrl: 'https://anyspace.cc',
@@ -8,7 +8,7 @@ const site = {
   // github: 'thundermiracle',
   // medium: 'thundermiracle',
   // facebook: 'thundermiracle',
-  disqusShortName: 'cocos space',
+  disqusShortName: 'coco space',
   googleTrackingId: 'G-E7NM1ZBB2T',
   lang: 'zh-hans',
   displayTranslations: true,
