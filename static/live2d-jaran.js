@@ -151,12 +151,12 @@
     pio_alignment = "right" // 右下角
 
     const closeBtn = document.querySelector(".pio-container .pio-action .pio-close")
-    if(closeBtn){
+    if (closeBtn) {
       closeBtn.insertAdjacentHTML('beforebegin', '<span class="pio-top"></span>')
     }
     const topBtn = document.querySelector(".pio-container .pio-action .pio-top")
     // 返回顶部
-    if(topBtn){
+    if (topBtn) {
       topBtn.onclick = function () {
         const contain = document.getElementById('main-contain')
         contain.scrollTo({ top: 0, behavior: 'smooth' });
@@ -242,7 +242,7 @@
           motion: "Tap哭 -眼角"
         },
         {
-          text: "欢迎来到coco's space~",
+          text: "欢迎来到anyspace~",
           motion: "Tap害羞-中间刘海"
         },
         {
@@ -295,7 +295,7 @@
           }
         },
         {
-          text: "欢迎来到coco's space",
+          text: "欢迎来到anyspace",
           motion: "Tap中间刘海",
           from: {
             "Part12": 1
@@ -346,7 +346,7 @@
         "Part16", // 惊讶特效
         "Part12" // 小心心
       ]
-      
+
       const hidePartsIndex = hideParts.map(id => coreModel._partIds.indexOf(id))
       hidePartsIndex.forEach(idx => {
         coreModel._partOpacities[idx] = 0
