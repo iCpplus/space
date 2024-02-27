@@ -62,4 +62,66 @@ loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身�
 
 webpack插件(自动打开浏览器、热更新等)。
 
-## 
+## 手写一个plugin
+
+因为项目中随着时间用到的api越来越多，在后续更改维护后很难知道哪个接口是什么意思或者怎么使用，需要文档去管理，而在开发者中可能当时后端的文档是按照当时独立的事件及情况编写的，后续会很难使用。所以我有了想写一个webpack插件去根据前端api文件夹的接口函数去生成一个接口文档，便于管理和后续查阅使用。
+
+```js
+const fs = require('fs');
+const path = require('path');
+
+class ApiDocPlugin {
+  constructor(options) {
+    this.outputPath = options.outputPath || 'api.md';
+    this.apiFolder = options.apiFolder || '../api';
+  }
+
+  apply(compiler) {
+    compiler.hooks.emit.tapAsync('ApiDocPlugin', (compilation, callback) => {
+      const apiFolder = path.resolve(__dirname, apiFolder);
+
+      // 遍历 API 文件夹
+      fs.readdir(apiFolder, (err, files) => {
+        if (err) {
+          console.error('Error reading API folder:', err);
+          return;
+        }
+
+        let apiDocContent = '# API Documentation\n\n';
+
+        // 遍历每个 API 文件
+        files.forEach(file => {
+          const filePath = path.resolve(apiFolder, file);
+
+          // 读取文件内容
+          const content = fs.readFileSync(filePath, 'utf8');
+
+          // 提取接口定义及其注释
+          const regex = /\/\*\*([\s\S]*?)\*\/[\s\S]*?function\s+(\w+)\(/g;
+          let match;
+          while ((match = regex.exec(content)) !== null) {
+            const comment = match[1].trim();
+            const functionName = match[2];
+            apiDocContent += `## ${functionName}\n\n`;
+            apiDocContent += `${comment}\n\n`;
+          }
+        });
+
+        // 将生成的 API 文档写入文件
+        const outputPath = path.resolve(compilation.options.output.path, this.outputPath);
+        fs.writeFileSync(outputPath, apiDocContent);
+
+        console.log('API documentation generated:', outputPath);
+
+        callback();
+      });
+    });
+  }
+}
+
+module.exports = ApiDocPlugin;
+```
+
+该插件会根据api文件夹下的文件中的接口函数注释生成接口文档，前端开发人员只需要按规则去写注释和接口代码即可，后续使用该插件可以直接生成md文档。
+
+
