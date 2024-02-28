@@ -33,7 +33,8 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
     const p = flag ? `
     Please kindly comment`: `
     • 请大家友善评论,遵纪守法。爱国、敬业、诚信、友善
-    • 昵称输入qq账号,将自动引用qq相关头像昵称邮箱哦`
+    • 昵称输入qq账号,将自动引用qq相关头像昵称邮箱
+    • 评论支持md格式输入`
     setLanguage(u)
     setPlaceholder(p)
   }, [])

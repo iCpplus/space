@@ -124,4 +124,198 @@ module.exports = ApiDocPlugin;
 
 该插件会根据api文件夹下的文件中的接口函数注释生成接口文档，前端开发人员只需要按规则去写注释和接口代码即可，后续使用该插件可以直接生成md文档。
 
+## webpack实际使用
+
+## 配置文件
+
+虽然webpack5可以不配置任何东西使用，但是实际项目中还是会使用配置文件。
+
+**根目录下新建配置文件 webpack.config.js**
+```js
+const path = require('path')
+
+module.exports = {
+  mode: 'development', // 模式
+  entry: './src/index.js', // 打包入口地址
+  output: {
+    filename: 'bundle.js', // 输出文件名
+    path: path.join(__dirname, 'dist') // 输出文件目录
+  }
+}
+```
+
+## mode
+
+ 供 mode 配置选项，告知 webpack 使用相应模式的内置优化，默认值为 production，另外还有 development、none,上一步也已经配置了mode。
+
+ * development	开发模式，打包更加快速，省了代码优化步骤
+ * production	生产模式，打包比较慢，会开启 tree-shaking 和 压缩代码
+ * none	不使用任何默认优化选项
+
+## 配置loader
+
+因为webpack默认只能处理js、json文件，我们实际开发中会有css、less等等类型的文件，这样我们就必须使用loader来处理不同类型的文件了。
+
+### css-loader
+
+**安装css-loader来处理css文件**
+
+```js{10-17}
+const path = require('path')
+
+module.exports = {
+  mode: 'development', // 模式
+  entry: './src/main.css', // 打包入口地址
+  output: {
+    filename: 'bundle.css', // 输出文件名
+    path: path.join(__dirname, 'dist') // 输出文件目录
+  },
+  module: { 
+    rules: [ // 转换规则
+      {
+        test: /\.css$/, //匹配所有的 css 文件
+        use: 'css-loader' // use: 对应的 Loader 名称
+      }
+    ]
+  }
+}
+
+```
+
+**其实loader就是将webpack不认识的内容变成认识的内容**
+
+## 配置plugin
+
+**插件（Plugin）可以贯穿 Webpack 打包的生命周期，执行不同的任务**
+
+### html-webpack-plugin
+
+例如：如果我们想要将打包后的css和js自动引入到index.html中,我们可以使用 html-webpack-plugin插件。
+
+```js{19-23}
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  mode: 'development', // 模式
+  entry: './src/index.js', // 打包入口地址
+  output: {
+    filename: 'bundle.js', // 输出文件名
+    path: path.join(__dirname, 'dist') // 输出文件目录
+  },
+  module: { 
+    rules: [
+      {
+        test: /\.css$/, //匹配所有的 css 文件
+        use: 'css-loader' // use: 对应的 Loader 名称
+      }
+    ]
+  },
+  plugins:[ // 配置插件
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ]
+}
+```
+
+这样打包后dist中的index.html文件中就会自动使用script和link标签引入打包好的js和css资源。
+
+### clean-webpack-plugin
+
+**为了打包目录的纯净，我们每次打包都要手动删除之前的dist文件夹，我们可以使用插件clean-webpack-plugin让webpack打包时自动先清楚旧的dist**
+
+```js{12}
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+// 引入插件
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+
+module.exports = {
+  // ...
+  plugins:[ // 配置插件
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    }),
+    new CleanWebpackPlugin() // 引入插件
+  ]
+}
+```
+
+## 区分环境
+
+一般来说，开发环境和生产环境有不同的需求。
+
+**本地环境：**
+
+* 需要更快的构建速度
+* 需要打印 debug 信息
+* 需要 live reload 或 hot reload 功能
+* 需要 sourcemap 方便定位问题
+* ...
+
+**生产环境：**
+
+* 需要更小的包体积，代码压缩+tree-shaking
+* 需要进行代码分割
+* 需要压缩图片体积
+* ...
+
+### cross-env区分环境
+
+```js
+npm install cross-env -D
+```
+
+**配置启动命令**
+
+在pakage.json中：
+
+```json
+"scripts": {
+    "dev": "cross-env NODE_ENV=dev webpack serve --mode development", 
+    "test": "cross-env NODE_ENV=test webpack --mode production",
+    "build": "cross-env NODE_ENV=prod webpack --mode production"
+  },
+```
+
+在webpack配置文件中：
+
+```js
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+console.log('process.env.NODE_ENV=', process.env.NODE_ENV) // 打印环境变量
+
+const config = {
+  entry: './src/index.js', // 打包入口地址
+  output: {
+    filename: 'bundle.js', // 输出文件名
+    path: path.join(__dirname, 'dist') // 输出文件目录
+  },
+  module: { 
+    rules: [
+      {
+        test: /\.css$/, //匹配所有的 css 文件
+        use: 'css-loader' // use: 对应的 Loader 名称
+      }
+    ]
+  },
+  plugins:[ // 配置插件
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ]
+}
+
+module.exports = (env, argv) => {
+  console.log('argv.mode=',argv.mode) // 打印 mode(模式) 值
+  // 这里可以通过不同的模式修改 config 配置
+  return config;
+}
+
+```
+
+**这样执行不同的命令，我们可以不同的值区分当前的环境。**
+
 
