@@ -318,4 +318,139 @@ module.exports = (env, argv) => {
 
 **这样执行不同的命令，我们可以不同的值区分当前的环境。**
 
+## 启动dev-server
 
+**安装dev-server**
+
+```js
+npm intall webpack-dev-server
+```
+
+**配置本地服务**
+
+```js{4-9}
+// webpack.config.js
+const config = {
+  // ...
+  devServer: {
+    contentBase: path.resolve(__dirname, 'public'), // 静态文件目录
+    compress: true, //是否启动压缩 gzip
+    port: 8080, // 端口号
+    // open:true  // 是否自动打开浏览器
+  },
+ // ...
+}
+module.exports = (env, argv) => {
+  console.log('argv.mode=',argv.mode) // 打印 mode(模式) 值
+  // 这里可以通过不同的模式修改 config 配置
+  return config;
+}
+
+```
+
+contentBase:webpack 在进行打包的时候，对静态文件的处理，例如图片，都是直接 copy 到 dist 目录下面。但是对于本地开发来说，这个过程太费时，也没有必要，所以在设置 contentBase 之后，就直接到对应的静态目录下面去读取文件，而不需对文件做任何移动，节省了时间和性能开销。
+
+**启动本地服务**
+```bash
+npm run dev
+```
+
+## 引入css
+
+使用css-loader处理css文件，但是还不不够，需要将处理好的css的加载到页面上，可以使用style-loader将处理好的css通过style标签的形式添加到页面上。
+
+**安装style-loader**
+
+```bash
+npm install style-loader -D
+```
+
+**配置loader**
+
+```js
+const config = {
+  // ...
+  module: { 
+    rules: [
+      {
+        test: /\.css$/, //匹配所有的 css 文件
+        use: ['style-loader','css-loader']
+      }
+    ]
+  },
+  // ...
+}
+```
+
+> **Loader 的执行顺序是固定从后往前，即按 css-loader --> style-loader 的顺序执行**
+
+**style-loader的核心逻辑**
+
+```js
+const content = `${样式内容}`
+const style = document.createElement('style');
+style.innerHTML = content;
+document.head.appendChild(style);
+```
+
+## css兼容性
+
+使用postcss-loader，自动添加css3部分属性的浏览器前缀。
+
+## 引入Less或Sass
+
+安装对应的less-loader或sass-loader
+
+## 分离样式文件
+
+style-loader是将处理好的css样式通过style标签的形式添加到页面上，一般来说我们想要通过css文件形式引入到页面上。
+
+**安装mini-css-extract-plugin**
+
+```bash
+npm install mini-css-extract-plugin -D
+```
+
+**修改配置**
+
+```js
+// ...
+// 引入插件
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+
+const config = {
+  // ...
+  module: { 
+    rules: [
+      // ...
+      {
+        test: /\.(s[ac]|c)ss$/i, //匹配所有的 sass/scss/css 文件
+        use: [
+          // 'style-loader',
+          MiniCssExtractPlugin.loader, // 添加 loader
+          'css-loader',
+          'postcss-loader',
+          'sass-loader', 
+        ] 
+      },
+    ]
+  },
+  // ...
+  plugins:[ // 配置插件
+    // ...
+    new MiniCssExtractPlugin({ // 添加插件
+      filename: '[name].[hash:8].css'
+    }),
+    // ...
+  ]
+}
+
+// ...
+```
+
+## 图片和字体文件
+
+开发环境下虽然可以通过contentBase直接读取静态文件，但是生产环境代码中引入图片会报错。需要在打包时做处理。
+
+* 
