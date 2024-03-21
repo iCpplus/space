@@ -8,9 +8,9 @@ function ImageWall() {
     useEffect(() => {
         waterfall('.image-wall');
     }, [])
-    return <div className='image-wall' style={{position:'absolute',width:'100vw',height:'100vh',overflow:'auto'}}>
+    return <div className='image-wall' style={{ position: 'absolute', width: '100vw', height: '100vh', overflow: 'auto' }}>
         {
-            images.map((item, index) => <div key={index} className='item' style={{width:'49.9%'}}>
+            images.map((item, index) => <div key={index} className='item' style={{ width: '49.9%' }}>
                 <img src={item}></img>
             </div>)
         }
