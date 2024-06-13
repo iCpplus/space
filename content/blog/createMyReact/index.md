@@ -91,7 +91,7 @@ const element = React.createElement(
 我们可以得到`createElement`的雏形。
 
 ```js {9}
-//  ...children 参数保证了我们的children props 是一个数组。
+//  ...children 参数保证了我们的函数从第3个参数开始输入多个参数都会放入children属性中，是一个数组。
 //  props:{ children: [...] }
 
 function createElement(type, props, ...children) {
