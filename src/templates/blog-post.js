@@ -53,13 +53,13 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
     setUpdate(new Date().getTime())
   }
 
-  const initCatalog=()=>{
+  const initCatalog = () => {
     const anchors = document.querySelectorAll('.anchor')
     const catalogsContain = document.querySelector('.css-toc')
     const catalogs = catalogsContain.getElementsByTagName("a")
     const anchorsContain = document.querySelector('#main-contain')
 
-    setCatalog(anchors,catalogs,anchorsContain)
+    setCatalog(anchors, catalogs, anchorsContain)
   }
 
   useEffect(() => {
@@ -73,6 +73,8 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
     arr.splice(arr.length - 1, 0, 'th')
     lowCover = arr.join('.')
   }
+
+  const showUnreal = (post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password))
 
   return (
     <Layout location={location} title={siteTitle} breadcrumbs={[{ text: post.frontmatter.title }]}>
@@ -124,9 +126,9 @@ const BlogPostTemplate = function ({ data, pageContext, location }) {
           position: 'absolute', top: '0px', left: '0px'
         }} alt='' />
       </div>}
-      {(post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) && <Private cover={post.frontmatter.cover} question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent} />}
-      <div className='css-post' dangerouslySetInnerHTML={{ __html: (post.frontmatter.private && (mySession?.getItem('password') !== post.frontmatter.password)) ? '小机灵鬼，这是私密内容，老实回答正确问题才可以查看内容哦O(∩_∩)O' : post.html }} />
-      <div className='css-toc' dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
+      {showUnreal && <Private cover={post.frontmatter.cover} question={post.frontmatter.question} answer={post.frontmatter.password} updateParent={updateParent} />}
+      <div className='css-post' dangerouslySetInnerHTML={{ __html: showUnreal ? '小机灵鬼，这是私密内容，老实回答正确问题才可以查看内容哦O(∩_∩)O' : post.html }} />
+      <div className='css-toc' dangerouslySetInnerHTML={{ __html: showUnreal ? [] : post.tableOfContents }} />
       {
         post.frontmatter.relative && <RelativePosts postNodes={[previousInSameTag, nextInSameTag]} lang={lang} />
       }

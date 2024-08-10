@@ -8,8 +8,6 @@ relative: false
 private: true
 question: "我毕业于哪个大学？"
 password: "中原工学院"
-cover: https://img.picgo.net/2023/05/22/F62693A5EC4421E93510138A6D5FFB12d6e014626935f6e4.jpeg
-
 ---
 
 ## 写在前面
