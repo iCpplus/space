@@ -607,3 +607,289 @@ DNS（Domain Name System，域名系统）：用于将域名解析为 IP 地址�
 
 * TCP/IP 协议是一个分层的协议栈，旨在确保数据能够跨越不同的网络传输，并在不同的设备之间实现可靠的通信。
 * TCP/IP 的重要性：它是现代互联网的核心，支撑着全球的网络通信和数据交换。
+# VUE
+
+# VUE生命周期
+
+* beforeCreate
+阶段：组件实例刚被初始化，还未创建 data 和 methods 等选项。
+作用：此时组件还没有被初始化，无法访问 data、computed、watch、methods 中的任何数据和方法。
+常见用法：很少单独使用，可以用于一些特殊场景，如初始化插件。
+* created
+阶段：组件实例已经创建，完成了数据的初始化，但还没有挂载到 DOM 上。
+作用：可以访问 data、methods 等，但还没有生成 DOM 元素，$el 属性不可用。
+常见用法：进行数据的获取、事件的订阅或使用 watch 观察数据变化。
+* beforeMount
+阶段：组件被挂载到 DOM 之前。
+作用：组件的模板已经编译完成，虚拟 DOM 已创建，尚未将它们渲染到实际的 DOM 中。
+常见用法：在实际 DOM 渲染之前执行一些任务，但此时还没有访问到 DOM 元素。
+* mounted
+阶段：组件挂载到 DOM 上，$el 可以访问到实际的 DOM 元素。
+作用：此时组件已经被挂载，可以对 DOM 进行操作。
+常见用法：初始化第三方库、进行 DOM 操作、请求数据后立即更新 DOM。
+* beforeUpdate
+阶段：组件在更新之前调用。
+作用：响应式数据更新导致重新渲染之前触发。
+常见用法：在状态更新前执行一些任务或进行数据对比，通常用于优化。
+* updated
+阶段：组件更新之后调用。
+作用：组件的 DOM 已经根据数据的变化更新，可以执行依赖于 DOM 的操作。
+常见用法：对 DOM 进行进一步的操作，例如调整滚动条位置。
+* beforeDestroy
+阶段：组件实例销毁之前调用。
+作用：此时组件仍然完全可用，但即将被销毁。
+常见用法：清理定时器、取消订阅事件或移除 DOM 上的绑定事件。
+* destroyed
+阶段：组件实例销毁之后调用。
+作用：此时组件的数据绑定、事件监听器等都已被解除。
+常见用法：销毁 Vue 组件实例后进行一些清理工作。
+
+## 总结
+
+* 创建阶段：beforeCreate -> created
+* 挂载阶段：beforeMount -> mounted
+* 更新阶段：beforeUpdate -> updated
+* 销毁阶段：beforeDestroy -> destroyed
+# VUE2 VUE3的区别
+
+Vue 3 相较于 Vue 2 引入了许多新特性和改进，以下是两者之间的主要区别：
+
+* 性能优化
+Vue 3：更快的运行速度和更小的体积，通过编译器优化、虚拟 DOM 重写、分块加载等手段提升性能，尤其在大型应用中表现更佳。
+Vue 2：性能已经足够满足中小型应用，但在大型复杂应用中可能会遇到瓶颈。
+* Composition API
+Vue 3：引入了 Composition API，允许开发者通过函数式编程风格来组织代码，更灵活地复用逻辑。setup 函数是核心部分，替代了 Vue 2 中的 Options API。
+Vue 2：主要采用 Options API，使用 data、methods、computed 等选项来组织代码，逻辑复用主要通过 mixins 和插件实现。
+* 更好的 TypeScript 支持
+Vue 3：从设计之初就对 TypeScript 进行了更深入的支持，所有内部 API 都用 TypeScript 编写，使得与 TypeScript 的集成更加顺畅。
+Vue 2：虽然也支持 TypeScript，但集成度和便利性不如 Vue 3，需要更多的配置。
+* Fragments（多根节点支持）
+Vue 3：支持组件返回多个根元素（Fragments），解决了 Vue 2 中必须有一个单一根元素的问题，使模板更加灵活。
+Vue 2：组件模板必须有且只有一个根元素，导致有时需要为布局添加不必要的包裹元素。
+* Teleport（传送门）
+Vue 3：引入了 Teleport 功能，允许你将组件的 DOM 渲染到父组件之外的任意位置，比如全局的模态框、通知等。
+Vue 2：没有直接的 Teleport 功能，需要通过其他手段（如 Vuex 或事件总线）进行跨组件通信和渲染控制。
+* Suspense（异步组件加载）
+Vue 3：增加了 Suspense 组件，用于处理异步组件加载，提供了更好的异步渲染支持和用户体验。
+Vue 2：没有原生的 Suspense 功能，异步组件加载需要通过其他方式处理。
+* 生命周期钩子
+Vue 3：生命周期钩子的命名有所改变，更加语义化，如 beforeDestroy 改为 beforeUnmount，destroyed 改为 unmounted。
+Vue 2：生命周期钩子的命名保持传统，虽然功能上相似，但不如 Vue 3 的命名直观。
+* 响应式系统
+Vue 3：重写了响应式系统，基于 Proxy 实现，更加高效且解决了 Vue 2 中一些无法检测到的变更问题（如对数组或对象属性的添加删除）。
+Vue 2：基于 Object.defineProperty 实现响应式系统，对一些变更无法自动追踪（如直接设置新属性），需要使用 Vue 提供的辅助函数（如 Vue.set）。
+* 全新的渲染机制
+Vue 3：采用全新的编译和渲染机制，支持编译时优化（如 Tree-shaking 和模块分块），生成的代码更轻量、更高效。
+Vue 2：传统的编译和渲染机制，没有 Vue 3 那么多的编译时优化手段。
+* 支持自定义渲染器
+Vue 3：允许开发者创建自定义渲染器，使得 Vue 可以用于更多的场景（如原生移动端开发、游戏引擎等）。
+Vue 2：主要面向浏览器环境，虽然也有一些扩展场景，但没有 Vue 3 的自定义渲染器那么灵活。
+
+# MVVM
+
+## 概念
+
+MVVM（Model-View-ViewModel）是一种软件架构模式，主要用于构建用户界面，特别是在前端开发中（例如 Vue.js、React、Angular 等框架）。MVVM 模式的核心思想是将视图（View）和业务逻辑（Model）分离开来，通过一个中间层（ViewModel）实现两者的双向绑定和解耦。
+
+## 组成部分
+
+* Model（模型）
+作用：Model 表示应用程序的核心数据和业务逻辑。这通常包括应用的所有数据结构、数据处理逻辑、状态管理等。它不直接与视图交互。
+示例：在 Vue.js 中，data、computed 属性中的数据就是 Model。
+
+* View（视图）
+作用：View 是用户界面部分，直接呈现在用户面前的部分。它负责展示数据并响应用户的操作（如点击、输入等）。View 不直接处理业务逻辑。
+示例：在 Vue.js 中，模板 (template) 部分就是 View。
+
+* ViewModel（视图模型）
+作用：ViewModel 是连接 View 和 Model 的桥梁。它负责将 Model 中的数据和 View 进行绑定，并处理用户的输入事件，然后将其转换为对 Model 的更新。ViewModel 同时负责在 Model 数据变化时更新 View，从而实现双向绑定。
+示例：在 Vue.js 中，methods、computed、watch 等选项中的逻辑都可以看作是 ViewModel 的一部分，它们负责响应数据变化和用户交互。
+
+## MVVM 的工作原理
+
+* 数据绑定：View 和 ViewModel 之间通过数据绑定（如 Vue.js 中的双向绑定 v-model）实现自动更新。当 Model 中的数据发生变化时，ViewModel 会自动更新 View 中的数据；反之，当用户在 View 中进行操作（如输入数据），ViewModel 会更新 Model 中的相应数据。
+
+* 解耦：通过 ViewModel，View 和 Model 之间的依赖被消除。View 不需要知道 Model 的存在，而 Model 也不需要知道 View 的存在。这样就使得代码更加模块化、可维护。
+
+## MVVM 的优点
+
+* 分离关注点：将数据和视图的关注点分离，代码更容易维护和测试。
+* 双向绑定：View和Model 的数据绑定可以自动更新，减少了手动操作 DOM 的复杂性。
+* 模块化：提高代码的重用性和可测试性，View 和 Model 可以独立开发和测试。
+
+## MVVM 的缺点
+
+* 复杂性：对于简单的应用，MVVM 可能会引入不必要的复杂性。
+* 性能问题：由于双向绑定的机制，如果处理不当，可能会导致性能问题，尤其是在大数据量或高频更新的场景下。
+
+## MVVM 在框架中的应用
+
+* Vue.js：Vue 采用了 MVVM 模式，利用其强大的数据绑定机制和响应式系统来实现 View 和 Model 之间的同步。
+* Angular：Angular 也支持 MVVM，通过其双向数据绑定和组件化设计实现了 View 和 Model 的解耦。
+* React：虽然 React 更倾向于使用单向数据流，但结合状态管理库（如 Redux 或 MobX），也可以实现类似于 MVVM 的结构。
+
+## 总结
+
+MVVM 是一种现代化的架构模式，广泛应用于前端开发中，通过解耦视图和业务逻辑、实现数据双向绑定，提高了代码的可维护性和开发效率。
+
+## Vue2.x 中如何检测数组的变化？
+
+在 Vue 2.x 中，由于其响应式系统的实现方式，直接修改数组的某些方法（如通过索引直接修改数组元素或使用 length 属性来改变数组长度）无法被 Vue 自动检测到并触发视图更新。为了解决这个问题，Vue 提供了一些方法和策略来正确地检测数组的变化。
+
+## 数组变异方法
+
+push()、pop()、shift()、unshift()、splice()、sort()
+
+## 使用 Vue.set 方法
+
+当需要通过索引修改数组中的某一项时，应该使用 Vue.set 方法（或 this.$set）来确保响应式更新。这是因为 Vue 2.x 对数组的索引是非响应式的，直接赋值不会触发视图更新。
+
+# Vue的双向绑定
+
+v-model 的双向绑定原理确实是基于 v-on 和 v-bind 指令实现的。可以理解为 v-model 是 v-on 和 v-bind 的语法糖，在使用 v-model 时，Vue 自动地帮我们在后台设置了这些绑定和事件监听器。
+
+**例如**
+
+```html
+<input v-model="message">
+```
+
+相同于：
+
+```html
+<input :value="message" @input="message = $event.target.value">
+```
+
+Vue会根据不同的标签自动设置相应的事件。
+
+# Vue的diff算法逻辑
+
+...
+
+# 组件通信
+
+[参考](https://juejin.cn/post/6844903887162310669#heading-0)
+[$attrs/$listeners参考](https://juejin.cn/post/6982727094937583647)
+
+* props/$emit
+* $children/$parent
+* provide/inject （无响应式）
+* ref/refs
+* eventBus
+* Vuex等状态管理工具
+* localStorage/sessionStorage
+* $attrs/$listeners （一般用在爷孙组件传值）
+* 路由传参
+
+**vue遵循单向数据流原则，prop 只可以从上一级组件传递到下一级组件（父子组件），即所谓的单向数据流。而且 prop 只读，不可被修改，所有修改都会失效并警告。**
+
+# vue单向数据流
+
+所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定：父级 prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。
+ 额外的，每次父级组件发生更新时，子组件中所有的 prop 都将会刷新为最新的值。这意味着你不应该在一个子组件内部改变 prop。如果你这样做了，Vue 会在浏览器的控制台中发出警告。子组件想修改时，只能通过 $emit 派发一个自定义事件，父组件接收到后，由父组件修改。
+ 
+
+# vue路由的实现
+
+## Hash 路由
+
+* 实现方法
+基于 URL 中的 #（哈希）部分：在 URL 中，# 及其后面的部分称为哈希（hash）。例如，http://example.com/#/home 中的 #/home 就是哈希。
+通过监听 hashchange 事件：浏览器在检测到 URL 的哈希部分变化时，不会重新加载页面，而是会触发 hashchange 事件，Vue Router 通过监听这个事件来更新视图。
+
+* 实现步骤
+当 URL 中的哈希部分发生变化时（例如从 #/home 变为 #/about），浏览器不会重新加载页面。
+Vue Router 监听到 hashchange 事件后，会解析新的哈希值，并根据匹配到的路由来更新视图。
+
+* 优点
+兼容性好：因为哈希路由只使用了 URL 的哈希部分，兼容性较好，不依赖服务器配置。
+
+* 缺点
+URL 中包含 #：URL 中会有 #，不够美观，也不利于 SEO。
+
+## History 路由
+
+* 实现方法
+基于 HTML5 的 History API：history.pushState 和 history.replaceState 允许开发者修改浏览器的历史记录，同时不触发页面刷新。
+通过监听 popstate 事件：浏览器的前进、后退操作会触发pushState、popstate 事件，Vue Router 通过监听这个事件来更新视图。
+
+* 实现步骤
+当使用 history.pushState 修改 URL 时，浏览器不会重新加载页面，但会更新地址栏的显示。
+Vue Router 通过监听 popstate 事件来捕获浏览器导航操作（前进、后退等），根据新的路径匹配对应的路由并更新视图。
+
+* 优点
+美观的 URL：没有 #，URL 看起来更简洁，利于 SEO。
+支持更复杂的路径：能够支持 URL 中的动态参数、查询字符串等。
+
+* 缺点
+需要浏览器支持history api
+
+# v-if和v-show
+* v-if是渲染不渲染节点，适用不频繁切换，切换计算开销大。
+
+* v-show是切换css display显隐，适用频繁切换，切换计算开销小。
+# keep-alive
+
+## 常用
+
+keep-alive可以实现组件缓存，当组件切换时不会对当前组件进行卸载。
+常用的两个属性include/exclude，允许组件有条件的进行缓存。
+两个生命周期activated/deactivated，用来得知当前组件是否处于活跃状态。
+
+## 原理
+
+[原理参考](https://juejin.cn/post/6967268351835897892)
+
+# nextTick
+
+## 实现
+
+在下次 DOM 更新循环结束之后执行延迟回调。nextTick主要使用了宏任务和微任务。根据执行环境分别尝试采用
+
+* Promise.then
+* MutationObserver
+* setImmediate
+* setTimeout
+
+## 作用
+
+* 确保 DOM 更新完成： Vue 的数据更新和 DOM 渲染是异步的，因此当你在修改数据后立即尝试访问更新后的 DOM 结构时，可能会发现 DOM 还没有更新到最新状态。这时你可以使用 nextTick 来确保在访问 DOM 时，它已经是最新状态。
+
+* 避免不必要的多次渲染： nextTick 将回调推迟到下一个 DOM 更新循环后执行，这样可以有效地避免多次同步更新导致的性能问题。
+
+* 操作更新后的 DOM: 在一些需要操作 DOM 的场景下（例如手动聚焦、获取元素位置、测量元素大小等），可以使用 nextTick 确保这些操作是在最新的 DOM 上进行的。
+# Vue 组件的 data 为什么必须是函数
+
+为了组件的复用：如果data是一个对象，那么多次引用这个组件data都将指向这个data对象，互相影响且混乱不能复用。如果是函数，每次引用组件都会创建一个新的对象，互不干扰。
+
+# 15 computed 的实现原理
+
+当组件实例触发生命周期函数 beforeCreate 后，它会做一系列事情，其中就包括对 computed 的处理。
+它会遍历 computed 配置中的所有属性，为每一个属性创建一个 Watcher 对象，并传入一个函数，该函数的本质其实就是 computed 配置中的 getter，这样一来，getter 运行过程中就会收集依赖
+但是和渲染函数不同，为计算属性创建的 Watcher 不会立即执行，因为要考虑到该计算属性是否会被渲染函数使用，如果没有使用，就不会得到执行。因此，在创建 Watcher 的时候，它使用了 lazy 配置，lazy 配置可以让 Watcher 不会立即执行。
+收到 lazy 的影响，Watcher 内部会保存两个关键属性来实现缓存，一个是 value，一个是 dirty
+value 属性用于保存 Watcher 运行的结果，受 lazy 的影响，该值在最开始是 undefined
+dirty 属性用于指示当前的 value 是否已经过时了，即是否为脏值，受 lazy 的影响，该值在最开始是 true
+Watcher 创建好后，vue 会使用代理模式，将计算属性挂载到组件实例中
+当读取计算属性时，vue 检查其对应的 Watcher 是否是脏值，如果是，则运行函数，计算依赖，并得到对应的值，保存在 Watcher 的 value 中，然后设置 dirty 为 false，然后返回。
+如果 dirty 为 false，则直接返回 watcher 的 value
+巧妙的是，在依赖收集时，被依赖的数据不仅会收集到计算属性的 Watcher，还会收集到组件的 Watcher
+当计算属性的依赖变化时，会先触发计算属性的 Watcher 执行，此时，它只需设置 dirty 为 true 即可，不做任何处理。
+由于依赖同时会收集到组件的 Watcher，因此组件会重新渲染，而重新渲染时又读取到了计算属性，由于计算属性目前已为 dirty，因此会重新运行 getter 进行运算
+而对于计算属性的 setter，则极其简单，当设置计算属性时，直接运行 setter 即可。
+
+# Vue complier 的实现原理是什么样的
+
+在使用 vue 的时候，我们有两种方式来创建我们的 HTML 页面，第一种情况，也是大多情况下，我们会使用模板 template 的方式，因为这更易读易懂也是官方推荐的方法；第二种情况是使用 render 函数来生成 HTML，它比 template 更接近最终结果。
+complier 的主要作用是解析模板，生成渲染模板的 render， 而 render 的作用主要是为了生成 VNode
+
+complier 主要分为 3 大块：
+
+* parse：接受 template 原始模板，按着模板的节点和数据生成对应的 ast
+* optimize：遍历 ast 的每一个节点，标记静态节点，这样就知道哪部分不会变化，于是在页面需要更新时，通过 diff 减少去对比这部分DOM，提升性能
+* generate 把前两步生成完善的 ast，组成 render 字符串，然后将 render 字符串通过 new Function 的方式转换成渲染函数。
+# computed和watch区别
+* computed: 主要用于基于其他响应式数据计算新数据，并自动更新和缓存结果。它是无副作用的，即只用来计算并返回一个新值。
+* watch: 主要用于在数据变化时执行副作用，例如异步操作、手动修改数据等。它可以处理复杂逻辑，而不仅仅是计算新值。
+
+# 
