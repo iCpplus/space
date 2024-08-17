@@ -13,6 +13,6 @@ export const wrapRootElement = ({ element }) => {
     inject()
     return <>
         <LanguageProvider>{element}</LanguageProvider>
-        <Script src={location.origin + "/live2d-jaran.js"}></Script>
+        <Script defer src={location.origin + "/live2d-jaran.js"}></Script>
     </>
 }

@@ -960,10 +960,520 @@ ref 的作用是被用来给元素或子组件注册引用信息。引用信息�
 * 基本用法，本页面获取 DOM 元素
 * 获取子组件中的 data
 * 调用子组件中的方法
-
-## created还是mounted调用接口数据
-
+# created还是mounted调用接口数据
 * 在 mounted 钩子中调用接口获取数据，因为此时 DOM 已经挂载，适合与 DOM 相关的数据处理。
 * 如果你需要在组件实例创建后立即处理一些数据逻辑，且与 DOM 无关，可以在 created 钩子中获取数据。
 
 个人理解：其实在created也并不会快多少，也不会少渲染，因为网络请求为异步且异步修改data后续仍会在mounted之后渲染
+
+# React
+
+# react18新增了哪些特性
+
+## 自动批处理（Automatic Batching）
+
+自动批处理 是指在多个状态更新之间合并这些更新以减少重新渲染的次数。React 18 之前，批处理只在 React 事件处理程序中自动发生。在 React 18 中，自动批处理扩展到了所有的原生事件、定时器、Promise 等。
+
+```js
+import {
+    useState
+} from 'react';
+
+function App() {
+    const [count, setCount] = useState(0);
+    const [text, setText] = useState('');
+
+    const handleClick = () => {
+        setCount(count + 1);
+        setText('Clicked');
+    };
+
+    console.log('Render');
+
+    return ( <
+        div >
+        <
+        button onClick = {
+            handleClick
+        } > Click me < /button> <
+        p > {
+            count
+        } < /p> <
+        p > {
+            text
+        } < /p> < /
+        div >
+    );
+}
+```
+
+在 React 18 中，无论 handleClick 是在事件处理程序、setTimeout 还是 Promise 回调中触发，React 都会自动批处理这些状态更新，减少渲染次数。
+
+## 并发特性（Concurrent Features）
+
+并发特性使得 React 可以在渲染过程中打断和恢复工作，以提高应用的响应速度。这些特性包括：
+
+* startTransition：标记低优先级的更新。
+* useTransition：返回一个函数和一个状态，函数用于标记过渡，状态表示过渡是否进行中。
+* useDeferredValue：延迟更新的值。
+
+```js
+import {
+    useState,
+    useTransition
+} from 'react';
+
+function App() {
+    const [isPending, startTransition] = useTransition();
+    const [text, setText] = useState('');
+
+    const handleChange = (e) => {
+        startTransition(() => {
+            setText(e.target.value);
+        });
+    };
+
+    return ( <
+            div >
+            <
+            input type = "text"
+            onChange = {
+                handleChange
+            }
+            /> {
+            isPending ? < p > Loading... < /p> : <p>{text}</p >
+        } <
+        /div>
+);
+}
+```
+
+在这个例子中，startTransition 用于标记输入框的更新为低优先级，从而提高应用的响应速度。
+
+## Suspense 支持SSR
+
+```js
+import {
+    Suspense
+} from 'react';
+
+function App() {
+    return ( <
+        Suspense fallback = {
+            <
+            div > Loading... < /div>}> <
+            AsyncComponent / >
+            <
+            /Suspense>
+        );
+    }
+```
+
+## JSX
+
+createElement的语法糖，用来方便创建虚拟dom。书写的jsx会被bable编译成createElement函数。
+
+# React事件机制
+
+React 的事件机制（Event Handling）是 React 框架中处理用户交互的重要部分。与传统的 DOM 事件处理不同，React 采用了一种合成事件（Synthetic Event）系统，这种系统在跨浏览器一致性和性能优化方面具有显著优势。
+
+##  合成事件（Synthetic Event）
+
+合成事件是 React 的事件对象，它是原生浏览器事件的跨浏览器包装器。合成事件对象符合 W3C 规范，并且行为在所有浏览器中是一致的。它具有与原生事件相同的接口，因此可以通过相同的方式来使用它们。
+
+```js
+function handleClick(event) {
+    console.log(event.type); // "click"
+    console.log(event.target); // 点击的 DOM 元素
+}
+
+function App() {
+    return <button onClick = {
+        handleClick
+    } > Click me < /button>;
+}
+```
+
+## 事件委托（Event Delegation）
+
+React 使用事件委托将所有事件处理程序附加到单个根元素（通常是 document），而不是每个具体的 DOM 元素。这样做有几个优点：
+
+* 性能优化：减少了事件处理程序的数量，从而减少了内存消耗。
+* 一致性：确保在不同浏览器中具有一致的事件行为。
+
+## 事件池（Event Pooling）
+
+在 React 18 之前，合成事件会被池化，以减少内存开销。事件对象会在事件回调后重用，属性会被清除。这意味着在事件回调中异步访问事件对象会得到意外的结果。
+
+```js
+function handleClick(event) {
+    setTimeout(() => {
+        console.log(event.type); // null 或未定义，因为事件对象已被重用
+    }, 1000);
+}
+
+function App() {
+    return <button onClick = {
+        handleClick
+    } > Click me < /button>;
+}
+```
+
+为了解决这个问题，可以调用 event.persist() 来保留事件对象。
+
+```js
+function handleClick(event) {
+    event.persist();
+    setTimeout(() => {
+        console.log(event.type); // "click"
+    }, 1000);
+}
+
+function App() {
+    return <button onClick = {
+        handleClick
+    } > Click me < /button>;
+}
+```
+
+在 React 18 中，事件池化机制已经被移除，因此不再需要手动调用 event.persist()。
+
+## 支持的事件类型
+
+鼠标事件：onClick, onDoubleClick, onMouseEnter, onMouseLeave 等。
+键盘事件：onKeyDown, onKeyPress, onKeyUp 等。
+表单事件：onChange, onInput, onSubmit 等。
+焦点事件：onFocus, onBlur 等。
+触摸事件：onTouchStart, onTouchMove, onTouchEnd 等。
+
+```js
+function handleKeyDown(event) {
+    console.log('Key pressed:', event.key);
+}
+
+function App() {
+    return <input type = "text"
+    onKeyDown = {
+        handleKeyDown
+    }
+    />;
+}
+```
+
+## 事件传播
+
+合成事件对象支持所有标准的事件传播机制，包括事件冒泡和事件捕获。可以使用 stopPropagation() 和 preventDefault() 来控制事件的传播和默认行为。
+
+```js
+function handleClick(event) {
+    event.stopPropagation(); // 阻止事件冒泡
+    event.preventDefault(); // 阻止默认行为
+    console.log('Button clicked');
+}
+
+function App() {
+    return ( <
+        div onClick = {
+            () => console.log('Div clicked')
+        } >
+        <
+        button onClick = {
+            handleClick
+        } > Click me < /button> < /
+        div >
+    );
+}
+```
+
+## 总结
+
+React 的事件机制通过合成事件、事件委托和优化的事件处理，提高了跨浏览器的兼容性和性能。理解这些机制及其在不同场景下的应用，可以帮助开发者更好地编写高效、可维护的 React 应用。
+
+# React-Router工作原理
+
+1、BrowserHistory：用于支持 HTML5 历史记录 API 的现代 Web 浏览器（请参阅跨浏览器兼容性） \
+2、HashHistory：用于旧版Web浏览器\
+3、MemoryHistory：用作参考实现，也可用于非 DOM 环境，如 React Native 或测试
+​
+BrowserHistory：pushState、replaceState
+HashHistory：location.hash、location.replace
+
+# Fiber
+
+React Fiber 是 React 16 引入的新型协调引擎和基础算法，它旨在提高 React 的性能和灵活性，尤其是在处理复杂的用户界面更新时。Fiber 解决了一些 React 15 及之前版本存在的问题，使得 React 能更好地处理大规模应用和复杂的 UI 交互。
+
+## Fiber 的背景和问题
+
+在 React 15 及之前的版本中，React 使用递归算法进行组件树的遍历和更新。这种算法在处理大型组件树时可能会遇到以下问题：
+
+* 不可中断的渲染过程：React 的更新过程是同步的，一旦开始渲染整个组件树，就无法中断。如果组件树很大，这可能导致主线程被占用太久，从而引起用户界面的卡顿和响应迟缓。
+* 优先级管理困难：在复杂的应用中，不同类型的更新可能有不同的优先级。例如，用户输入需要立即响应，而动画或数据加载更新可以稍后进行。旧的算法难以有效管理这些优先级。
+
+## Fiber 的主要目标
+
+* 可中断和可恢复的渲染：Fiber 使得 React 能够将渲染工作分成多个小任务，每个任务可以在需要时被中断并在以后恢复。这提高了 React 的响应能力，使得用户界面在更新过程中更加流畅。
+* 优先级管理：Fiber 引入了优先级调度系统，可以为不同类型的更新分配不同的优先级，从而确保高优先级的更新（如用户输入）能迅速得到处理。
+* 更好的错误处理：Fiber 使得 React 能够更好地捕获和处理渲染过程中的错误，从而提高应用的稳定性。
+
+## Fiber 的优势
+
+* 提高响应能力：通过将渲染工作分解成小任务并在需要时中断，Fiber 使得 React 能够更快地响应用户交互，减少界面卡顿。
+* 灵活的优先级管理：Fiber 能够为不同类型的更新分配不同的优先级，确保关键任务得到及时处理。
+* 错误边界：Fiber 支持更好的错误边界处理，使得 React 能够在渲染过程中捕获和处理错误，提高应用的健壮性。
+# React组件通信
+* 父传子：props
+* 子传父：父通过props传递函数，子调用传参，父拿到参数
+* 兄弟间：可以借助父传给兄弟
+* redux、mobx等状态管理
+* localstorage
+* useContext
+# React实现类似vue的keep-alive
+
+# useEffect和useLayoutEffect区别
+
+## useEffect
+
+* 执行时机:
+
+useEffect 是在组件完成渲染到屏幕之后执行的，也就是说，它是在浏览器绘制完 DOM 更新后执行的。
+useEffect 里面的代码不会阻塞浏览器的绘制，因此对用户来说页面渲染的过程会更流畅。
+* 用途:
+
+useEffect 适合用于处理非阻塞的副作用操作，比如数据获取、订阅事件、设置定时器、操作 DOM 等。
+它适合那些不需要立刻执行，或者可以稍后执行的操作。
+* 影响用户体验:
+
+由于它是在渲染后执行，通常不会影响页面的初次渲染速度，所以对用户体验的影响较小。
+
+## useLayoutEffect
+
+* 执行时机:
+
+useLayoutEffect 在所有的 DOM 变更（包括子组件的 DOM 变更）已经完成但还没有被绘制到屏幕之前执行。
+这意味着在浏览器执行绘制之前，useLayoutEffect 的代码会先被执行，因此它会阻塞页面的渲染，直到 useLayoutEffect 完成。
+* 用途:
+
+useLayoutEffect 适合那些需要在 DOM 更新后立即运行的代码，通常是需要精确操作 DOM 的场景。
+例如，当你需要测量 DOM 元素的尺寸或位置，并且需要在浏览器绘制之前进行某些计算或调整时，应该使用 useLayoutEffect。
+* 影响用户体验:
+
+因为 useLayoutEffect 会阻塞浏览器的绘制，如果其中包含复杂或耗时的逻辑，可能会导致页面首次渲染的延迟，影响用户体验。
+
+## 对比总结
+
+useEffect: 执行时间较晚，适合大多数非阻塞的副作用操作，如数据获取和事件订阅。不会影响页面的首次渲染。
+useLayoutEffect: 执行时间较早，适合需要在 DOM 更新后立即运行的同步操作，如测量布局或调整 DOM。可能会影响页面首次渲染速度。
+
+## 选择哪个
+
+* 大多数情况下使用 useEffect: 因为它不会阻塞页面的渲染，用户体验更好。
+* 特定情况下使用 useLayoutEffect: 当你需要同步测量 DOM 或在浏览器绘制之前立即做出反应时使用。
+# 优化重复渲染
+* memo配合useMemo、useCallback
+
+如果只是用memo，大部分情况下等于没用，因为memo是浅比较props，当props传入函数或对象，父组件每次渲染都会创建新的引用地址的函数或对象变量，那么只是用memo子组件还是会重复渲染的。
+
+* 类组件shouldComponentUpdate可以自己实现是否更新逻辑，类组件PureComponent和函数组件memo作用相同，都是浅比较props
+
+* 能不用useMemo、useCallback就不用，大部分都可以通过提取不相关的组件，下沉state达到不重复渲染部分。这些hook容易引起闭包问题且不利于维护
+
+* 何理运用key
+
+* 使用异步组件和suspense
+
+**等到真的遇到性能瓶颈的时候再去用useMemo等去优化你的应用。**
+
+# HTML
+
+DOCTYPE 是 HTML 文档中的重要声明，它告诉浏览器应该使用哪种 HTML 或 XHTML 标准来渲染页面，并确保浏览器以标准模式渲染文档，从而避免兼容性问题。在 HTML5 中，<! DOCTYPE html> 是最常用的声明，非常简洁。
+
+# html语义化
+
+HTML 语义化是指在编写 HTML 代码时，使用具有语义的标签来清晰表达网页内容的结构和含义。这种做法不仅有助于开发人员和维护人员理解代码结构，还能提高网站的可访问性和搜索引擎优化（SEO）效果。
+
+## 优点
+
+HTML 语义化的优点
+* 提高可访问性：
+
+语义化标签可以帮助屏幕阅读器更好地解释页面结构，从而提高网站的可访问性，使得视障用户能够更容易地理解网页内容。
+* 增强 SEO 效果：
+
+搜索引擎爬虫会根据语义化标签更好地理解网页的内容和结构，这有助于提高页面的搜索排名。
+提高代码的可读性和可维护性：
+
+语义化标签使得代码更加清晰和易于理解，开发人员可以更快地理解网页结构，从而减少维护难度。
+* 浏览器默认样式更合理：
+
+语义化标签通常会带有默认的样式，浏览器会根据语义合理地渲染页面。
+
+# 前端页面有哪三层构成
+* 结构层（html）
+* 表示层（css）
+* 行为层（js）
+# 行内元素要注意的点
+* 行内元素设置宽度width无效
+* 行内元素设置height无效，但是可以通过line-height来设置
+* 设置margin只有左右有效，上下无效
+* 设置padding只有左右有效，上下无效
+# HTML5新增了哪些特性
+
+## 语义化标签
+
+`<header>` ：定义文档的头部区域，通常包含网站的标题、导航栏等。
+
+`<nav>` ：定义文档中的导航链接部分。
+
+`<article>` ：表示独立的内容块，如文章、博客帖子等。
+
+`<section>` ：定义文档中的节，通常用于分组相关内容。
+
+`<aside>` ：定义与主要内容相关的附属信息，如侧边栏。
+
+`<footer>` ：定义文档的底部区域，通常包含版权信息、联系信息等。
+
+`<figure>` 和 `<figcaption>` ：用于将图片或其他媒体与其说明关联起来。
+
+## 表单控件
+
+`<input>` 类型扩展：
+email：用于电子邮件地址输入验证。
+url：用于 URL 地址输入验证。
+date、datetime-local、month、time、week：用于选择日期和时间。
+number：用于数字输入。
+range：用于选择范围值（滑块）。
+
+`<datalist>` ：定义可选项的列表，提供输入提示。
+
+`<output>` ：用于显示计算结果。
+
+##  媒体支持
+
+<audio> 和 <video>：用于嵌入音频和视频内容。
+
+## 本地存储
+
+localStorage 和 sessionStorage：提供客户端存储数据的方式，分别用于长期存储和会话存储。
+
+## 离线应用
+
+Service Workers：允许离线缓存资源，支持离线应用。
+
+Cache API 和 IndexedDB：用于存储数据和管理缓存。
+
+## 新的 API 和特性
+
+Canvas API：用于绘图、图像处理等。
+
+Web Storage API：提供 localStorage 和 sessionStorage。
+
+Geolocation API：获取用户的位置。
+
+Web Workers：允许在后台线程中执行 JavaScript，避免阻塞 UI。
+
+Web Sockets：实现实时双向通信。
+
+## 更强大的 API
+
+Drag and Drop API：支持拖放操作。
+
+Notifications API：用于显示桌面通知。
+
+Fullscreen API：允许网页进入全屏模式。
+
+WebRTC：支持实时音视频通信。
+
+# script、script async 和 script defer 的区别
+
+## `<script>`
+
+默认行为：如果不添加任何属性，脚本会被立即加载和执行。
+
+阻塞渲染：当浏览器遇到 `<script>` 标签时，会暂停 HTML 的解析和渲染，直到脚本加载并执行完毕。这意味着后续的 HTML 元素将等到脚本执行完成后才会继续解析。
+
+执行顺序：如果有多个 `<script>` 标签，它们会按照在 HTML 中的顺序依次加载并执行。
+
+## `<script async>`
+
+异步加载：脚本文件会与 HTML 文档同时加载（异步），不会阻塞 HTML 的解析。
+
+立即执行：加载完成后，脚本会立即执行，但此时可能还没有解析完 HTML 文档的后续内容。
+
+执行顺序：多个 async 脚本的执行顺序不保证是 HTML 中的顺序，而是取决于各个脚本的加载速度，哪个脚本先加载完，哪个就先执行。
+
+## `<script defer>`
+
+异步加载：脚本文件会与 HTML 文档同时加载（异步），不会阻塞 HTML 的解析。
+
+延迟执行：脚本的执行会被延迟到 HTML 文档完全解析完毕之后（DOMContentLoaded 事件之前）。
+
+执行顺序：多个 defer 脚本会按照它们在 HTML 中的顺序依次执行。
+
+## 总结和适用场景
+
+`<script>` ：适合需要立即执行且依赖于 DOM 结构的脚本，或者需要顺序执行的脚本。
+
+`<script async>` ：适合不依赖于 DOM 结构且彼此之间没有依赖关系的独立脚本，比如广告脚本、统计分析脚本等。
+
+`<script defer>` ：适合依赖于 DOM 结构且希望在页面加载完成后执行的脚本，比如初始化页面的 JavaScript 代码。适合用于在页面加载完成后执行的所有脚本，并且要保持执行顺序。
+
+# iframe的作用和优缺点
+
+<iframe>（inline frame）标签用于在网页中嵌入一个子文档，这个子文档可以是同一个网站的页面，也可以是其他网站的内容。<iframe> 允许你在一个 HTML 页面中嵌入另一个独立的 HTML 页面。
+
+## 作用
+
+嵌入外部内容：如视频、地图、广告、第三方工具等。
+
+加载子页面：将网站的其他页面嵌入到当前页面中，如导航栏或脚注使用 iframe 加载。
+
+安全隔离：通过 iframe 可以将不受信任的内容与主页面隔离，避免直接影响主页面的安全性。
+
+## 优点
+
+内容独立：<iframe> 中的内容与主页面相互独立，拥有自己的 DOM 结构和样式，不会与主页面的样式或脚本发生冲突。
+
+加载第三方内容：方便嵌入第三方内容，如视频播放器、广告、社交媒体小部件等，而不需要直接将这些内容引入主页面。
+
+异步加载：可以异步加载子页面的内容，不会阻塞主页面的加载，提高页面性能。
+
+安全性：可以通过设置 sandbox 属性限制 iframe 中的内容的权限，增加安全性，如禁止脚本执行、表单提交等。
+
+## 缺点
+
+影响性能：每一个 iframe 都需要加载一个完整的 HTML 页面，包括其资源（如 CSS、JavaScript），这可能会增加页面的加载时间和内存占用，影响性能。
+
+SEO 不友好：搜索引擎一般不索引 iframe 中的内容，因此嵌入的内容不会对主页面的 SEO 排名产生积极影响。
+
+跨域问题：如果 iframe 中加载的是跨域内容，可能会面临跨域安全策略的限制，导致无法完全控制或与 iframe 内的内容交互。
+
+响应式设计难度：在响应式布局中处理 iframe 的尺寸和比例可能会比较复杂，尤其是在各种设备上都需要确保嵌入的内容正确显示。
+
+浏览器兼容性问题：虽然现代浏览器都支持 iframe，但在一些旧版浏览器中可能会出现兼容性问题，尤其是在处理复杂的嵌入内容时。
+
+# `<meta viewport>`
+
+用于控制网页在移动设备上的布局和缩放行为。随着移动设备的普及，网页需要在不同尺寸的屏幕上进行优化显示，而 viewport 元素可以帮助开发者指定页面在各种设备上的视口（viewport）设置。
+
+常见：
+
+```js
+< meta name = "viewport"
+content = "width=device-width, initial-scale=1.0" >
+```
+
+## 属性
+
+width=device-width：
+该属性指定视口的宽度应等于设备的宽度。这样可以确保页面宽度与设备屏幕宽度一致，使得页面内容能够适应设备屏幕的宽度，而无需用户手动缩放。
+如果不指定该属性，网页可能会默认以一个较大的宽度显示（如 980px），导致页面内容在移动设备上被缩放得很小。
+
+initial-scale=1.0：
+该属性指定页面在初始加载时的缩放比例为 1:1，即页面内容按原始大小显示，而不进行缩放。
+值可以是一个数字，如 0.5（表示缩小 50%）、1.5（表示放大 150%）等。
+
+minimum-scale 和 maximum-scale：
+这些属性指定用户可以缩小和放大页面的最小和最大比例。例如：minimum-scale=1.0, maximum-scale=3.0 表示用户可以将页面缩放到最小为 1 倍，最大为 3 倍。
+
+user-scalable：
+该属性指定用户是否可以手动缩放页面。值可以是 yes（允许缩放）或 no（禁止缩放）。例如：user-scalable=no 禁止用户缩放页面。
