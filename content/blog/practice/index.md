@@ -1419,7 +1419,7 @@ WebRTC：支持实时音视频通信。
 
 # iframe的作用和优缺点
 
-<iframe>（inline frame）标签用于在网页中嵌入一个子文档，这个子文档可以是同一个网站的页面，也可以是其他网站的内容。<iframe> 允许你在一个 HTML 页面中嵌入另一个独立的 HTML 页面。
+`<iframe>` （inline frame）标签用于在网页中嵌入一个子文档，这个子文档可以是同一个网站的页面，也可以是其他网站的内容。 `<iframe>` 允许你在一个 HTML 页面中嵌入另一个独立的 HTML 页面。
 
 ## 作用
 
@@ -1431,7 +1431,7 @@ WebRTC：支持实时音视频通信。
 
 ## 优点
 
-内容独立：<iframe> 中的内容与主页面相互独立，拥有自己的 DOM 结构和样式，不会与主页面的样式或脚本发生冲突。
+内容独立： `<iframe>` 中的内容与主页面相互独立，拥有自己的 DOM 结构和样式，不会与主页面的样式或脚本发生冲突。
 
 加载第三方内容：方便嵌入第三方内容，如视频播放器、广告、社交媒体小部件等，而不需要直接将这些内容引入主页面。
 
@@ -1477,3 +1477,207 @@ minimum-scale 和 maximum-scale：
 
 user-scalable：
 该属性指定用户是否可以手动缩放页面。值可以是 yes（允许缩放）或 no（禁止缩放）。例如：user-scalable=no 禁止用户缩放页面。
+
+# 前端工程化
+
+# webpack的配置及作用
+
+## 简介
+
+Webpack 是一个用于模块打包的工具，它可以将项目中的各种资源（如 JavaScript、CSS、图片等）打包成一个或多个文件，方便浏览器加载。Webpack 的强大之处在于它的高度可配置性，可以根据项目的需求定制化打包过程。
+
+## entry 入口文件
+
+作用：指定 Webpack 从哪个文件开始构建依赖关系图。
+
+用法：
+
+```js
+entry: './src/index.js'
+```
+
+Webpack 会从 index.js 开始，分析所有依赖，打包成一个或多个文件。
+
+## output 输出文件
+
+作用：指定打包后的文件输出到哪里以及如何命名。
+
+用法：
+
+```js
+output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+}
+```
+
+这里配置 Webpack 将打包结果输出到 dist 目录，并命名为 bundle.js。
+
+## mode 模式
+
+作用：指定 Webpack 的运行模式，影响打包的优化程度。
+
+用法：
+
+```js
+mode: 'development' // 或 'production'
+```
+
+development 模式下会生成未压缩的代码，带有完整的 source map，便于调试；production 模式下会对代码进行压缩和优化。
+
+## module 模块规则（loader配置）
+
+作用：指定 Webpack 如何处理不同类型的文件（如 JavaScript、CSS、图片等）
+
+用法：
+
+```js
+module: {
+    rules: [{
+            test: /\.js$/,
+            use: 'babel-loader',
+            exclude: /node_modules/
+        },
+        {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+        }
+    ]
+}
+```
+
+这里配置了两个规则：一个是用 babel-loader 处理 .js 文件，另一个是用 style-loader 和 css-loader 处理 .css 文件。
+
+## plugins 插件
+
+作用：增强 Webpack 功能，处理 bundle 优化、资源管理、注入环境变量等。
+用法：
+
+```js
+plugins: [
+    new HtmlWebpackPlugin({
+        template: './src/index.html'
+    })
+]
+```
+
+HtmlWebpackPlugin 插件会自动生成一个 HTML 文件，并将打包后的 JS 文件自动引入其中。
+
+## devServer 开发服务器
+
+作用：为开发过程提供一个本地服务器，并带有热更新功能。
+用法：
+
+```js
+devServer: {
+    contentBase: './dist',
+    port: 8080,
+    hot: true
+}
+```
+
+这段配置会在 localhost:8080 启动一个服务器，并且支持热更新。
+
+## resolve 模块解析
+
+作用：配置 Webpack 如何解析模块路径。
+用法：
+
+```js
+resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+        '@': path.resolve(__dirname, 'src')
+    }
+}
+```
+
+配置了 extensions 后，导入模块时可以省略这些扩展名，Webpack 会自动补全。
+配置了文件扩展名解析和路径别名，允许你使用 @/components 代替 ./src/components。
+
+## devtool Source Map 设置
+
+作用：配置如何生成 Source Map，便于调试代码。
+用法：
+
+```js
+devtool: 'source-map'
+```
+
+source-map 生成完整的映射文件，便于调试。
+
+## optimization 优化配置
+
+作用：用于配置打包优化，如代码拆分、压缩等。
+用法：
+
+```js
+optimization: {
+    splitChunks: {
+        chunks: 'all'
+    }
+}
+```
+
+这里配置了代码拆分，将公共模块提取到单独的文件中。
+
+## externals 外部扩展
+
+作用：将某些模块标记为外部资源，不将其打包到输出文件中。
+用法：
+
+```js
+externals: {
+    jquery: 'jQuery'
+}
+```
+
+这表示 Webpack 在打包时不会将 jQuery 库打包，而是在运行时从全局变量 jQuery 中获取。
+
+## performance 性能提示
+
+作用：配置性能提示，当打包文件过大时发出警告。
+用法：
+
+```js
+performance: {
+    hints: 'warning'
+}
+```
+
+这里配置了当生成的文件超过特定大小时，Webpack 将发出警告。
+
+# 常见的loader和plugin
+
+## Loader
+
+babel-loader：将ES6+的代码转换成ES5的代码。
+css-loader：解析CSS文件，并处理CSS中的依赖关系。
+style-loader：将CSS代码注入到HTML文档中。
+file-loader：解析文件路径，将文件赋值到输出目录，并返回文件路径。
+url-loader：类似于file-loader，但是可以将小于指定大小的文件转成base64编码的Data URL格式
+sass-loader：将Sass文件编译成CSS文件。
+less-loader：将Less文件编译成CSS文件。
+postcss-loader：自动添加CSS前缀，优化CSS代码等。
+vue-loader：将Vue单文件组件编译成JavaScript代码。
+
+## Plugin
+
+HtmlWebpackPlugin：生成HTML文件，并自动将打包后的javaScript和CSS文件引入到HTML文件中。
+CleanWebpackPlugin：清除输出目录。
+ExtractTextWebpackPlugin：将CSS代码提取到单独的CSS文件中。
+DefinePlugin：定义全局变量。
+UglifyJsWebpackPlugin：压缩JavaScript代码。
+HotModuleReplacementPlugin：热模块替换，用于在开发环境下实现热更新。
+MiniCssExtractPlugin：与ExtractTextWebpackPlugin类似，将CSS代码提取到单独的CSS文件中。
+BundleAnalyzerPlugin：分析打包后的文件大小和依赖关系。
+
+# Loader和Plugin的区别
+
+功能不同：
+Loader本质是一个函数，它是一个转换器。webpack只能解析原生js文件，对于其他类型文件就需要loade进行转换。
+Plugin它是一个插件，用于增强webpack功能。webpack在运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 webpack 提供的 API 改变输出结果 。
+
+用法不同：
+Loader的配置是在module.rules下进行。类型为数组，每⼀项都是⼀个 Object ，⾥⾯描述了对于什么类型的⽂件（ test ），使⽤什么加载( loader )和使⽤的参数（ options ） 。
+Plugin的配置在plugins下。类型为数组，每一项是一个 Plugin 的实例，参数都通过构造函数传入。
