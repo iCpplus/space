@@ -1674,10 +1674,586 @@ BundleAnalyzerPlugin：分析打包后的文件大小和依赖关系。
 
 # Loader和Plugin的区别
 
-功能不同：
-Loader本质是一个函数，它是一个转换器。webpack只能解析原生js文件，对于其他类型文件就需要loade进行转换。
-Plugin它是一个插件，用于增强webpack功能。webpack在运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 webpack 提供的 API 改变输出结果 。
+作用范围：
 
-用法不同：
-Loader的配置是在module.rules下进行。类型为数组，每⼀项都是⼀个 Object ，⾥⾯描述了对于什么类型的⽂件（ test ），使⽤什么加载( loader )和使⽤的参数（ options ） 。
-Plugin的配置在plugins下。类型为数组，每一项是一个 Plugin 的实例，参数都通过构造函数传入。
+Loader：专注于处理模块文件，将非 JavaScript 文件转换为 JavaScript 模块。
+Plugin：关注构建过程中的各个阶段，可以介入和控制整个构建流程，做更复杂的打包和优化任务。
+
+工作方式：
+
+Loader：在模块解析阶段工作，直接处理和转换文件内容。
+Plugin：在整个打包过程中工作，通过钩子机制来改变 Webpack 的默认行为或扩展其功能。
+
+配置方式：
+
+Loader：通过 module.rules 配置，每个文件类型对应一个或多个 Loader。
+Plugin：通过 plugins 配置数组，实例化后作为 Webpack 的插件运行。
+
+# webpack的构建过程
+
+## 初始化阶段
+
+读取配置：Webpack 首先读取配置文件 (webpack.config.js)，并合并命令行参数来生成最终的配置对象。
+
+创建 Compiler 对象：根据配置，Webpack 创建一个 Compiler 对象，Compiler 是整个构建的核心控制器。
+
+注册插件：Webpack 根据配置注册插件，这些插件会监听 Webpack 生命周期中的不同事件，执行相应的操作。
+
+## 编译阶段
+
+确定入口：根据配置中的 entry 入口，Webpack 从入口文件开始构建模块依赖图。
+
+递归解析：从入口文件出发，Webpack 使用 Loader 对每个模块进行解析和转换，直到所有依赖模块都被处理完毕。
+
+模块编译：每个模块在经过相应的 Loader 处理后，都会被转换成标准的 JavaScript 模块。Webpack 会将这些模块及其依赖关系记录在依赖图中。
+
+## 生成阶段
+
+生成代码块（Chunk）：Webpack 会根据依赖关系将模块分组，生成多个代码块（Chunk）。这些 Chunk 可以对应于不同的入口点、异步加载模块或公共模块。
+
+输出文件：Webpack 将 Chunk 转换成最终的文件（如 bundle.js），并写入到输出目录（通常是 dist 目录）。在这个过程中，插件可以介入并进一步处理这些文件，例如压缩、拆分、注入等。
+
+## 完成构建
+
+输出阶段：所有的文件生成完成后，Webpack 将根据配置输出结果到指定目录。此时，所有的资源文件、HTML 模板和其他输出文件已经准备就绪。
+
+结束生命周期：Webpack 触发 done 事件，表示构建过程完成。
+
+## 生命周期钩子
+
+在整个构建过程中，Webpack 的每个阶段都会触发相应的生命周期钩子。插件可以监听这些钩子，在特定阶段执行相应的操作。
+
+常见的生命周期钩子包括 beforeRun、run、beforeCompile、compile、compilation、emit、afterEmit 和 done 等。
+
+## 总结
+
+初始化：配置和插件准备。
+
+编译：从入口文件开始，递归解析模块依赖，转换为 JavaScript 模块。
+
+生成：将模块打包成多个 Chunk，并生成最终的输出文件。
+
+完成：将文件写入输出目录，并触发构建完成的钩子。
+
+# 生命周期钩子
+01. beforeRun
+
+触发时机：在构建开始之前触发。
+
+作用：这是构建过程中的第一个钩子，通常用于在构建开始前进行一些清理或初始化操作。
+
+02. run
+
+触发时机：在一次构建开始时触发。
+
+作用：适用于需要在构建正式开始前执行的操作，比如记录构建开始时间等。
+
+03. beforeCompile
+
+触发时机：在一次新的编译(compilation)开始之前触发，但在构建资源准备就绪之后。
+
+作用：可以在编译开始前，准备一些数据或资源。
+
+04. compile
+
+触发时机：在编译(compilation)正式开始时触发。
+
+作用：此时已经确定了编译的基本信息，可以在这个钩子中处理一些与编译相关的操作。
+
+05. thisCompilation
+
+触发时机：每次编译创建时触发。
+
+作用：用来注册针对当前编译过程的操作。可以在这个钩子中针对特定编译实例的处理逻辑。
+
+06. compilation
+
+触发时机：在创建一个新的 compilation 对象时触发。
+
+作用：这个钩子是 thisCompilation 的父钩子，一般用于全局插件的操作。
+
+07. make
+
+触发时机：在构建模块之前触发。
+
+作用：适合在开始解析文件之前做一些准备工作。
+
+08. afterCompile
+
+触发时机：编译(compilation)完成之后触发，但在生成最终的打包文件之前。
+
+作用：可以在这个钩子中执行与编译结果相关的操作，比如修改编译后的模块或生成额外的资源。
+
+09. emit
+
+触发时机：生成资源到输出目录之前触发。
+
+作用：在 emit 钩子中，可以修改或添加输出的文件内容，是进行文件处理、修改或追加资源的好时机。
+
+10. afterEmit
+
+触发时机：资源已经生成到输出目录之后触发。
+
+作用：适用于生成后的清理工作、资源上传等操作。
+
+11. done
+
+触发时机：一次构建完成后触发。
+
+作用：这是构建流程中的最后一个钩子，通常用于构建完成后的通知、总结或日志记录等操作。
+
+12. failed
+
+触发时机：构建过程中发生错误时触发。
+
+作用：在构建出错时，可以在这个钩子中处理错误，执行一些善后操作。
+
+13. watchRun
+
+触发时机：在监听模式下，当检测到文件变化并准备重新构建时触发。
+
+作用：可以在这个钩子中处理变化文件的缓存或进行一些调整。
+
+14. watchClose
+
+触发时机：当监听模式停止时触发。
+
+作用：通常用于在停止监听时释放资源或保存状态。
+
+15. beforeRun
+
+触发时机：在构建开始之前触发。
+
+作用：用于构建开始前的准备工作。
+
+16. normalModuleFactory 和 contextModuleFactory
+
+触发时机：在创建 normal module 和 context module 的工厂对象时触发。
+
+作用：这些钩子主要用于定制模块的生成过程，影响模块的解析和生成。
+
+17. entryOption
+
+触发时机：Webpack 初始化并处理 entry 选项时触发。
+
+作用：适用于插件对 entry 选项进行动态处理。
+
+# HMR（热更新）及原理
+
+Webpack的热更新（Hot Module Replacement, HMR） 是一种能够在运行时更新模块而无需刷新整个页面的技术。它可以显著提高开发效率，因为你在开发应用时，可以直接看到代码变更的效果，而无需重新加载整个页面。
+
+## 工作原理
+
+模块依赖管理：
+
+当你在 Webpack 中启用 HMR 时，Webpack 会通过监听模块的依赖关系，确定哪些模块发生了变化。当你修改代码时，Webpack 会重新编译这些被修改的模块，并将编译后的模块发送到浏览器端。
+
+Webpack Dev Server：
+
+Webpack Dev Server 是 HMR 的关键组件，它启动一个开发服务器，并在代码发生变化时，触发重新编译。当编译完成后，Webpack Dev Server 会通过 WebSocket 向浏览器发送更新信息。
+
+模块更新：
+
+浏览器端通过 WebSocket 接收到更新信息后，会使用特定的 HMR 运行时，动态地加载新的模块代码。新的模块代码将替换掉旧的模块，并立即应用修改。
+
+HMR 不只是简单地替换 JavaScript 文件，它还会在模块的边界处保存模块的状态，保证状态能够在模块热替换后得以保留。
+
+模块的接收与应用：
+
+Webpack HMR 会尝试只替换更新的模块，而不是刷新整个页面。如果某个模块无法热替换（比如涉及全局状态的变化或模块之间的耦合太紧密），则 HMR 会降级为一次完全的页面刷新。
+
+## 实现流程
+
+监听文件变化：
+
+Webpack 使用文件系统或内存中的缓存来监控源文件的变化。当文件变化时，Webpack 重新编译该模块及其依赖模块。
+通知浏览器：
+
+当模块更新完成后，Webpack Dev Server 通过 WebSocket 向浏览器发送消息，通知它需要更新某些模块。
+检查更新与应用：
+
+浏览器端接收到更新消息后，Webpack 会检查哪些模块发生了变化，并决定如何应用这些更新。可以是替换模块、更新样式（CSS）、甚至重新执行部分代码。
+状态保留：
+
+HMR 会尽量在更新时保留应用的当前状态，比如保留应用中输入框的内容、变量的值等。
+
+# Code Splitting（代码分割）
+
+Code Splitting（代码分割） 是一种优化前端应用性能的技术。它允许你将应用程序的代码分成多个小块，而不是将所有代码都打包到一个大文件中。这种方式可以减少初始加载时间，因为浏览器只会加载当前页面或功能所需要的代码，而不是整个应用的所有代码。
+
+## 作用
+
+减少初始加载时间：
+
+现代的前端应用通常体积较大，如果所有代码都被打包在一个文件里，用户在首次访问时需要下载整个应用的代码，这会导致页面加载时间过长。通过代码分割，可以将不需要的代码延后加载，减少首屏时间。
+按需加载：
+
+通过代码分割，可以实现按需加载，即用户只加载当前访问页面所需要的代码。这在大型应用中尤为重要，可以显著提升应用的性能。
+提高缓存效率：
+
+由于不同的代码块是独立的，当其中一个块更新时，其他未变更的块可以继续使用缓存版本，从而减少不必要的网络请求和带宽消耗。
+
+## 实现方式
+
+* 动态导入（Dynamic Import）：异步引入组件
+
+* 入口点分割（Entry Point Splitting）：
+
+```js
+module.exports = {
+    entry: {
+        home: './src/home.js',
+        about: './src/about.js',
+    },
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+};
+```
+
+* 依赖分割（Vendor Splitting）：
+
+将第三方库（如 React、Lodash 等）与应用程序代码分开打包。这种方式可以在库代码未更新的情况下利用浏览器缓存，从而减少重新下载的时间。
+
+```js
+optimization: {
+    splitChunks: {
+        chunks: 'all',
+    },
+}
+```
+
+# Tree Shaking
+
+Tree Shaking 是 Webpack 中用于消除未使用代码（dead code）的优化技术，主要用于移除未引用的代码，从而减小打包后的文件体积。它是前端性能优化的一部分，通过只打包那些实际使用的代码，减少了应用程序的体积和加载时间。
+
+## 作用
+
+* 减少打包体积：Tree Shaking 可以移除未使用的代码，这对于大型项目或引入多个第三方库的项目尤为重要，因为这些库通常包含大量未使用的代码。
+* 提高性能：更小的打包文件意味着浏览器加载和解析时间的减少，进而提升用户体验。
+* 优化生产环境：Tree Shaking 通常在生产环境下开启，结合其他优化技术（如代码压缩），可以显著减少最终的代码体积。
+
+## 使用
+
+* ES6 模块：
+
+Tree Shaking 依赖于 ES6 模块语法 (import 和 export)。原因是 ES6 模块的静态结构可以让 Webpack 在编译时就确定哪些模块和代码是未使用的，因此在使用 Tree Shaking 时，确保你的代码库使用的是 ES6 模块语法。
+
+* Webpack 配置：
+
+Tree Shaking 通常在生产模式下自动启用。在 Webpack 的 mode 设置为 "production" 时，Tree Shaking 会默认开启。
+
+```js
+module.exports = {
+    mode: 'production', // 开启生产模式，启用 Tree Shaking
+    // 其他配置
+};
+```
+
+* Side Effects 标记：
+
+在一些情况下，模块的某些代码（如全局样式、初始化逻辑等）可能会被 Tree Shaking 误认为未使用而移除。为此，Webpack 提供了 sideEffects 配置，用于标记这些模块中的副作用（side effects）。
+
+在 package.json 中添加 sideEffects 字段：
+
+```js
+{
+    "name": "my-package",
+    "version": "1.0.0",
+    "sideEffects": ["*.css", "*.scss"]
+}
+```
+
+如果 sideEffects 设置为 false，Webpack 会认为该包中的所有代码都没有副作用，未引用的部分可以安全地移除。
+如果你有特定的文件或模式需要保留，可以在 sideEffects 数组中指定。
+
+## 原理
+
+* 静态分析：
+
+Webpack 使用 ES6 模块的静态分析能力来确定哪些代码被使用了，哪些没有被使用。因为 ES6 模块在编译时就可以确定依赖关系（而不是像 CommonJS 模块那样动态加载），Webpack 可以在打包时精确地识别未使用的代码。
+
+* 标记和移除：
+
+在打包过程中，Webpack 会分析代码的导入和导出，标记那些未被引用的导出内容。随后，结合 UglifyJS（或 Terser）等压缩工具，这些标记为未使用的代码会在最终打包文件中被移除。
+
+* 结合工具的作用：
+
+Tree Shaking 本身不负责移除代码，它只是标记未使用的部分。实际的移除工作通常由代码压缩工具（如 Terser）来完成。这些工具在压缩阶段会删除已标记为未使用的代码。
+
+## 局限性
+
+* 动态导入：Tree Shaking 对于动态导入（require() 或 import()）的代码不太有效，因为这些导入是动态执行的，Webpack 在编译时无法确定哪些代码会被使用。
+* CommonJS 模块：由于 Tree Shaking 依赖于 ES6 模块的静态分析能力，所以对于使用 CommonJS 模块的代码库（require 和 module.exports），Tree Shaking 无法生效。
+# 加快webpack打包速度
+
+## 使用缓存
+
+* cache 选项：Webpack 提供了内置的缓存机制，可以加速后续的构建。
+
+```js
+module.exports = {
+    // 开启持久化缓存
+    cache: {
+        type: 'filesystem', // 使用文件系统缓存
+    },
+};
+```
+
+* babel-loader 缓存：对于使用 Babel 进行代码转换的项目，开启 babel-loader 的缓存选项。
+
+```js
+{
+    test: /\.js$/,
+    use: {
+        loader: 'babel-loader',
+        options: {
+            cacheDirectory: true, // 开启 Babel 缓存
+        },
+    },
+}
+```
+
+## 减少模块解析
+
+* resolve.alias：通过设置别名减少模块查找时间。resolve.extensions：指定文件后缀，减少 Webpack 尝试的后缀种类。
+
+```js
+module.exports = {
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'), // 设置别名
+        },
+        extensions: ['.js', '.jsx', '.json'], // 限制文件查找范围
+    },
+};
+```
+
+## 合理使用 Loader
+
+* exclude 和 include 选项：在 Loader 配置中，明确指定要处理的文件范围，减少不必要的文件处理。
+
+```js
+module.exports = {
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_modules/, // 排除不处理的文件
+            use: 'babel-loader',
+        }, ],
+    },
+};
+```
+
+## 缩小打包范围
+
+noParse 选项：对于不依赖模块化的库（如 jQuery 或 lodash），可以通过 noParse 选项跳过其解析。
+
+```js
+module.exports = {
+    module: {
+        noParse: /jquery|lodash/, // 不解析依赖
+    },
+};
+```
+
+## 并行/多线程构建
+
+* thread-loader：在较重的 Loader（如 Babel、TS）之前使用 thread-loader，利用多线程处理。
+
+```js
+{
+    test: /\.js$/,
+    use: [
+        'thread-loader',
+        'babel-loader',
+    ],
+}
+```
+
+* terser-webpack-plugin：在压缩代码时使用多线程。
+
+```js
+const TerserPlugin = require('terser-webpack-plugin');
+
+module.exports = {
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin({
+            parallel: true, // 启用多线程压缩
+        })],
+    },
+};
+```
+
+## DLL（动态链接库）
+
+* DLLPlugin 和 DLLReferencePlugin：预先打包不经常变动的第三方库，减少每次打包的时间。
+
+```js
+// webpack.dll.js - 用于打包库文件
+const path = require('path');
+const webpack = require('webpack');
+
+module.exports = {
+    entry: {
+        vendor: ['react', 'react-dom'],
+    },
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].dll.js',
+        library: '[name]_[hash]',
+    },
+    plugins: [
+        new webpack.DllPlugin({
+            name: '[name]_[hash]',
+            path: path.resolve(__dirname, 'dist/[name].manifest.json'),
+        }),
+    ],
+};
+
+// webpack.config.js - 使用 DLL 引用
+const webpack = require('webpack');
+const path = require('path');
+
+module.exports = {
+    plugins: [
+        new webpack.DllReferencePlugin({
+            context: path.resolve(__dirname),
+            manifest: require('./dist/vendor.manifest.json'),
+        }),
+    ],
+};
+```
+
+## 减少输出文件体积
+
+* Tree Shaking：移除无用代码，减少打包文件体积。
+* 代码分割：按需加载模块，减少初始打包时间。
+
+## 提升硬件资源
+
+提升开发机的硬件配置，如增加 CPU 核心数、内存大小，能显著提高打包速度。
+
+# 减少打包后的代码体积
+* 代码分割（Code Splitting）：将应用程序的代码划分为多个代码块，按需加载
+* Tree Shaking：配置Webpack的Tree Shaking机制，去除未使用的代码
+* 压缩代码：使用工具如UglifyJS或Terser来压缩JavaScript代码
+* 使用生产模式：在Webpack中使用生产模式，通过设置mode: 'production'来启用优化
+* 使用压缩工具：使用现代的压缩工具，如Brotli和Gzip，来对静态资源进行压缩
+* 利用CDN加速：将项目中引用的静态资源路径修改为CDN上的路径，减少图片、字体等静态资源等打包
+# vite比webpack快在哪里
+
+## 开发模式的差异
+
+在开发环境中，Webpack 是先打包再启动开发服务器，而 Vite 则是直接启动，然后再按需编译依赖文件。（大家可以启动项目后检查源码 Sources 那里看到）
+这意味着，当使用 Webpack 时，所有的模块都需要在开发前进行打包，这会增加启动时间和构建时间。
+而 Vite 则采用了不同的策略，它会在请求模块时再进行实时编译，这种按需动态编译的模式极大地缩短了编译时间，特别是在大型项目中，文件数量众多，Vite 的优势更为明显。
+
+## 对ES Modules的支持
+
+现代浏览器本身就支持 ES Modules，会主动发起请求去获取所需文件。Vite充分利用了这一点，将开发环境下的模块文件直接作为浏览器要执行的文件，而不是像 Webpack 那样先打包，再交给浏览器执行。这种方式减少了中间环节，提高了效率。
+
+**什么是ES Modules**
+通过使用 export 和 import 语句，ES Modules 允许在浏览器端导入和导出模块。
+当使用 ES Modules 进行开发时，开发者实际上是在构建一个依赖关系图，不同依赖项之间通过导入语句进行关联。
+主流浏览器（除IE外）均支持ES Modules，并且可以通过在 script 标签中设置 type="module"来加载模块。默认情况下，模块会延迟加载，执行时机在文档解析之后，触发DOMContentLoaded事件前。
+
+## 底层语言的差异
+
+Webpack 是基于 Node.js 构建的，而 Vite 则是基于 esbuild 进行预构建依赖。esbuild 是采用 Go 语言编写的，Go 语言是纳秒级别的，而 Node.js 是毫秒级别的。因此，Vite 在打包速度上相比Webpack 有 10-100 倍的提升。
+
+## 热更新的处理
+
+在 Webpack 中，当一个模块或其依赖的模块内容改变时，需要重新编译这些模块。
+
+而在 Vite 中，当某个模块内容改变时，只需要让浏览器重新请求该模块即可，这大大减少了热更新的时间。
+
+# Monorepo的理解
+
+Monorepo 是一种项目代码管理方式，指单个仓库中管理多个项目，有助于简化代码共享、版本控制、构建和部署等方面的复杂性，并提供更好的可重用性和协作性。
+
+Monorepo 提倡了开放、透明、共享的组织文化，这种方法已经被很多大型公司广泛使用，如 Google、Facebook 和 Microsoft 等。
+
+Monorepo优劣：
+
+![照片](images/Snipaste_2024-08-21_18-17-58)
+
+# 为什么pnpm比npm快
+
+Pnpm 比 npm 快的原因在于其优化的文件存储方式、依赖管理方式以及并行下载能力。 以下是详细介绍：
+
+Pnpm 使用基于内容寻址的文件系统来存储磁盘上的所有文件，这意味着它不会在磁盘中重复存储相同的依赖包，即使这些依赖包被不同的项目所依赖。这种存储方式使得Pnpm在安装依赖时能够更高效地利用磁盘空间，同时也减少了下载和安装的时间。
+
+Pnpm 在下载和安装依赖时采用了并行下载的能力，这进一步提高了安装速度。
+
+Pnpm 还具有一些其他特性，例如节省空间的硬链接和符号链接的使用，这些都有助于提高其性能。
+
+# Bable概念及原理
+
+Babel是一个流行的用于将新版本ES6+代码转换为向后兼容版本（ES5）代码的JavaScript编译器。它还为JSX语法提供了编译支持，还有一些其他插件可用于转换特定类型的代码 。
+
+## 解析
+
+当 Babel 接收到源代码时，将会调用一个叫做解析器的工具，用于将源代码转换为抽象语法树（AST）。在这个过程中，解析器会识别代码中的语法结构，并将其转换为对应的节点类型。 例如，当解析器遇到一个变量声明语句时，它将会创建一个 “VariableDeclaration” 节点，并将该节点的信息存储在 AST 中。AST 是一个以节点为基础组成的树形结构，每个节点都有相应的类型、属性和子节点等信息。
+
+## 转换
+
+一旦 AST 被创建，Babel 将遍历整个树形结构，对每个节点进行转换。这些转换可以是插件、预设或手动创建的。转换器会检查 AST 中的每个节点，然后对其进行相应的修改或替换，以将新语法转换为旧语法。 例如，如果 Babel 遇到一个包含箭头函数的节点，而你已经启用了转换插件，该插件将会将箭头函数转换为其等效的体函数。代码转换后，Babel 将会生成一个新的 AST。
+
+## 生成
+
+最后，Babel 将基于转换后的 AST 生成代码文本。在这个步骤中，Babel 将遍历转换后的 AST，并创建对应的代码字符串，并将这些字符串组合成一个完整的 JavaScript 文件。如果启用了代码压缩，Babel 还可以将生成的代码进行压缩。 总结来说，Babel 的原理就是将 JavaScript 源代码转换为抽象语法树（AST），然后对 AST 进行转换，生成与源代码功能相同但向后兼容的代码。Babel 提供了一个强大的生态系统，使得开发者可以轻松扩展并自定义转换器，实现自己的功能需求。
+
+# npm install 的执行过程
+
+npm install 是 Node.js 包管理器 (npm) 的一个命令，用于安装一个项目所依赖的模块。
+执行过程大致如下：
+
+读取 package.json 文件，该文件列出了项目所需要的依赖。
+
+根据 package.json 中的依赖信息以及 node_modules 目录状态，npm 会决定哪些模块需要下载和安装。
+
+npm 会查看每个模块的可用版本，并选择符合 package.json 中指定版本范围的最新版本进行安装。
+
+下载所需模块到本地的 node_modules 目录。
+
+如果模块包含子模块（package.json 中 dependencies 或 devDependencies 中的模块），则递归执行上述步骤安装这些子模块。
+
+# npm run start 的整个过程
+
+npm run start 是一个常见的命令，用于启动基于 Node.js 的应用程序。这个命令实际上是一个快捷方式，它告诉 npm 运行在 package.json 文件中定义的 "start" 脚本。
+
+当你执行 npm run start 时，以下是发生的事情：
+
+查找当前目录下的 package.json 文件。
+在 package.json 文件中，找到 "scripts" 对象。
+在 "scripts" 对象中，找到 "start" 键。
+执行与 "start" 键关联的命令字符串。
+
+npm run start 执行 package.json 中定义的 "start" 脚本，这个脚本可以启动一个 Node.js 应用程序或执行更复杂的前端构建过程。
+
+# 对 CSS 工程化的理解
+
+CSS 工程化是为了解决以下问题：
+
+* 宏观设计：CSS 代码如何组织、如何拆分、模块结构怎样设计？
+* 编码优化：怎样写出更好的 CSS？
+* 构建：如何处理我的 CSS，才能让它的打包结果最优？
+* 可维护性：代码写完了，如何最小化它后续的变更成本？如何确保任何一个同事都能轻松接手？
+
+工程实践:
+
+* 预处理器：Less、 Sass 等；
+* 重要的工程化插件： PostCss；
+* Webpack loader 等 。
+
+如何用 Webpack 实现对 CSS 的处理：
+
+Webpack 中操作 CSS 需要使用的两个关键的 loader：css-loader 和 style-loader
+注意，答出“用什么”有时候可能还不够，面试官会怀疑你是不是在背答案，所以你还需要了解每个 loader 都做了什么事情：
+
+css-loader：导入 CSS 模块，对 CSS 代码进行编译处理；
+
+style-loader：创建style标签，把 CSS 内容写入标签。
