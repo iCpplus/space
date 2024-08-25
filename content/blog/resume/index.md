@@ -5,7 +5,7 @@ disqus: false
 relative: false
 ---
 <div style="font-size: 2rem; font-weight: 600; margin-bottom: 5px">
-    CoCo
+    寇
 </div>
 <div style="margin-bottom: 5px">
     <span>电话：199****8657</span> | <span>邮箱：anyscripts@qq.com</span>
@@ -34,20 +34,7 @@ relative: false
     <span style="flex: 1"></span>
     <span>郑州市</span>
 </div>
-<div style="margin-bottom: 5px">
-    <div style="display: flex; margin-bottom: 5px">
-        <div>•</div>
-        <div style="margin-left: 5px">
-            所学课程主要有数据结构、计算机组成原理、计算机网络、操作系统和高等数学等。
-        </div>
-    </div>
-    <div style="display: flex; margin-bottom: 5px">
-        <div>•</div>
-        <div style="margin-left: 5px">
-            大学英语四级
-        </div>
-    </div>
-</div>
+
 <div style="
 font-weight: 600;
 font-size: 1.4rem;
@@ -61,31 +48,43 @@ padding-bottom: 5px;
     <div style="display: flex; margin-bottom: 5px">
         <div>•</div>
         <div style="margin-left: 5px">
-            熟悉HTML、CSS，Javascript。掌握ES6新语法新特性。
+            熟练掌握HTML、CSS、Javascript。掌握ES6新语法特性。了解Typescript。
         </div>
     </div>
     <div style="display: flex; margin-bottom: 5px">
         <div>•</div>
         <div style="margin-left: 5px">
-            熟悉React的使用，了解基本原理。熟悉react-router,redux,mobx的使用。
+            熟练掌握React.js、React-Router,熟悉其基本原理，熟悉函数式编程。熟悉mobx、zustant的使用。
         </div>
     </div>
     <div style="display: flex; margin-bottom: 5px">
         <div>•</div>
         <div style="margin-left: 5px">
-            熟悉Vue.js的使用，了解其基本原理。熟悉vue-router、Vuex的使用。
+            熟悉Vue.js，了解其基本原理。熟悉Vue-Router、Vuex的使用。
         </div>
     </div>
     <div style="display: flex; margin-bottom: 5px">
         <div>•</div>
         <div style="margin-left: 5px">
-            熟悉echarts、element-ui等库，熟悉Git版本管理工具，了解前端工程化。
+            熟悉Webpack、Babel，了解Vite，熟悉前端工程化，项目打包部署优化等。
+        </div>
+    </div>
+        <div style="display: flex; margin-bottom: 5px">
+        <div>•</div>
+        <div style="margin-left: 5px">
+            熟练掌握antd、element-ui、echarts等库和Less预处理器，熟悉Git版本管理工具。
         </div>
     </div>
     <div style="display: flex; margin-bottom: 5px">
         <div>•</div>
         <div style="margin-left: 5px">
-            熟悉计算机网络，数据结构等计算机基础知识。
+            熟悉HTTP计算机网络，数据结构等计算机基础知识。
+        </div>
+    </div>
+        <div style="display: flex; margin-bottom: 5px">
+        <div>•</div>
+        <div style="margin-left: 5px">
+            良好英语读写能力，英语CET4。能够对接需求、设计实现方案、协调开发并独立构建前端项目。
         </div>
     </div>
 </div>
@@ -99,13 +98,13 @@ padding-bottom: 5px;
     工作和项目经历
 </div>
 <div style="display: flex; width: 100%; margin-bottom: 5px">
-    <span style="font-weight: 600">XXXXX公司</span>
+    <span style="font-weight: 600">西安九索数据</span>
     <span style="flex: 1"></span>
     <span>2021年11月 - 2022年05月</span>
 </div>
-<div style="margin-bottom: 5px">前端开发实习</div>
+<div style="margin-bottom: 5px">前端开发</div>
 <div style="margin-bottom: 5px">
-    <span style="font-weight: 600; margin-right: 40px">XXXX web项目</span>
+    <span style="font-weight: 600; margin-right: 40px">知识图谱</span>
     <span>2021年11月 - 2022年05月</span>
 </div>
 <div>
