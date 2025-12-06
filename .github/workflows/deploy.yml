@@ -31,7 +31,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Gatsby site
-        run: yarn build:gh
+        run: yarn build
         env:
           SKIP_ALGOLIA: 'true'
 
