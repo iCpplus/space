@@ -117,18 +117,19 @@ module.exports = {
         pagesPaths: ['/content/blog/'],
       },
     },
-    ...(process.env.ALGOLIA_ADMIN_KEY && process.env.GATSBY_ALGOLIA_APP_ID && process.env.SKIP_ALGOLIA !== 'true'
-      ? [
-        {
-          resolve: `gatsby-plugin-algolia`,
-          options: {
-            appId: process.env.GATSBY_ALGOLIA_APP_ID,
-            apiKey: process.env.ALGOLIA_ADMIN_KEY,
-            queries: require('./src/utils/algoliaQueries'),
-          },
-        },
-      ]
-      : []),
+    /* Algolia integration disabled (commented out).
+       To re-enable, remove comment markers and ensure the following env vars are set:
+         - GATSBY_ALGOLIA_APP_ID
+         - ALGOLIA_ADMIN_KEY
+       Or set SKIP_ALGOLIA to control conditional loading. */
+    // {
+    //   resolve: `gatsby-plugin-algolia`,
+    //   options: {
+    //     appId: process.env.GATSBY_ALGOLIA_APP_ID,
+    //     apiKey: process.env.ALGOLIA_ADMIN_KEY,
+    //     queries: require('./src/utils/algoliaQueries'),
+    //   },
+    // },
     {
       resolve: `gatsby-plugin-valine`,
       options: {
