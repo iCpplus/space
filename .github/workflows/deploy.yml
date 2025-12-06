@@ -31,9 +31,19 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Gatsby site
-        run: yarn build
+        run: yarn build:gh
         env:
           SKIP_ALGOLIA: 'true'
+          NODE_ENV: 'production'
+
+      - name: Setup GitHub Pages routing
+        run: |
+          if [ -f public/404.html ]; then
+            echo "✓ 404.html ready for GitHub Pages routing"
+          fi
+          if [ -f public/CNAME ]; then
+            echo "✓ CNAME file found"
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

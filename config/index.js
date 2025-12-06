@@ -1,8 +1,8 @@
 const site = {
-  // pathPrefix: '/gatsby-simple-blog',
+  pathPrefix: '/space',
   title: 'anyspace',
   author: 'Kou ShiXiang',
-  description: '一个记录知识和生活的神秘小空间',  
+  description: '一个记录知识和生活的神秘小空间',
   siteUrl: 'https://anyspace.cc',
   // twitter: 'kylemathews',
   // github: 'thundermiracle',
