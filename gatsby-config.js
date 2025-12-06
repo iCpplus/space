@@ -117,14 +117,18 @@ module.exports = {
         pagesPaths: ['/content/blog/'],
       },
     },
-    {
-      resolve: `gatsby-plugin-algolia`,
-      options: {
-        appId: process.env.GATSBY_ALGOLIA_APP_ID,
-        apiKey: process.env.ALGOLIA_ADMIN_KEY,
-        queries: require('./src/utils/algoliaQueries'),
-      },
-    },
+    ...(process.env.ALGOLIA_ADMIN_KEY && process.env.GATSBY_ALGOLIA_APP_ID && process.env.SKIP_ALGOLIA !== 'true'
+      ? [
+        {
+          resolve: `gatsby-plugin-algolia`,
+          options: {
+            appId: process.env.GATSBY_ALGOLIA_APP_ID,
+            apiKey: process.env.ALGOLIA_ADMIN_KEY,
+            queries: require('./src/utils/algoliaQueries'),
+          },
+        },
+      ]
+      : []),
     {
       resolve: `gatsby-plugin-valine`,
       options: {
