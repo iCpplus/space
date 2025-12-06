@@ -12,9 +12,9 @@ const SocialBar = function () {
   useEffect(() => {
     const flag = window.location.href.split('/').includes('en')
     const origin = window.location.origin
-    const u = flag ? `${origin}/en/tags/` : `${origin}/tags/`
-    const r = flag ? `${origin}/en/resume` : `${origin}/resume`
-    const s = `${origin}/map-space`
+    const u = flag ? `${origin}/space/en/tags/` : `${origin}/space/tags/`
+    const r = flag ? `${origin}/space/en/resume` : `${origin}/space/resume`
+    const s = `${origin}/space/map-space`
 
     const f1 = () => {
       window.location.href = u
