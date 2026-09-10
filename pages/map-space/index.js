@@ -15,6 +15,38 @@ const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const PROVINCE_GEOJSON_URL = withBasePath('/map-space/geojson/china.json');
 const LOAD_TIMEOUT = 12000;
 
+function MapFallback() {
+    return (
+        <main className="map-space-fallback">
+            <header>
+                <p className="map-space-eyebrow">ANYSPACE / SPACE</p>
+                <h1>我的足迹</h1>
+                <p>地图服务暂时不可用，先从这里查看我生活和旅行经过的地方。</p>
+            </header>
+            <div className="map-space-places">
+                {allMarkers.features.map((marker) => {
+                    const { title, content, time } = marker.properties;
+                    const [longitude, latitude] = marker.geometry.coordinates;
+                    const mapUrl = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=12/${latitude}/${longitude}`;
+
+                    return (
+                        <article key={title} className={`map-space-place ${marker.properties.type}-place`}>
+                            <div>
+                                <h2>{title}</h2>
+                                <p>{content}</p>
+                                <time>{time}</time>
+                            </div>
+                            <a href={mapUrl} target="_blank" rel="noreferrer">
+                                查看地图
+                            </a>
+                        </article>
+                    );
+                })}
+            </div>
+        </main>
+    );
+}
+
 /**
  * Full screen Mapbox globe showing the places the author has lived / travelled.
  * Ported from the original Gatsby `src/pages/map-space/index.js`.
@@ -132,8 +164,8 @@ function MapSpace() {
             className="map-space-page"
             style={{ width: '100vw', height: '100vh', position: 'relative' }}
         >
-            <div id="map" style={{ width: '100%', height: '100%' }} />
-            {status !== 'ready' && (
+            {status === 'no-token' ? <MapFallback /> : <div id="map" style={{ width: '100%', height: '100%' }} />}
+            {status !== 'ready' && status !== 'no-token' && (
                 <div className="map-space-status">
                     {status === 'loading' && '地图加载中…'}
                     {status === 'error' && '地图资源加载失败，需要联网访问 Mapbox'}

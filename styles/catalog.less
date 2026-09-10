@@ -87,3 +87,18 @@
     border-radius: 10px;
     background-color: var(--scrollbar-cl);
 }
+
+@media (max-width: 600px) {
+    .css-post {
+        overflow-wrap: anywhere;
+
+        [style*='display: flex'] {
+            flex-wrap: wrap;
+            row-gap: 4px;
+        }
+
+        [style*='display: flex'] > [style*='flex: 1'] {
+            min-width: 24px;
+        }
+    }
+}
