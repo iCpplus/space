@@ -1,0 +1,26 @@
+import React from 'react';
+import Link from 'next/link';
+
+import withBasePath from 'utils/basePath';
+import { formatMessage } from 'utils/i18n';
+
+/**
+ * Floating entry point to the theme settings, pinned to the bottom right corner
+ * of every page.
+ *
+ * It used to open an inline popup; the settings now live on their own page
+ * (`pages/setting.js`), which keeps the popup markup and its preset background
+ * picker out of the article list.
+ */
+const SettingButton = function () {
+    const label = formatMessage('tThemeSetting');
+
+    return (
+        <Link className="setting-btn" href="/setting/" aria-label={label}>
+            <img className="setting-icon" src={withBasePath('/setting.svg')} alt="" />
+            <span className="setting-label">{label}</span>
+        </Link>
+    );
+};
+
+export default SettingButton;

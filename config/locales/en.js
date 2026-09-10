@@ -16,4 +16,13 @@ module.exports = {
     title: 'anyspace',
     tRead: 'read amount',
     tResume: 'My Resume',
+    tThemeSetting: 'Theme Settings',
+    tSimpleTheme: 'Compact list',
+    tSimpleThemeDesc: 'Show the articles as a tighter list without cover images.',
+    tCustomBackground: 'Custom background',
+    tCustomBackgroundDesc: 'Paste an image URL to use it as the page background, or clear it to restore the default.',
+    tBackgroundPlaceholder: 'Image URL used as the page background',
+    tConfirm: 'Apply',
+    tClear: 'Clear',
+    tSaved: 'Saved',
 };

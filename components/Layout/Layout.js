@@ -11,12 +11,7 @@ import ReadModeToggle from './ReadModeToggle';
 import Breadcrumbs from '../Breadcrumbs';
 import ThemeBackground from './ThemeBackground';
 
-const Layout = function ({
-    children = null,
-    title = null,
-    breadcrumbs = null,
-    setSimpleTheme = undefined,
-}) {
+const Layout = function ({ children = null, title = null, breadcrumbs = null }) {
     const { lang, homeLink, refresh } = useLang();
     const router = useRouter();
     const scrollHeight = useRef(0);
@@ -77,7 +72,7 @@ const Layout = function ({
                     scrollBehavior: 'smooth',
                 }}
             >
-                <ThemeBackground setSimpleTheme={setSimpleTheme} />
+                <ThemeBackground />
 
                 <div
                     style={{
@@ -118,7 +113,6 @@ Layout.propTypes = {
     children: PropTypes.any,
     title: PropTypes.string,
     breadcrumbs: PropTypes.array,
-    setSimpleTheme: PropTypes.func,
 };
 
 export default Layout;

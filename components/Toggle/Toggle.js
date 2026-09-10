@@ -145,7 +145,7 @@ export default class Toggle extends PureComponent {
     }
 
     render() {
-        const { className, icons: _icons, ...inputProps } = this.props;
+        const { className, icons: _icons, 'aria-label': ariaLabel, ...inputProps } = this.props;
         const classes = `react-toggle${this.state.checked ? ' react-toggle--checked' : ''}${this.state.hasFocus ? ' react-toggle--focus' : ''
             }${this.props.disabled ? ' react-toggle--disabled' : ''}${className ? ` ${className}` : ''}`;
         return (
@@ -172,7 +172,7 @@ export default class Toggle extends PureComponent {
                     onBlur={this.handleBlur}
                     className="react-toggle-screenreader-only"
                     type="checkbox"
-                    aria-label="Switch between Dark and Light mode"
+                    aria-label={ariaLabel || 'Switch between Dark and Light mode'}
                 />
             </div>
         );

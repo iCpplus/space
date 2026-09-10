@@ -9,6 +9,7 @@ import PostAbbrevSimple from 'components/PostAbbrev/PostAbbrevSimple';
 import Pagination from 'components/Pagination';
 import { useLang } from 'context/LanguageContext';
 import { formatMessage } from 'utils/i18n';
+import { getSimpleTheme } from 'utils/simpleTheme';
 
 const BlogIndex = function ({ pageData }) {
     const { from, to, currentPage, numPages, posts, totalCount } = pageData;
@@ -16,15 +17,16 @@ const BlogIndex = function ({ pageData }) {
 
     const { lang, homeLink } = useLang();
 
-    const [simpleTheme, setSimpleTheme] = useState('0');
+    // 极简风 is the default, so the first paint already matches it; only users who
+    // explicitly picked the card layout see the list switch after hydration.
+    const [simpleTheme, setSimpleTheme] = useState(true);
 
     useLayoutEffect(() => {
-        const flag = localStorage.getItem('simpleTheme') === '1';
-        setSimpleTheme(flag ? '1' : '0');
+        setSimpleTheme(getSimpleTheme());
     }, []);
 
     return (
-        <Layout title={siteTitle} setSimpleTheme={setSimpleTheme}>
+        <Layout title={siteTitle}>
             <SEO title={formatMessage('tIndTitle')} keywords={formatMessage('taIndKeywords')} />
             <aside>
                 <Bio />
@@ -49,7 +51,7 @@ const BlogIndex = function ({ pageData }) {
                     layoutFlag,
                 };
 
-                return simpleTheme === '1' ? (
+                return simpleTheme ? (
                     <PostAbbrevSimple key={post.slug} {...commonProps} />
                 ) : (
                     <PostAbbrev key={post.slug} {...commonProps} />

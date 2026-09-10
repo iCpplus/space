@@ -1,22 +1,23 @@
 import React, { useLayoutEffect, useState } from 'react';
 
-import SettingBox from './SettingBox';
+import { getThemeBackground, THEME_BACKGROUND_EVENT } from 'utils/themeBackground';
+
+import SettingButton from './SettingButton';
 
 /**
- * Renders the configurable page background plus the theme settings box.
+ * Renders the configurable page background plus the floating entry point to the
+ * theme settings page.
  */
-const ThemeBackground = ({ setSimpleTheme }) => {
+const ThemeBackground = () => {
     const [themeBackgroundUrl, setThemeBackgroundUrl] = useState('');
 
-    const changeTheme = (url) => {
-        setThemeBackgroundUrl(url);
-    };
-
     useLayoutEffect(() => {
-        const url = localStorage.getItem('themeBackgroundUrl');
-        if (url) {
-            setThemeBackgroundUrl(url);
-        }
+        // The settings page lives on another route, so the background is read from
+        // the shared store and kept in sync through its change event.
+        const sync = () => setThemeBackgroundUrl(getThemeBackground());
+        sync();
+        window.addEventListener(THEME_BACKGROUND_EVENT, sync);
+        return () => window.removeEventListener(THEME_BACKGROUND_EVENT, sync);
     }, []);
 
     return (
@@ -33,7 +34,7 @@ const ThemeBackground = ({ setSimpleTheme }) => {
                     zIndex: -1,
                 }}
             />
-            <SettingBox setSimpleTheme={setSimpleTheme} changeTheme={changeTheme} />
+            <SettingButton />
         </>
     );
 };

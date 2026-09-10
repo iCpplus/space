@@ -14,4 +14,13 @@ module.exports = {
     title: 'anyspace',
     tRead: '阅读量',
     tResume: '个人简历',
+    tThemeSetting: '主题设置',
+    tSimpleTheme: '极简风',
+    tSimpleThemeDesc: '用更紧凑的列表展示文章，不显示封面图。',
+    tCustomBackground: '自定义背景图',
+    tCustomBackgroundDesc: '填入网络图片地址即可作为整站背景，点击清除恢复默认背景。',
+    tBackgroundPlaceholder: '图片地址可设置为背景哦',
+    tConfirm: '确定',
+    tClear: '清除',
+    tSaved: '已保存',
 };
