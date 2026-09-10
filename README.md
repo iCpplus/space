@@ -111,3 +111,26 @@ Worker，它缓存了旧的 app shell。迁移后这些 chunk 都不存在了，
 
 `public/sw.js` 就是为此保留的“自杀式” Worker：装上后清空所有 cache、注销自己、并
 重载受控标签页。等足够长时间让老访客都拿到它之后，这个文件就可以删掉了。
+
+### 排障：`Deployment request failed ... due to in progress deployment`
+
+如果部署报这个错（通常由 `Deploy to GitHub Pages` 步骤在几秒内失败）：
+
+> Failed to create deployment (status: 400) ... due to in progress deployment.
+> Please cancel `<sha>` first or wait for it to complete.
+
+说明有**早期一次部署卡在 Pages 后端没结束**，它会把之后所有部署都挡掉。早期那次
+的报错一般是：
+
+> Timeout reached, aborting!
+
+处理方式（三选一）：
+
+1. Settings → Pages → Source 先改选 `Deploy from a branch` 保存，再改回
+   `GitHub Actions` 保存，然后重跑最新的 workflow；
+2. Settings → Environments → `github-pages` → 删除该 environment，然后重跑（GitHub
+   会在下次部署时自动重建）；
+3. 等 GitHub 后端自行回收（可能很久，不建议）。
+
+workflow 里已把 `deploy-pages` 的 `timeout` 放宽到 30 分钟、`error_count` 提到 30，
+尽量避免再次走到“超时就丢弃部署”这条路。

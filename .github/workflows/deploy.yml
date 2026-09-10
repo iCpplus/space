@@ -63,6 +63,7 @@ jobs:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     environment:
       name: github-pages
@@ -72,3 +73,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # GitHub's Pages backend occasionally stalls. With the defaults (10 min /
+          # 10 errors) the action gives up, and a timed-out deployment can be left
+          # behind stuck in "in progress" — which then blocks *every* later
+          # deployment with:
+          #   "Deployment request failed ... due to in progress deployment.
+          #    Please cancel <sha> first or wait for it to complete."
+          # Give the backend a lot more room so a slow run is ridden out instead.
+          timeout: 1800000 # 30 min
+          error_count: 30
+          reporting_interval: 15000 # 15 s
