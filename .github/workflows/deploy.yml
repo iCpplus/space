@@ -4,56 +4,71 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
+
+# Allow a single concurrent deployment, but never cancel one that is already
+# publishing — that would leave Pages half deployed.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'yarn'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
-      - name: Build Gatsby site
-        run: yarn build:gh
+      # `output: 'export'` (see next.config.js) makes `next build` emit the whole
+      # static site into `out/`, which is what GitHub Pages serves.
+      - name: Build static site
+        run: npm run build
         env:
-          SKIP_ALGOLIA: 'true'
-          NODE_ENV: 'production'
+          NODE_ENV: production
+          # The Mapbox token is not committed (push protection rejects it), so it
+          # is injected here. Set it under
+          # Settings -> Secrets and variables -> Actions as `NEXT_PUBLIC_MAPBOX_TOKEN`
+          # (a Secret or a Variable both work).
+          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN || vars.NEXT_PUBLIC_MAPBOX_TOKEN }}
 
-      - name: Setup GitHub Pages routing
-        run: |
-          if [ -f public/404.html ]; then
-            echo "✓ 404.html ready for GitHub Pages routing"
-          fi
-          if [ -f public/CNAME ]; then
-            echo "✓ CNAME file found"
-          fi
+      # GitHub Pages would otherwise run Jekyll, which silently drops files and
+      # directories starting with an underscore — including `_next/`.
+      - name: Disable Jekyll
+        run: touch out/.nojekyll
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './public'
+          path: './out'
 
+  deploy:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'

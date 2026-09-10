@@ -1,14 +1,30 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "*": ["src/*"],
-      "components/*": ["src/components/*"],
-      "context/*": ["src/context/*"],
-      "utils/*": ["src/utils/*"],
-
-      "config/*": ["config/*"]
-    }
-  },
-  "exclude": ["node_modules", "dist"]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "components/*": [
+                "components/*"
+            ],
+            "context/*": [
+                "context/*"
+            ],
+            "config": [
+                "config/index.js"
+            ],
+            "utils/*": [
+                "utils/*"
+            ],
+            "lib/*": [
+                "lib/*"
+            ],
+            "styles/*": [
+                "styles/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        ".next",
+        "public"
+    ]
 }

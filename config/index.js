@@ -1,26 +1,30 @@
+/**
+ * Site wide configuration. Mirrors the original Gatsby project's `config/index.js`.
+ */
 const site = {
-  pathPrefix: '/space',
-  title: 'anyspace',
-  author: 'Kou ShiXiang',
-  description: '一个记录知识和生活的神秘小空间',
-  siteUrl: 'https://anyspace.cc',
-  // twitter: 'kylemathews',
-  // github: 'thundermiracle',
-  // medium: 'thundermiracle',
-  // facebook: 'thundermiracle',
-  disqusShortName: 'anyspace',
-  googleTrackingId: 'G-E7NM1ZBB2T',
-  lang: 'zh-hans',
-  displayTranslations: true,
-  postsPerPage: 5,
+    // The site is published to GitHub Pages as a *project* page, ie.
+    // https://icpplus.github.io/space/, so every route and asset has to live
+    // under `/space`. This value is used both as Next's `basePath` (see
+    // `next.config.js`) and to strip the prefix again when resolving the current
+    // language from `router.asPath`.
+    pathPrefix: '/space',
+    title: 'anyspace',
+    author: 'Kou ShiXiang',
+    description: '一个记录知识和生活的神秘小空间',
+    siteUrl: 'https://anyspace.cc',
+    disqusShortName: 'anyspace',
+    googleTrackingId: 'G-E7NM1ZBB2T',
+    lang: 'zh-hans',
+    displayTranslations: true,
+    postsPerPage: 5,
 };
 
 const supportedLanguages = {
-  en: 'English',
-  'zh-hans': '简体中文',
+    en: 'English',
+    'zh-hans': '简体中文',
 };
 
 module.exports = {
-  site,
-  supportedLanguages,
+    site,
+    supportedLanguages,
 };
