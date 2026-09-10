@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useLang } from 'context/LanguageContext';import withBasePath from 'utils/basePath';import { formatMessage } from 'utils/i18n';
+
+import { useLang } from 'context/LanguageContext';
+import withBasePath from 'utils/basePath';
+import { formatMessage } from 'utils/i18n';
 
 const SocialBar = function () {
     const { homeLink } = useLang();
@@ -8,12 +11,15 @@ const SocialBar = function () {
     const [goMapSpace, setGoMapSpace] = useState();
 
     useEffect(() => {
-        const base = homeLink;
+        // `homeLink` is root relative (`/` or `/en/`) and these are *raw* browser
+        // navigations, so Next's `basePath` is never applied automatically. The
+        // deployment prefix has to be added by hand, otherwise the buttons jump
+        // to `/tags/` and `/resume/`, which 404 on GitHub Pages.
         const f1 = () => {
-            window.location.href = `${base}tags/`;
+            window.location.href = withBasePath(`${homeLink}tags/`);
         };
         const f2 = () => {
-            window.location.href = `${base}resume/`;
+            window.location.href = withBasePath(`${homeLink}resume/`);
         };
         const f3 = () => {
             window.location.href = withBasePath('/map-space/');

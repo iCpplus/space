@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import antiShake from 'utils/antiShake';
@@ -9,43 +9,13 @@ import showDefaultPopup from 'lib/map-space/showDefaultPopup';
 import showGoneProvinceByZoom from 'lib/map-space/showGoneProvinceByZoom';
 import showMarkersByZoom from 'lib/map-space/showMarkersByZoom';
 
-// Mapbox 公共 token 通过环境变量注入（见 .env.example / .env.local），
-// 避免把 token 硬编码进仓库（GitHub push protection 会拦截）。
+// The token is injected at build time and deliberately **not** committed: GitHub
+// push protection rejects any commit containing `NEXT_PUBLIC_MAPBOX_TOKEN`
+// (`GH013: Push cannot contain secrets`), even though `pk.*` is a public token.
+// Locally it comes from `.env`; on CI from an Actions variable/secret.
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
 const PROVINCE_GEOJSON_URL = withBasePath('/map-space/geojson/china.json');
-const LOAD_TIMEOUT = 12000;
-
-function MapFallback() {
-    return (
-        <main className="map-space-fallback">
-            <header>
-                <p className="map-space-eyebrow">ANYSPACE / SPACE</p>
-                <h1>我的足迹</h1>
-                <p>地图服务暂时不可用，先从这里查看我生活和旅行经过的地方。</p>
-            </header>
-            <div className="map-space-places">
-                {allMarkers.features.map((marker) => {
-                    const { title, content, time } = marker.properties;
-                    const [longitude, latitude] = marker.geometry.coordinates;
-                    const mapUrl = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=12/${latitude}/${longitude}`;
-
-                    return (
-                        <article key={title} className={`map-space-place ${marker.properties.type}-place`}>
-                            <div>
-                                <h2>{title}</h2>
-                                <p>{content}</p>
-                                <time>{time}</time>
-                            </div>
-                            <a href={mapUrl} target="_blank" rel="noreferrer">
-                                查看地图
-                            </a>
-                        </article>
-                    );
-                })}
-            </div>
-        </main>
-    );
-}
 
 /**
  * Full screen Mapbox globe showing the places the author has lived / travelled.
@@ -57,7 +27,6 @@ function MapSpace() {
     const mapRef = useRef(null);
     const antiShakeFn = useRef({});
     const markersRef = useRef([]);
-    const [status, setStatus] = useState('loading');
 
     const initMapSpace = useCallback((mapboxgl, provinceGeoJson) => {
         mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -73,8 +42,6 @@ function MapSpace() {
         const map = mapRef.current;
 
         map.on('load', () => {
-            setStatus('ready');
-
             map.addSource('provinces', {
                 type: 'geojson',
                 data: provinceGeoJson,
@@ -109,21 +76,18 @@ function MapSpace() {
             if (antiShakeShowMarkersByZoom) antiShakeShowMarkersByZoom(map, markersRef.current);
         });
 
-        map.on('error', () => {
-            setStatus((prev) => (prev === 'ready' ? prev : 'error'));
+        map.on('error', (event) => {
+            // Deliberately no UI fallback: if the token or the external style is
+            // broken the page stays blank, which is more obvious than a
+            // half-styled placeholder.
+            console.error('[map-space] mapbox error', event && event.error ? event.error : event);
         });
     }, []);
 
     useEffect(() => {
         let cancelled = false;
-        let timeoutId;
 
         const load = async () => {
-            if (!MAPBOX_TOKEN) {
-                setStatus('no-token');
-                return;
-            }
-
             try {
                 const mod = await import('mapbox-gl');
                 const mapboxgl = mod.default || mod;
@@ -138,12 +102,8 @@ function MapSpace() {
 
                 if (cancelled) return;
                 initMapSpace(mapboxgl, provinceGeoJson);
-
-                timeoutId = setTimeout(() => {
-                    setStatus((prev) => (prev === 'ready' ? prev : 'error'));
-                }, LOAD_TIMEOUT);
             } catch (err) {
-                if (!cancelled) setStatus('error');
+                console.error('[map-space] failed to initialise mapbox', err);
             }
         };
 
@@ -151,7 +111,6 @@ function MapSpace() {
 
         return () => {
             cancelled = true;
-            if (timeoutId) clearTimeout(timeoutId);
             if (mapRef.current) {
                 mapRef.current.remove();
                 mapRef.current = null;
@@ -164,14 +123,7 @@ function MapSpace() {
             className="map-space-page"
             style={{ width: '100vw', height: '100vh', position: 'relative' }}
         >
-            {status === 'no-token' ? <MapFallback /> : <div id="map" style={{ width: '100%', height: '100%' }} />}
-            {status !== 'ready' && status !== 'no-token' && (
-                <div className="map-space-status">
-                    {status === 'loading' && '地图加载中…'}
-                    {status === 'error' && '地图资源加载失败，需要联网访问 Mapbox'}
-                    {status === 'no-token' && '未配置 NEXT_PUBLIC_MAPBOX_TOKEN，地图不可用'}
-                </div>
-            )}
+            <div id="map" style={{ width: '100%', height: '100%' }} />
         </div>
     );
 }

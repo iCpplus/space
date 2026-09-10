@@ -23,10 +23,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # ------------------------------------------------------------- environment files
-# `.env` is deliberately *not* committed: GitHub push protection rejects the
-# Mapbox token it holds (`GH013: Push cannot contain secrets`). Locally it still
-# works fine; on CI the token is injected from the `NEXT_PUBLIC_MAPBOX_TOKEN`
-# Actions secret (see .github/workflows/deploy.yml).
+# `.env` is deliberately *not* committed: GitHub push protection rejects any file
+# holding `NEXT_PUBLIC_MAPBOX_TOKEN` (`GH013: Push cannot contain secrets`), even
+# though the value is a public (`pk.*`) token. Locally `.env` still works; on CI
+# the value comes from an Actions variable/secret (see .github/workflows/deploy.yml).
 .env
 .env.local
 .env*.local

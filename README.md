@@ -82,12 +82,13 @@ GitHub Pages：<https://icpplus.github.io/space/>。
 `next/image`、`_next/*`），所以 `<img>`、`background-image`、`geojson`、看板娘脚本等
 绝对路径都要经过 `utils/basePath.js` 的 `withBasePath()` 补前缀。
 
-`NEXT_PUBLIC_MAPBOX_TOKEN` **不入库**（GitHub push protection 会拒绝包含该 token 的
-提交），需要在仓库里配置一次：
+`NEXT_PUBLIC_MAPBOX_TOKEN` **不入库**：GitHub push protection 会以
+「Mapbox Secret Access Token」为由拒绝包含该值的提交（`GH013`），即便它是公共
+（`pk.*`）token。需要在仓库里配置一次，Secret 或 Variable 均可：
 
 > Settings → Secrets and variables → Actions → 新建 `NEXT_PUBLIC_MAPBOX_TOKEN`
 
-Secret 或 Variable 均可；未配置时 `map-space` 页会提示「未配置 NEXT_PUBLIC_MAPBOX_TOKEN」。
+未配置时该页不做任何兜底，直接白屏（只在 console 报错）——这是刻意行为。
 
 ### 部署目标只有一个：GitHub Pages
 
