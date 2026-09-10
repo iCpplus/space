@@ -9,8 +9,13 @@ import { formatDate } from 'utils/i18n';
 
 import TagList from '../TagList';
 
-const DEFAULT_LOW_COVER = 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.th.jpeg';
-const DEFAULT_COVER = 'https://img.picgo.net/2023/05/21/108313985_p0_master12009df002d025ea79b9.jpeg';
+/**
+ * Cover used by articles that define no `cover` in their frontmatter (the resume
+ * is deliberately one of them). It ships with the site instead of pointing at a
+ * remote image host: the previous default lived on `img.picgo.net`, which now
+ * answers 404, so those articles showed a broken image in the list.
+ */
+const DEFAULT_COVER = withBasePath('/blog/default-cover.svg');
 
 /** Builds the low resolution variant of a cover by inserting `th` before the extension. */
 function toLowCover(cover) {
@@ -44,7 +49,11 @@ const PostAbbrev = function ({
     // Covers from frontmatter may be local (`/blog/<dir>/cover.svg`) and then
     // need the deployment base path; remote covers are returned unchanged.
     const normalizedCover = withBasePath(cover);
-    const lowCover = cover ? withBasePath(toLowCover(cover)) : null;
+    const highCover = normalizedCover || DEFAULT_COVER;
+    // Only remote hosts expose the `th` thumbnail variant, so local covers reuse
+    // their single file as the low resolution layer instead of 404ing on
+    // `cover.th.svg`.
+    const lowCover = /^https?:\/\//i.test(cover) ? withBasePath(toLowCover(cover)) : highCover;
 
     return (
         <div className="article" style={{ background: 'var(--bg-article)' }}>
@@ -64,12 +73,12 @@ const PostAbbrev = function ({
             </div>
             <div className="img-contain">
                 <Link style={{ boxShadow: 'none' }} href={slug} rel="bookmark">
-                    <img loading="lazy" decoding="async" src={lowCover || DEFAULT_LOW_COVER} alt="" />
+                    <img loading="lazy" decoding="async" src={lowCover} alt="" />
                     <img
                         loading="lazy"
                         decoding="async"
                         style={{ position: 'absolute', top: '0px', left: '0px' }}
-                        src={normalizedCover || DEFAULT_COVER}
+                        src={highCover}
                         alt=""
                     />
                 </Link>
