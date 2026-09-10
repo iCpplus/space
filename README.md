@@ -88,3 +88,12 @@ GitHub Pages：<https://icpplus.github.io/space/>。
 > Settings → Secrets and variables → Actions → 新建 `NEXT_PUBLIC_MAPBOX_TOKEN`
 
 Secret 或 Variable 均可；未配置时 `map-space` 页会提示「未配置 NEXT_PUBLIC_MAPBOX_TOKEN」。
+
+### `public/sw.js`（旧 Service Worker 清理）
+
+旧 Gatsby 站用了 `gatsby-plugin-offline`，在 `/space/sw.js` 注册过一个 Service
+Worker，它缓存了旧的 app shell。迁移后这些 chunk 都不存在了，老访客会被它挡住看到
+白屏，而且因为 `sw.js` 一度 404，连自更新都失败、永远不会自愈。
+
+`public/sw.js` 就是为此保留的“自杀式” Worker：装上后清空所有 cache、注销自己、并
+重载受控标签页。等足够长时间让老访客都拿到它之后，这个文件就可以删掉了。
