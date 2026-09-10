@@ -1,0 +1,121 @@
+// Styles for the `/map-space/` page, ported from the original
+// `src/pages/map-space/index.css`.
+//
+// In the Gatsby project these rules were global but only loaded once the map
+// page was visited, which leaked generic class names (`.title`, `.content`,
+// `.time`) into the blog pages. Here the popup-only classes are scoped under
+// `.mapboxgl-popup` so the article styles stay identical to the original.
+
+.mapboxgl-popup {
+    padding: 0;
+
+    .images {
+        line-height: 0;
+
+        img {
+            border-radius: 1px;
+        }
+
+        a {
+            outline: none;
+            display: contents;
+        }
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .content {
+        box-sizing: border-box;
+        font-size: 14px;
+        margin-top: 8px;
+        max-height: 252px;
+        overflow-y: auto;
+        padding-right: 3px;
+        word-break: break-all;
+        white-space: normal;
+    }
+
+    .time {
+        font-size: 12px;
+    }
+}
+
+.love-popup {
+    background: rgb(246, 189, 199);
+    border-radius: 8px;
+    color: #fff;
+    padding: 10px;
+}
+
+.college-popup {
+    background: rgb(19, 34, 122);
+    border-radius: 8px;
+    color: #fff;
+    padding: 10px;
+}
+
+.travel-popup {
+    background: rgb(18, 150, 219);
+    border-radius: 8px;
+    color: #fff;
+    padding: 10px;
+}
+
+.mapboxgl-popup-content {
+    padding: 0;
+    background: none;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+    align-self: center;
+    border-bottom: none;
+    border-top-color: transparent;
+}
+
+.mapboxgl-popup-close-button {
+    outline: none;
+}
+
+// Scoped so the map page's scrollbar look doesn't override the blog's.
+.map-space-page {
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+        background-color: rgba(226, 209, 209, 0.3);
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background-color: rgba(226, 209, 209, 0.2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: var(--scrollbar-cl);
+    }
+}
+
+// Small loading / offline hint added on top of the original design so the page
+// isn't blank while the (external) map style loads.
+.map-space-status {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(40, 44, 53, 0.75);
+    color: #fff;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.map-space-page .map-space-status {
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+}

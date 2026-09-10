@@ -1,0 +1,89 @@
+// Ported from the original `src/templates/catalog.css`.
+
+.css-post .gatsby-highlight pre {
+    float: none;
+}
+
+.mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-contain> :nth-child(3) {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media screen and (min-width: 1200px) {
+    .css-toc {
+        position: fixed;
+        top: 90px;
+        right: 5px;
+        width: 200px;
+        max-height: 500px;
+        overflow-y: auto;
+        font-size: 14px;
+
+        a {
+            color: var(--tag-bg);
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            border-radius: 7px;
+            padding-left: 5px;
+            border-left: 8px solid transparent;
+
+            &:hover {
+                text-decoration: underline 1.5px !important;
+            }
+        }
+
+        p {
+            background: var(--inlineCode-bg);
+            border-radius: 7px;
+            font-weight: 600;
+        }
+
+        >ul>li>a {
+            background: var(--inlineCode-bg);
+            border-radius: 7px;
+            font-weight: 600;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .css-toc {
+        display: none;
+    }
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: var(--scrollbar-bg);
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--scrollbar-cl);
+}

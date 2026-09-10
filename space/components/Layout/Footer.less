@@ -1,0 +1,21 @@
+// Ported from `src/components/Layout/Footer.css`.
+
+.footer-contain:hover .footer-icon {
+    animation-name: bounce;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

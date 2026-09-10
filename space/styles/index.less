@@ -1,0 +1,32 @@
+// Single global stylesheet entry point.
+// Next.js only allows global (non CSS-module) stylesheets to be imported from
+// `pages/_app.js`, so every Less file is bundled here — mirroring how the Gatsby
+// project loaded each component's CSS globally.
+
+@import './global.less';
+@import './tricks.less';
+@import './catalog.less';
+@import './map-space.less';
+
+// Layout
+@import '../components/Layout/Layout.less';
+@import '../components/Layout/Footer.less';
+@import '../components/Layout/LanguageBar.less';
+@import '../components/Layout/Setting.less';
+
+// Article components
+@import '../components/Bio/Bio.less';
+@import '../components/Breadcrumbs/Breadcrumbs.less';
+@import '../components/BalloonField/BalloonField.less';
+@import '../components/LangButton/LangButton.less';
+@import '../components/LangList/LangList.less';
+@import '../components/Pagination/Pagination.less';
+@import '../components/PostAbbrev/index.less';
+@import '../components/Tag/Tag.less';
+@import '../components/TagList/TagList.less';
+@import '../components/Toggle/Toggle.less';
+@import '../components/TranslationsLink/TranslationsLink.less';
+@import '../components/Comments/Comments.less';
+
+// Interactive in-article components
+@import '../components/BPlusTree/BPlusTree.less';

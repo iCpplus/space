@@ -1,0 +1,23 @@
+// Ported from `src/components/Layout/LanguageBar.css`.
+
+.bar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 30px;
+    border-bottom: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+.toggle-content {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+
+#top-bar {
+    -webkit-backdrop-filter: var(--article-backdrop);
+    backdrop-filter: var(--article-backdrop);
+}

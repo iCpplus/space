@@ -1,0 +1,23 @@
+// Ported from `src/components/LangButton/LangButton.css`.
+
+.language {
+    display: flex;
+    transition: transform 0.25s ease;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .icon {
+        fill: var(--textNormal);
+        margin-right: 5px;
+    }
+
+    span {
+        color: var(--textNormal);
+    }
+}
+
+.language-focused {
+    transform: scale(1.1);
+}
