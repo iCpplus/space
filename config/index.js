@@ -11,7 +11,11 @@ const site = {
     title: 'anyspace',
     author: 'Kou ShiXiang',
     description: '一个记录知识和生活的神秘小空间',
-    siteUrl: 'https://anyspace.cc',
+    // The site is published to GitHub Pages as a project page. (It used to be
+    // served from `https://anyspace.cc` by Vercel; that deploy target has been
+    // dropped because a domain root and a `/space/` project path cannot share
+    // the same `basePath`.)
+    siteUrl: 'https://icpplus.github.io/space/',
     disqusShortName: 'anyspace',
     googleTrackingId: 'G-E7NM1ZBB2T',
     lang: 'zh-hans',

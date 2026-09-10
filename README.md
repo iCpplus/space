@@ -89,6 +89,20 @@ GitHub Pages：<https://icpplus.github.io/space/>。
 
 Secret 或 Variable 均可；未配置时 `map-space` 页会提示「未配置 NEXT_PUBLIC_MAPBOX_TOKEN」。
 
+### 部署目标只有一个：GitHub Pages
+
+仓库上曾经挂着 Vercel 集成（项目 `anyscripts-projects/space`，Root Directory 指向
+`space/`），把站点发布在 `https://anyspace.cc`。迁移到 GitHub Pages 时该目标已废弃，
+原因有两个：
+
+- Vercel 的 Root Directory 指向的 `space/` 目录已不存在；
+- 更根本的是 `basePath` 冲突：GitHub Pages **项目页**必须用 `/space`，而自定义域名
+  **根路径**必须用 `''`，同一份构建无法同时满足。
+
+所以现在只有 `/space/` 这一份产物。若要重新用 `anyspace.cc`，需要把 `basePath`
+改成可由环境变量切换（例如 `NEXT_PUBLIC_BASE_PATH`），并把 `config/index.js` 的
+`siteUrl` 一并改回。
+
 ### `public/sw.js`（旧 Service Worker 清理）
 
 旧 Gatsby 站用了 `gatsby-plugin-offline`，在 `/space/sw.js` 注册过一个 Service
