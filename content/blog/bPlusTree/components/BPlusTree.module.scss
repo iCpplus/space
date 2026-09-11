@@ -1,4 +1,9 @@
-// Styles for the interactive B+ tree demo embedded in articles.
+// Styles for the interactive B+ tree demo (`BPlusTreeDemo.js`).
+//
+// It is a CSS module: every class name is hashed so the widget cannot collide
+// with the article's own styles, and the stylesheet is only loaded on pages that
+// actually render the demo. Class names are referenced through `styles[...]` in
+// the component (see the `cx` helper there).
 
 .bpt {
   --bpt-border: rgba(0, 0, 0, 0.16);
@@ -25,7 +30,9 @@
   line-height: 1.5;
 }
 
-body.dark .bpt {
+// `body.dark` belongs to the page, not to the module, so it must stay global —
+// otherwise the `.dark` class itself would be hashed and never match.
+:global(body.dark) .bpt {
   --bpt-border: rgba(255, 255, 255, 0.22);
   --bpt-node-bg: rgba(255, 255, 255, 0.08);
   --bpt-node-text: rgba(255, 255, 255, 0.92);

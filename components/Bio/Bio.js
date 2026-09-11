@@ -8,6 +8,8 @@ import { formatMessage } from 'utils/i18n';
 
 import SocialBar from '../SocialBar';
 
+import styles from './Bio.module.scss';
+
 const Bio = function () {
     const { author } = site;
     const description = formatMessage('desc');
@@ -18,19 +20,19 @@ const Bio = function () {
                 marginBottom: rhythm(0.6),
             }}
         >
-            <div className="bio">
+            <div className={styles.bio}>
                 <div style={{ width: '70px', height: '70px', marginRight: '10px' }}>
                     <Image
                         src={withBasePath('/profile-pic.jpg')}
                         alt={author}
-                        className="pic"
+                        className={styles.pic}
                         width={70}
                         height={70}
                         style={{ borderRadius: '50%' }}
                     />
                 </div>
 
-                <div className="description">
+                <div className={styles.description}>
                     <p>{description}</p>
                     <SocialBar />
                 </div>

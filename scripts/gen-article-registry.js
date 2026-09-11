@@ -31,7 +31,7 @@ const PUBLIC_BLOG_DIR = path.join(ROOT, 'public', 'blog');
 const OUT_FILE = path.join(ROOT, 'lib', 'generated', 'articleComponents.js');
 
 /** Article *sources* - never copied into `public/`. */
-const SOURCE_FILE = /\.(mdx?|jsx?|tsx?|less|css|json)$/i;
+const SOURCE_FILE = /\.(mdx?|jsx?|tsx?|scss|sass|css|json)$/i;
 /** Folders inside an article that hold sources, not assets. */
 const SOURCE_DIRS = new Set(['components']);
 

@@ -4,6 +4,8 @@ import { formatMessage } from 'utils/i18n';
 import withBasePath from 'utils/basePath';
 import { useLang } from 'context/LanguageContext';
 
+import styles from './Footer.module.scss';
+
 const Footer = function () {
     const { homeLink } = useLang();
     const [goHome, setGoHome] = useState();
@@ -28,7 +30,7 @@ const Footer = function () {
         >
             <div>
                 <div
-                    className="footer-contain"
+                    className={styles['footer-contain']}
                     role="presentation"
                     onClick={goHome}
                     style={{
@@ -39,7 +41,7 @@ const Footer = function () {
                     }}
                 >
                     <img
-                        className="footer-icon"
+                        className={styles['footer-icon']}
                         style={{
                             borderRadius: '50%',
                             width: '40px',

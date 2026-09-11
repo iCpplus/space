@@ -6,7 +6,7 @@ import { LanguageProvider } from 'context/LanguageContext';
 import withBasePath from 'utils/basePath';
 
 import '../styles/typography.generated.css';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 export default function App({ Component, pageProps }) {
     return (

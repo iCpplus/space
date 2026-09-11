@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
+import styles from './TranslationsLink.module.scss';
+
 const TranslationsLink = function ({ translationsLink, langKey, ...restProps }) {
     if (translationsLink == null || translationsLink.length === 0) {
         return null;
     }
 
     return (
-        <div className="translation-root" {...restProps}>
+        <div className={styles['translation-root']} {...restProps}>
             <span style={{ color: 'var(--tag-bg)', marginRight: '10px' }}>翻译/translate into: </span>
             {translationsLink.map(({ name, url }) => (
-                <Link key={name} href={url} className="translation-link">
+                <Link key={name} href={url} className={styles['translation-link']}>
                     {name}
                 </Link>
             ))}

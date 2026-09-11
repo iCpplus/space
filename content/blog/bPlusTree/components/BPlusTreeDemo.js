@@ -10,6 +10,15 @@ import {
   treeStats,
 } from './bPlusTree';
 
+import styles from './BPlusTree.module.scss';
+
+/**
+ * Joins CSS module class names. Names the stylesheet does not define (the
+ * `bpt-action-*` hooks that only exist in the markup) are skipped instead of
+ * leaking `undefined` into the `class` attribute.
+ */
+const cx = (...names) => names.map((name) => styles[name]).filter(Boolean).join(' ');
+
 const KEY_W = 36;
 const NODE_PAD = 6;
 const NODE_H = 30;
@@ -266,17 +275,17 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
   const isOnPath = (id) => pathIds.includes(id);
 
   return (
-    <figure className={`bpt bpt-action-${action}`}>
-      <div className="bpt-head">
-        <span className="bpt-badge">互动演示</span>
-        {caption ? <span className="bpt-caption">{caption}</span> : null}
-        <span className="bpt-stats">
+    <figure className={cx('bpt', `bpt-action-${action}`)}>
+      <div className={cx('bpt-head')}>
+        <span className={cx('bpt-badge')}>互动演示</span>
+        {caption ? <span className={cx('bpt-caption')}>{caption}</span> : null}
+        <span className={cx('bpt-stats')}>
           阶 m={order} · 树高 {stats.height} · 叶子 {stats.leaves} · 键 {values.length}
         </span>
       </div>
 
-      <div className="bpt-toolbar">
-        <label className="bpt-field">
+      <div className={cx('bpt-toolbar')}>
+        <label className={cx('bpt-field')}>
           <span>阶</span>
           <select value={order} onChange={changeOrder} aria-label="选择 B+ 树的阶">
             <option value={3}>3</option>
@@ -286,7 +295,7 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
           </select>
         </label>
         <input
-          className="bpt-input"
+          className={cx('bpt-input')}
           value={input}
           onChange={(e) => setInput(e.target.value.replace(/[^0-9-]/g, ''))}
           onKeyDown={(e) => {
@@ -295,47 +304,47 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
           placeholder="输入一个整数"
           aria-label="要操作的键"
         />
-        <button type="button" className="bpt-btn primary" onClick={() => startOp('insert')}>
+        <button type="button" className={cx('bpt-btn', 'primary')} onClick={() => startOp('insert')}>
           插入
         </button>
-        <button type="button" className="bpt-btn" onClick={() => startOp('remove')}>
+        <button type="button" className={cx('bpt-btn')} onClick={() => startOp('remove')}>
           删除
         </button>
-        <button type="button" className="bpt-btn" onClick={() => startOp('search')}>
+        <button type="button" className={cx('bpt-btn')} onClick={() => startOp('search')}>
           查找
         </button>
-        <button type="button" className="bpt-btn" onClick={() => startOp('insert', randomMissingKey())}>
+        <button type="button" className={cx('bpt-btn')} onClick={() => startOp('insert', randomMissingKey())}>
           随机插入
         </button>
-        <button type="button" className="bpt-btn" onClick={() => reset()}>
+        <button type="button" className={cx('bpt-btn')} onClick={() => reset()}>
           重置
         </button>
       </div>
 
-      <div className="bpt-toolbar">
+      <div className={cx('bpt-toolbar')}>
         <button
           type="button"
-          className="bpt-btn"
+          className={cx('bpt-btn')}
           onClick={() => stepBy(-1)}
           disabled={!steps.length || index === 0}
         >
           ⏮ 上一步
         </button>
-        <button type="button" className="bpt-btn primary" onClick={togglePlay} disabled={autoRunning}>
+        <button type="button" className={cx('bpt-btn', 'primary')} onClick={togglePlay} disabled={autoRunning}>
           {playing ? '⏸ 暂停' : '▶ 播放'}
         </button>
         <button
           type="button"
-          className="bpt-btn"
+          className={cx('bpt-btn')}
           onClick={() => stepBy(1)}
           disabled={!steps.length || index >= steps.length - 1}
         >
           下一步 ⏭
         </button>
-        <button type="button" className="bpt-btn" onClick={autoDemo} disabled={autoRunning}>
+        <button type="button" className={cx('bpt-btn')} onClick={autoDemo} disabled={autoRunning}>
           🎬 自动演示（插入 10 个数）
         </button>
-        <label className="bpt-field">
+        <label className={cx('bpt-field')}>
           <span>速度</span>
           <input
             type="range"
@@ -346,18 +355,18 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
             onChange={(e) => setSpeedLevel(Number(e.target.value))}
             aria-label="播放速度"
           />
-          <span className="bpt-speed-hint">{speedLevel >= 4 ? '快' : speedLevel <= 2 ? '慢' : '中'}</span>
+          <span className={cx('bpt-speed-hint')}>{speedLevel >= 4 ? '快' : speedLevel <= 2 ? '慢' : '中'}</span>
         </label>
-        <span className="bpt-step-counter">
+        <span className={cx('bpt-step-counter')}>
           {steps.length ? `第 ${index + 1} / ${steps.length} 步` : '等待操作'}
         </span>
       </div>
 
-      <div className="bpt-progress" role="presentation">
-        <div className="bpt-progress-bar" style={{ width: `${progress}%` }} />
+      <div className={cx('bpt-progress')} role="presentation">
+        <div className={cx('bpt-progress-bar')} style={{ width: `${progress}%` }} />
       </div>
 
-      <div className="bpt-canvas">
+      <div className={cx('bpt-canvas')}>
         <svg
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           width="100%"
@@ -388,7 +397,7 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
               return (
                 <line
                   key={edge.id}
-                  className={`bpt-edge${onPath ? ' is-path' : ''}${active ? ' is-active' : ''}`}
+                  className={cx('bpt-edge', onPath && 'is-path', active && 'is-active')}
                   x1={parent.x}
                   y1={parent.y + NODE_H}
                   x2={child.x}
@@ -405,7 +414,7 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
               return (
                 <line
                   key={`${leaf.id}-link`}
-                  className="bpt-leaflink"
+                  className={cx('bpt-leaflink')}
                   x1={from.x + from.w / 2}
                   y1={from.y + NODE_H / 2}
                   x2={to.x - to.w / 2 - 2}
@@ -418,19 +427,21 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
             {flat.nodes.map((node) => {
               const pos = layout.positions.get(node.id);
               if (!pos) return null;
-              const classes = ['bpt-node'];
-              if (isOnPath(node.id)) classes.push('is-path');
-              if (isActive(node.id)) classes.push('is-active');
-              if (isCreated(node.id)) classes.push('is-new');
+              const classes = cx(
+                'bpt-node',
+                isOnPath(node.id) && 'is-path',
+                isActive(node.id) && 'is-active',
+                isCreated(node.id) && 'is-new',
+              );
 
               return (
                 <g
                   key={node.id}
-                  className={classes.join(' ')}
+                  className={classes}
                   style={{ transform: `translate(${pos.x}px, ${pos.y}px)` }}
                 >
                   <rect
-                    className="bpt-node-bg"
+                    className={cx('bpt-node-bg')}
                     x={-pos.w / 2}
                     y={0}
                     width={pos.w}
@@ -438,7 +449,7 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
                     rx={6}
                   />
                   {node.keys.length === 0 ? (
-                    <text className="bpt-empty" x={0} y={NODE_H / 2 + 1}>
+                    <text className={cx('bpt-empty')} x={0} y={NODE_H / 2 + 1}>
                       ∅
                     </text>
                   ) : null}
@@ -448,7 +459,7 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
                     return (
                       <g
                         key={`${node.id}-${key}-${keyIndex}`}
-                        className={`bpt-key${found ? ' is-found' : ''}`}
+                        className={cx('bpt-key', found && 'is-found')}
                       >
                         <rect x={keyX} y={4} width={KEY_W - 4} height={NODE_H - 8} rx={4} />
                         <text x={keyX + (KEY_W - 4) / 2} y={NODE_H / 2 + 1}>
@@ -464,44 +475,44 @@ const BPlusTreeDemo = function ({ order: orderProp = 4, keys: keysProp = '', cap
         </svg>
       </div>
 
-      <div className="bpt-legend">
+      <div className={cx('bpt-legend')}>
         <span>
-          <i className="bpt-dot is-active" />当前操作节点
+          <i className={cx('bpt-dot', 'is-active')} />当前操作节点
         </span>
         <span>
-          <i className="bpt-dot is-path" />查找路径
+          <i className={cx('bpt-dot', 'is-path')} />查找路径
         </span>
         <span>
-          <i className="bpt-dot is-new" />新节点
+          <i className={cx('bpt-dot', 'is-new')} />新节点
         </span>
         <span>
-          <i className="bpt-dot is-leaf" />叶子链表指针
+          <i className={cx('bpt-dot', 'is-leaf')} />叶子链表指针
         </span>
       </div>
 
-      <div className="bpt-note">
-        <span className="bpt-note-tag">{STEP_LABEL[action] ?? '提示'}</span>
-        <span className="bpt-note-text">
+      <div className={cx('bpt-note')}>
+        <span className={cx('bpt-note-tag')}>{STEP_LABEL[action] ?? '提示'}</span>
+        <span className={cx('bpt-note-text')}>
           {current ? current.message : '输入一个整数，点击「插入 / 删除 / 查找」，或直接点「自动演示」观看完整过程。'}
         </span>
       </div>
 
-      <div className="bpt-log" ref={logRef}>
+      <div className={cx('bpt-log')} ref={logRef}>
         {steps.slice(0, index + 1).map((step, i) => (
           <div
             // eslint-disable-next-line react/no-array-index-key
             key={`${i}-${step.action}`}
-            className={`bpt-log-item${i === index ? ' is-current' : ''}`}
+            className={cx('bpt-log-item', i === index && 'is-current')}
           >
-            <span className="bpt-log-idx">{i + 1}</span>
-            <span className="bpt-log-tag">{STEP_LABEL[step.action] ?? step.action}</span>
-            <span className="bpt-log-text">{step.message}</span>
+            <span className={cx('bpt-log-idx')}>{i + 1}</span>
+            <span className={cx('bpt-log-tag')}>{STEP_LABEL[step.action] ?? step.action}</span>
+            <span className={cx('bpt-log-text')}>{step.message}</span>
           </div>
         ))}
-        {!steps.length ? <div className="bpt-log-empty">操作记录会在这里逐步展开……</div> : null}
+        {!steps.length ? <div className={cx('bpt-log-empty')}>操作记录会在这里逐步展开……</div> : null}
       </div>
 
-      <figcaption className="bpt-hint">
+      <figcaption className={cx('bpt-hint')}>
         小提示：把「阶」调到 3 更容易看到分裂与合并；插入连续递增的数（10、20、30…）会不断触发分裂。
       </figcaption>
     </figure>

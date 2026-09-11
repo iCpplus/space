@@ -9,6 +9,8 @@ import { formatDate } from 'utils/i18n';
 
 import TagList from '../TagList';
 
+import styles from './PostAbbrev.module.scss';
+
 /**
  * Cover used by articles that define no `cover` in their frontmatter (the resume
  * is deliberately one of them). It ships with the site instead of pointing at a
@@ -56,22 +58,22 @@ const PostAbbrev = function ({
     const lowCover = /^https?:\/\//i.test(cover) ? withBasePath(toLowCover(cover)) : highCover;
 
     return (
-        <div className="article" style={{ background: 'var(--bg-article)' }}>
-            <div className="article-doc">
-                <div className="title">
+        <div className={styles.article} style={{ background: 'var(--bg-article)' }}>
+            <div className={styles['article-doc']}>
+                <div className={styles.title}>
                     <Link style={{ boxShadow: 'none' }} href={slug} rel="bookmark">
                         {title}
                     </Link>
                 </div>
                 <div className="other">{tagsPart}</div>
-                <div className="desc">{excerptPart}</div>
+                <div className={styles.desc}>{excerptPart}</div>
 
-                <div className="article-bottom">
+                <div className={styles['article-bottom']}>
                     <div className="read-time">{formatReadingTime(timeToRead)}</div>
                     <div className="time">{`${formatDate(date)}`}</div>
                 </div>
             </div>
-            <div className="img-contain">
+            <div className={styles['img-contain']}>
                 <Link style={{ boxShadow: 'none' }} href={slug} rel="bookmark">
                     <img loading="lazy" decoding="async" src={lowCover} alt="" />
                     <img

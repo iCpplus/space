@@ -1,17 +1,17 @@
 // Global styles ported from the original `src/utils/global.css`.
-// Kept as LESS so we can use variables for the repeated theme colours while the
+// Sass variables keep the repeated theme colours in a single place; the
 // compiled output stays identical to the original stylesheet.
 
-@pink: rgb(255, 167, 196);
-@code-bg: #011627;
-@system-font: "LXGW WenKai Screen", sans-serif;
-@breadcrumbs-divider-size: 20px;
+$pink: rgb(255, 167, 196);
+$code-bg: #011627;
+$system-font: "LXGW WenKai Screen", sans-serif;
+$breadcrumbs-divider-size: 20px;
 
 body {
-    --pink: @pink;
+    --pink: #{$pink};
     background-color: var(--bg);
-    --breadcrumbsDividerSize: @breadcrumbs-divider-size;
-    --systemFont: @system-font !important;
+    --breadcrumbsDividerSize: #{$breadcrumbs-divider-size};
+    --systemFont: #{$system-font} !important;
 }
 
 h1,
@@ -20,7 +20,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: @system-font !important;
+    font-family: $system-font !important;
 }
 
 .pio-container .pio-show {
@@ -255,7 +255,7 @@ pre[data-line] {
     margin-left: -1.3125rem;
     margin-right: -1.3125rem;
     border-radius: 10px;
-    background: @code-bg;
+    background: $code-bg;
     -webkit-overflow-scrolling: touch;
     overflow: auto;
 
@@ -271,4 +271,75 @@ pre[data-line] {
 
 html {
     overflow-y: auto;
+}
+
+// Shared round-tag badge, used both by `components/Tag` and by
+// `components/SocialBar` (which renders the same pill for its share links).
+// Because two components share it, it stays a global utility instead of living
+// in either component's CSS module.
+.round-tag {
+    display: inline-block;
+    margin: 0 0 0.3em 1em;
+    margin-left: 15px;
+    padding: 0;
+}
+
+.link {
+    position: relative;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 1em 0 0.75em;
+    background-color: var(--tag-bg, #3498db);
+    border-radius: 0 5px 5px 0;
+    color: var(--tag-color, #fff);
+    font-size: 13px;
+    text-decoration: none;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+
+    &::before {
+        position: absolute;
+        top: 0;
+        left: -15px;
+        content: '';
+        width: 15px;
+        height: 30px;
+        background-color: var(--tag-bg, #3498db);
+        border-bottom-left-radius: 30px;
+        border-top-left-radius: 30px;
+        -webkit-transition: 0.2s;
+        transition: 0.2s;
+    }
+
+    &::after {
+        position: absolute;
+        top: 50%;
+        left: -6px;
+        z-index: 2;
+        display: block;
+        content: '';
+        width: 6px;
+        height: 6px;
+        margin-top: -3px;
+        background-color: var(--tag-color, #fff);
+        border-radius: 100%;
+    }
+
+    &:hover {
+        background-color: #555;
+        color: var(--tag-color, #fff);
+
+        &::before {
+            background-color: #555;
+        }
+    }
+}
+
+.text {
+    display: block;
+    max-width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

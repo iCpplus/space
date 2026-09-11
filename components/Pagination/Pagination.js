@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useLang } from 'context/LanguageContext';
 
+import styles from './Pagination.module.scss';
+
 const Pagination = function ({ currentPage = 1, totalPageNumber = 1 }) {
     const { homeLink } = useLang();
 
@@ -11,25 +13,25 @@ const Pagination = function ({ currentPage = 1, totalPageNumber = 1 }) {
 
     const befMark =
         currentPage === 1 ? (
-            <span className="disabled">&laquo;</span>
+            <span className={styles.disabled}>&laquo;</span>
         ) : (
             <Link href={pageLink(currentPage - 1)}>&laquo;</Link>
         );
     const nextMark =
         currentPage === totalPageNumber ? (
-            <span className="disabled">&raquo;</span>
+            <span className={styles.disabled}>&raquo;</span>
         ) : (
             <Link href={pageLink(currentPage + 1)}>&raquo;</Link>
         );
 
     return (
-        <div className="pagination">
+        <div className={styles.pagination}>
             {befMark}
             {Array.from({ length: totalPageNumber })
                 .map((_, ind) => ind + 1)
                 .map((pageNum) => {
                     return pageNum === currentPage ? (
-                        <span key={`pageNum-${pageNum}`} className="active">
+                        <span key={`pageNum-${pageNum}`} className={styles.active}>
                             {pageNum}
                         </span>
                     ) : (

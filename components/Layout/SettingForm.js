@@ -4,6 +4,8 @@ import { formatMessage } from 'utils/i18n';
 import { getSimpleTheme, setSimpleTheme } from 'utils/simpleTheme';
 import { getThemeBackground, setThemeBackground } from 'utils/themeBackground';
 
+import styles from './Setting.module.scss';
+
 /**
  * Theme settings, rendered on its own page (`/setting/`).
  *
@@ -67,65 +69,71 @@ const SettingForm = function () {
     const tClear = formatMessage('tClear');
     const tSaved = formatMessage('tSaved');
 
+    /** `setting-option` plus the active modifier while this option is selected. */
+    const optionClass = (active) =>
+        active
+            ? `${styles['setting-option']} ${styles['setting-option-active']}`
+            : styles['setting-option'];
+
     return (
-        <div className="setting-page">
-            <section className="setting-card">
+        <div className={styles['setting-page']}>
+            <section className={styles['setting-card']}>
                 <h2>{tListStyle}</h2>
-                <p className="setting-hint">{tListStyleDesc}</p>
-                <div className="setting-options" role="radiogroup" aria-label={tListStyle}>
+                <p className={styles['setting-hint']}>{tListStyleDesc}</p>
+                <div className={styles['setting-options']} role="radiogroup" aria-label={tListStyle}>
                     <button
                         type="button"
                         role="radio"
                         aria-checked={simple}
-                        className={`setting-option${simple ? ' setting-option-active' : ''}`}
+                        className={optionClass(simple)}
                         onClick={() => onSelectStyle(true)}
                     >
-                        <span className="setting-option-title">
+                        <span className={styles['setting-option-title']}>
                             {tSimpleOption}
-                            <span className="setting-option-mark" aria-hidden="true">
+                            <span className={styles['setting-option-mark']} aria-hidden="true">
                                 {simple ? '✓' : ''}
                             </span>
                         </span>
-                        <span className="setting-option-desc">{tSimpleOptionDesc}</span>
+                        <span className={styles['setting-option-desc']}>{tSimpleOptionDesc}</span>
                     </button>
                     <button
                         type="button"
                         role="radio"
                         aria-checked={!simple}
-                        className={`setting-option${simple ? '' : ' setting-option-active'}`}
+                        className={optionClass(!simple)}
                         onClick={() => onSelectStyle(false)}
                     >
-                        <span className="setting-option-title">
+                        <span className={styles['setting-option-title']}>
                             {tCardOption}
-                            <span className="setting-option-mark" aria-hidden="true">
+                            <span className={styles['setting-option-mark']} aria-hidden="true">
                                 {simple ? '' : '✓'}
                             </span>
                         </span>
-                        <span className="setting-option-desc">{tCardOptionDesc}</span>
+                        <span className={styles['setting-option-desc']}>{tCardOptionDesc}</span>
                     </button>
                 </div>
-                <p className="setting-current">{tCurrentStyle}</p>
+                <p className={styles['setting-current']}>{tCurrentStyle}</p>
             </section>
 
-            <section className="setting-card">
+            <section className={styles['setting-card']}>
                 <h2>{tCustomBackground}</h2>
-                <p className="setting-hint">{tCustomBackgroundDesc}</p>
-                <div className="setting-row">
+                <p className={styles['setting-hint']}>{tCustomBackgroundDesc}</p>
+                <div className={styles['setting-row']}>
                     <input
                         type="text"
-                        className="setting-input"
+                        className={styles['setting-input']}
                         value={background}
                         placeholder={tBackgroundPlaceholder}
                         onChange={(event) => setBackground(event.target.value)}
                     />
-                    <button type="button" className="setting-primary" onClick={onApplyBackground}>
+                    <button type="button" className={styles['setting-primary']} onClick={onApplyBackground}>
                         {tConfirm}
                     </button>
-                    <button type="button" className="setting-ghost" onClick={onClearBackground}>
+                    <button type="button" className={styles['setting-ghost']} onClick={onClearBackground}>
                         {tClear}
                     </button>
                 </div>
-                {saved && <p className="setting-saved">{tSaved}</p>}
+                {saved && <p className={styles['setting-saved']}>{tSaved}</p>}
             </section>
         </div>
     );

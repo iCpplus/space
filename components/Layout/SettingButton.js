@@ -4,6 +4,8 @@ import Link from 'next/link';
 import withBasePath from 'utils/basePath';
 import { formatMessage } from 'utils/i18n';
 
+import styles from './Setting.module.scss';
+
 /**
  * Floating entry point to the theme settings, pinned to the bottom right corner
  * of every page.
@@ -16,8 +18,8 @@ const SettingButton = function () {
     const label = formatMessage('tThemeSetting');
 
     return (
-        <Link className="setting-btn" href="/setting/" aria-label={label}>
-            <img className="setting-icon" src={withBasePath('/setting.svg')} alt="" />
+        <Link className={styles['setting-btn']} href="/setting/" aria-label={label}>
+            <img className={styles['setting-icon']} src={withBasePath('/setting.svg')} alt="" />
             <span className="setting-label">{label}</span>
         </Link>
     );

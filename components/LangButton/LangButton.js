@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import styles from './LangButton.module.scss';
+
 const IconLanguage = function (props) {
     return (
         <svg
@@ -25,11 +27,11 @@ const LangButton = function ({
     focused = false,
     ...restProps
 }) {
-    const focusedClass = focused ? 'language-focused' : '';
+    const focusedClass = focused ? styles['language-focused'] : '';
     return (
         // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-        <div className={`language ${focusedClass}`} onClick={onClick} role="button" {...restProps}>
-            <IconLanguage className="icon" />
+        <div className={`${styles.language} ${focusedClass}`} onClick={onClick} role="button" {...restProps}>
+            <IconLanguage className={styles.icon} />
             <span>{lang}</span>
         </div>
     );

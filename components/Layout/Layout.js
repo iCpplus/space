@@ -11,6 +11,8 @@ import ReadModeToggle from './ReadModeToggle';
 import Breadcrumbs from '../Breadcrumbs';
 import ThemeBackground from './ThemeBackground';
 
+import styles from './Layout.module.scss';
+
 const Layout = function ({ children = null, title = null, breadcrumbs = null }) {
     const { lang, homeLink, refresh } = useLang();
     const router = useRouter();
@@ -53,7 +55,7 @@ const Layout = function ({ children = null, title = null, breadcrumbs = null }) 
     return (
         <>
             <div
-                className="top-bar-contain"
+                className={styles['top-bar-contain']}
                 style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}
             >
                 <LanguageBar lang={lang} base={homeLink} />

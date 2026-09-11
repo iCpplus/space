@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import styles from './BalloonField.module.scss';
+
 const BalloonField = function ({ children, className = '', ...restProps }) {
     return (
-        <div className={`balloon ${className}`} {...restProps}>
+        <div className={`${styles.balloon} ${className}`} {...restProps}>
             {children}
         </div>
     );

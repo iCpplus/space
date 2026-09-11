@@ -9,6 +9,8 @@ import { formatDate } from 'utils/i18n';
 
 import TagList from '../TagList';
 
+import styles from './PostAbbrev.module.scss';
+
 const PostAbbrevSimple = function ({
     slug,
     title = null,
@@ -31,7 +33,7 @@ const PostAbbrevSimple = function ({
     }
 
     return (
-        <article className="simple-article">
+        <article className={styles['simple-article']}>
             <header>
                 <h3
                     style={{

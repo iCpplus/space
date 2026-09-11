@@ -10,6 +10,8 @@ import LangButton from '../LangButton';
 import BalloonField from '../BalloonField';
 import LangList from '../LangList';
 
+import styles from './LanguageBar.module.scss';
+
 /**
  * base MUST include a trailing slash (eg: `en/`).
  */
@@ -58,7 +60,7 @@ const LanguageBar = function ({ lang: langKey = 'en', base = '/' }) {
                 transition: 'transform 0.5s',
             }}
         >
-            <div className="bar">
+            <div className={styles.bar}>
                 <Link
                     style={{
                         boxShadow: 'none',
@@ -75,7 +77,7 @@ const LanguageBar = function ({ lang: langKey = 'en', base = '/' }) {
                     <LangButton lang={language} focused={displayLang} onClick={handleToggleLanguage} />
                 </div>
             </div>
-            <div className="toggle-content" style={toggleStyle}>
+            <div className={styles['toggle-content']} style={toggleStyle}>
                 <BalloonField style={{ padding: 20 }}>
                     <LangList languages={supportedLanguages} langKey={defaultLang} />
                 </BalloonField>

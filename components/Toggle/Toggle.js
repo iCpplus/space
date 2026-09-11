@@ -7,6 +7,8 @@
 
 import React, { PureComponent } from 'react';
 
+import styles from './Toggle.module.scss';
+
 function pointerCoord(event) {
     if (event) {
         const { changedTouches } = event;
@@ -146,8 +148,14 @@ export default class Toggle extends PureComponent {
 
     render() {
         const { className, icons: _icons, 'aria-label': ariaLabel, ...inputProps } = this.props;
-        const classes = `react-toggle${this.state.checked ? ' react-toggle--checked' : ''}${this.state.hasFocus ? ' react-toggle--focus' : ''
-            }${this.props.disabled ? ' react-toggle--disabled' : ''}${className ? ` ${className}` : ''}`;
+        const classes = [
+            styles['react-toggle'],
+            this.state.checked ? styles['react-toggle--checked'] : '',
+            this.state.hasFocus ? styles['react-toggle--focus'] : '',
+            className,
+        ]
+            .filter(Boolean)
+            .join(' ');
         return (
             <div
                 className={classes}
@@ -157,11 +165,11 @@ export default class Toggle extends PureComponent {
                 onTouchEnd={this.handleTouchEnd}
                 onTouchCancel={this.handleTouchCancel}
             >
-                <div className="react-toggle-track">
-                    <div className="react-toggle-track-check">{this.getIcon('checked')}</div>
-                    <div className="react-toggle-track-x">{this.getIcon('unchecked')}</div>
+                <div className={styles['react-toggle-track']}>
+                    <div className={styles['react-toggle-track-check']}>{this.getIcon('checked')}</div>
+                    <div className={styles['react-toggle-track-x']}>{this.getIcon('unchecked')}</div>
                 </div>
-                <div className="react-toggle-thumb" />
+                <div className={styles['react-toggle-thumb']} />
 
                 <input
                     {...inputProps}
@@ -170,7 +178,7 @@ export default class Toggle extends PureComponent {
                     }}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
-                    className="react-toggle-screenreader-only"
+                    className={styles['react-toggle-screenreader-only']}
                     type="checkbox"
                     aria-label={ariaLabel || 'Switch between Dark and Light mode'}
                 />

@@ -1,0 +1,18 @@
+// Single global stylesheet entry point.
+//
+// Only *global* styles belong here:
+//   - theme variables and element level rules for the page background,
+//   - rules that target DOM we do not render ourselves (Mapbox popups, Valine
+//     comments, `gatsby-highlight` markup produced by MDX),
+//   - selectors that only appear as raw HTML strings (`lib/map-space/*.js`).
+//
+// Everything a React component owns lives next to that component instead, as
+// `Foo.module.scss`, because Next.js refuses to load a global stylesheet from
+// anywhere except `pages/_app.js`.
+
+// Base
+@use './global';
+@use './tricks';
+@use './catalog';
+@use './map-space';
+@use './comments';
