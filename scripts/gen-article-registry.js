@@ -125,7 +125,7 @@ function main() {
 
     process.stdout.write(
         `[gen:articles] ${articleDirs.length} article folder(s), ` +
-            `${registrySize} with components, ${assetCount} asset(s) published\n`,
+        `${registrySize} with components, ${assetCount} asset(s) published\n`,
     );
 }
 
