@@ -14,6 +14,7 @@ import Love from 'components/Love';
 import Comments from 'components/Comments';
 
 import articleComponents from 'lib/generated/articleComponents';
+import sharedComponents from 'content/components';
 import withBasePath from 'utils/basePath';
 import { formatReadingTime } from 'utils/helpers';
 import { formatDate, formatMessage } from 'utils/i18n';
@@ -22,15 +23,15 @@ import setCatalog from 'utils/setCatalog';
 import { useLang } from 'context/LanguageContext';
 
 /**
- * Components available to *every* article. The MDX pipeline parses raw HTML, so a
- * tag written in the body is looked up in this map and rendered as the matching
- * React component.
+ * Components available to *every* article live in `content/components/`.
  *
- * Article specific components are no longer listed here: they live next to their
- * MDX in `content/blog/<dir>/components/` and are wired up per article by the
+ * Nothing is registered here by hand: article specific components live next to
+ * their MDX in `content/blog/<dir>/components/` and are merged in below from the
  * generated registry (see `scripts/gen-article-registry.js`).
+ *
+ * The MDX pipeline parses raw HTML, so a tag written in the body is looked up in
+ * the resulting map and rendered as the matching React component.
  */
-const MDX_COMPONENTS = {};
 
 const BlogPostTemplate = function ({
     post,
@@ -44,7 +45,7 @@ const BlogPostTemplate = function ({
 }) {
     const { frontmatter } = post;
     // Shared components plus the ones shipped by this article's own folder.
-    const mdxComponents = { ...MDX_COMPONENTS, ...(articleComponents[post.dirName] || {}) };
+    const mdxComponents = { ...sharedComponents, ...(articleComponents[post.dirName] || {}) };
     const siteTitle = formatMessage('title');
     const { lang, homeLink } = useLang();
 

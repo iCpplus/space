@@ -5,7 +5,7 @@ Next.js + MDX 重写的个人博客（原 `gatsby-simple-blog` / anyspace 的文
 ## 技术栈
 
 - **Next.js 15**（Pages Router）+ **JavaScript**
-- **Less**（自定义 `next.config.js` webpack patch，让 Next 内置 CSS 管线同时支持 `.less`）
+- **Sass**（Next 原生支持，无需自定义 webpack 配置）：全局样式 `styles/*.scss`，组件样式为同目录的 `Foo.module.scss`（CSS Modules）
 - **MDX**：文章使用 `.mdx`，通过 `next-mdx-remote` + `remark`/`rehype` 渲染
 - 样式与交互尽量与原 Gatsby 项目保持一致
 
@@ -13,15 +13,15 @@ Next.js + MDX 重写的个人博客（原 `gatsby-simple-blog` / anyspace 的文
 
 ```
 config/            站点与多语言配置（index.js、locales/）
-content/blog/      文章源文件，每篇一个目录（index.mdx / index.en.mdx + images/）
+content/           写作目录：AGENTS.md（写作规范）、template/（示例文章）、blog/（文章）、components/（共享 MDX 组件）
 context/           LanguageContext（语言上下文）
 lib/               文章读取、MDX 编译、TOC、路由数据；lib/map-space/ 地图数据与工具
-components/        文章相关组件（Layout、Bio、PostAbbrev、Pagination、Tag…）
+components/        文章相关组件（Layout、Bio、PostAbbrev、Pagination、Tag…）+ 各自同目录的 *.module.scss
 templates/         页面模板（BlogIndex、BlogPost、Tags、TagPage）
-pages/             Next.js 路由（index.js、[...slug].js、404.js、map-space/）
-styles/            Less 样式（global、tricks、catalog、map-space、各组件）+ typography
-public/            静态资源与文章图片（/blog/<dir>/images/…、/map-space/、/live2d-*）
-scripts/           typography CSS 生成脚本
+pages/             Next.js 路由（index.js、[...slug].js、404.js、map-space/、setting.js）
+styles/            全局 Sass 样式（global、tricks、catalog、map-space、comments）+ typography
+public/            静态资源与文章图片（/blog/<dir>/… 由构建生成、/map-space/、/live2d-*）
+scripts/           typography CSS 与文章注册表/资源生成脚本
 ```
 
 ## 路由
@@ -52,6 +52,9 @@ npm run gen:articles   # 仅重新生成文章资源与组件注册表，不启�
 
 ## 写文章：一篇文章一个文件夹
 
+> 写文章前看 **`content/AGENTS.md`**（写作规范，含 frontmatter 全部字段、图片与组件写法、
+> 样式约束、提交前自查清单）；起点模板是 **`content/template/`**，复制改目录名即可。
+
 文章正文、图片、封面、专用组件全部放在同一个目录下，新增组件**不需要**再改其它文件：
 
 ```
@@ -78,12 +81,25 @@ export default {
 <b-plus-tree-demo order="3" keys="1,2,3,4,5,6,7,8"></b-plus-tree-demo>
 ```
 
+多篇文章共用的小组件放在 `content/components/`，在 `content/components/index.js` 里注册
+（key 同样是小写短横线的标签名），无需其它改动。
+
 有两件事必须在构建前完成，由 `scripts/gen-article-registry.js` 自动处理（`dev` / `build` 会先跑，也可单独执行 `npm run gen:articles`）：
 
 1. **组件注册表**：MDX 组件映射必须是静态 import（组件引用无法通过 `getStaticProps` 传递），所以扫描各文章的 `components/index.js` 生成 `lib/generated/articleComponents.js`。
 2. **资源发布**：站点是静态导出，只有 `public/` 下的文件会被发布，所以把文章目录里的图片与封面复制到 `public/blog/<dir>/`。该目录是构建产物（已在 `.gitignore` 中忽略），**不要手工编辑**，否则下次生成会被覆盖。
 
 注意：**新增或删除组件文件后需要重启 `npm run dev`**，因为注册表只在启动时生成一次。
+
+## 样式约定
+
+- 全局样式在 `styles/*.scss`，**只能**由 `pages/_app.js` 导入（Next 对全局样式导出的硬性限制），
+  它们只服务于「非 React 渲染的 DOM」（markdown 生成的代码块、Mapbox 弹窗、Valine 评论）与主题变量。
+- 组件样式一律与组件同目录：`Foo.module.scss`，组件内 `import styles from './Foo.module.scss'`
+  后以 `styles.xxx` / `styles['kebab-case']` 引用（Next 使用 `exportLocalsConvention: 'asIs'`，
+  不会做驼峰转换）。
+- 多个组件共用的样式放 `styles/global.scss`（例如 `Tag` 与 `SocialBar` 共用的 `.round-tag`）。
+- 全站不再使用 Less；`next.config.js` 里原先为 Less 写的 webpack patch 已删除。
 
 ## 已实现的功能
 
@@ -94,7 +110,7 @@ export default {
 - 私密文章密码锁、爱情标签爱心动画、Valine 评论（按需加载）
 - `map-space` 地球地图：省界高亮、按 zoom 显隐的足迹 marker、彩色气泡弹窗（`lib/map-space/`）
 - 左下角看板娘：Live2D 模型（嘉然 / Diana、Ava），由 `/live2d-jaran.js` + `/live2d-lib/pio.js` 提供
-- 已从原项目迁移的样式全部转为 Less
+- 已从原项目迁移的样式全部转为 Sass（SCSS），组件样式收敛为同目录 CSS Modules
 
 ## 未迁移（原项目中的非文章功能）
 

@@ -1,0 +1,92 @@
+---
+title: 示例文章：新文章从这里开始
+date: "2024-01-01"
+description: 这是一个示例文章目录，复制整个文件夹、改掉目录名，就是新文章的起点。它本身不会被当成真正的文章发布。
+tags: ['示例', '写作约定']
+disqus: false
+relative: false
+# cover: /blog/template/cover.svg   # 需要封面时取消注释，并把 cover.svg 放进本目录，路径里的目录名要和文章目录一致
+---
+
+这是 `content/template/` 的内容，**和 `AGENTS.md` 同级**。它不会被扫描成真正的文章：
+只有 `content/blog/<目录名>/` 下的 `index.mdx` 才会发布。复制整个文件夹到 `content/blog/`
+并改成英文短横线的目录名，就可以开始写了。
+
+完整规范见同级目录的 `AGENTS.md`，下面是常用写法的示例。
+
+## 正文标题从二级开始
+
+页面自己渲染 `h1` 大标题，正文用 `##` / `###` 即可，它们会自动进入右侧目录。
+
+### 常用排版
+
+普通段落、**加粗**、*斜体*、`行内代码`、[外部链接](https://nextjs.org/)、脚注[^1]。
+
+[^1]: GFM 脚注也支持。
+
+- 无序列表
+- 第二项
+
+1. 有序列表
+2. 第二项
+
+> 引用块
+
+| 表头 | 说明 |
+| --- | --- |
+| GFM | 表格、任务列表都支持 |
+
+- [x] 已完成
+- [ ] 未完成
+
+```js
+// 代码块带语言名即可高亮
+const greet = (name) => `hi, ${name}`;
+```
+
+## 图片
+
+本地图片放在同目录的 `images/` 下，用**相对路径**引用：
+
+![本地图片示例](images/step-1.png)
+
+> 上面这张图在本示例目录里并不存在（示例不会被构建），真实写作时把 `images/step-1.png`
+> 换成自己的图片即可，构建时它会随文章一起自动发布。
+
+图床等外链图片也直接支持：
+
+![远程图片示例](https://img.picgo.net/2023/05/24/avatarc42967510ca4a23c.png)
+
+## 使用组件
+
+这篇文章如果需要可交互的小组件：
+
+1. 在 `components/` 下新建 `MyWidget.js`，样式写在同目录的 `MyWidget.module.scss`，组件里
+   `import styles from './MyWidget.module.scss'` 后用 `styles.xxx` 引用类名；
+2. 在 `components/index.js` 里注册，key 就是正文要写的标签名：
+
+   ```js
+   import MyWidget from './MyWidget';
+
+   export default {
+       'my-widget': MyWidget,
+   };
+   ```
+
+3. 正文里当普通 HTML 标签使用（小写 + 短横线）：
+
+   ```html
+   <my-widget kind="demo"></my-widget>
+   ```
+
+   写上这一行后**重启 `npm run dev`**，组件注册表是构建时生成的。
+
+如果这个组件多篇文章都要用，就放到 `content/components/` 并在 `content/components/index.js`
+里注册，写法完全一样。
+
+## 不要做的事
+
+- ❌ 不要写 `import` / `export`：正文按 Markdown + 原生 HTML 解析，导入语句只是普通文本。
+- ❌ 不要写 JSX 表达式：`{ 1 + 1 }` 不会执行，只会原样显示。
+- ❌ 不要手动往 `public/blog/` 里拷图片：那是构建产物，以文章目录里的 `images/` 为准。
+- ❌ 不要再写 Less：样式统一用 `.scss`，组件样式必须和组件放在同一个目录。
