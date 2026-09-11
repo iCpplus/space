@@ -4,14 +4,14 @@ import { formatMessage } from 'utils/i18n';
 import { getSimpleTheme, setSimpleTheme } from 'utils/simpleTheme';
 import { getThemeBackground, setThemeBackground } from 'utils/themeBackground';
 
-import Toggle from '../Toggle';
-
 /**
  * Theme settings, rendered on its own page (`/setting/`).
  *
- * Only two options are left: the compact ("极简风") article list and an optional
- * custom background image. The three preset backgrounds the old inline popup
- * offered have been removed.
+ * The list style is a two-option segmented control instead of a bare toggle: a
+ * switch alone never says which side is "on", which made it impossible to tell
+ * whether the compact ("极简风") list was active.
+ *
+ * The three preset backgrounds the old inline popup offered have been removed.
  */
 const SettingForm = function () {
     const [simple, setSimple] = useState(true);
@@ -29,8 +29,8 @@ const SettingForm = function () {
         return () => clearTimeout(timer);
     }, [saved]);
 
-    const onSimpleChange = (event) => {
-        const enabled = event.target.checked;
+    const onSelectStyle = (enabled) => {
+        if (enabled === simple) return;
         setSimple(enabled);
         setSimpleTheme(enabled);
         setSaved(true);
@@ -50,8 +50,16 @@ const SettingForm = function () {
     // `formatMessage` is a hook (it reads the language context), so every message
     // is resolved unconditionally: calling one inside a conditional branch would
     // change the hook order between renders.
-    const tSimpleTheme = formatMessage('tSimpleTheme');
-    const tSimpleThemeDesc = formatMessage('tSimpleThemeDesc');
+    const tListStyle = formatMessage('tListStyle');
+    const tListStyleDesc = formatMessage('tListStyleDesc');
+    const tSimpleOption = formatMessage('tSimpleOption');
+    const tSimpleOptionDesc = formatMessage('tSimpleOptionDesc');
+    const tCardOption = formatMessage('tCardOption');
+    const tCardOptionDesc = formatMessage('tCardOptionDesc');
+    const tCurrentStyle = formatMessage(
+        'tfCurrentStyle',
+        simple ? tSimpleOption : tCardOption,
+    );
     const tCustomBackground = formatMessage('tCustomBackground');
     const tCustomBackgroundDesc = formatMessage('tCustomBackgroundDesc');
     const tBackgroundPlaceholder = formatMessage('tBackgroundPlaceholder');
@@ -62,19 +70,41 @@ const SettingForm = function () {
     return (
         <div className="setting-page">
             <section className="setting-card">
-                <div className="setting-card-head">
-                    <h2>{tSimpleTheme}</h2>
-                    <Toggle
-                        checked={simple}
-                        aria-label={tSimpleTheme}
-                        onChange={onSimpleChange}
-                        icons={{
-                            checked: <span className="setting-toggle-icon">≡</span>,
-                            unchecked: <span className="setting-toggle-icon">▦</span>,
-                        }}
-                    />
+                <h2>{tListStyle}</h2>
+                <p className="setting-hint">{tListStyleDesc}</p>
+                <div className="setting-options" role="radiogroup" aria-label={tListStyle}>
+                    <button
+                        type="button"
+                        role="radio"
+                        aria-checked={simple}
+                        className={`setting-option${simple ? ' setting-option-active' : ''}`}
+                        onClick={() => onSelectStyle(true)}
+                    >
+                        <span className="setting-option-title">
+                            {tSimpleOption}
+                            <span className="setting-option-mark" aria-hidden="true">
+                                {simple ? '✓' : ''}
+                            </span>
+                        </span>
+                        <span className="setting-option-desc">{tSimpleOptionDesc}</span>
+                    </button>
+                    <button
+                        type="button"
+                        role="radio"
+                        aria-checked={!simple}
+                        className={`setting-option${simple ? '' : ' setting-option-active'}`}
+                        onClick={() => onSelectStyle(false)}
+                    >
+                        <span className="setting-option-title">
+                            {tCardOption}
+                            <span className="setting-option-mark" aria-hidden="true">
+                                {simple ? '' : '✓'}
+                            </span>
+                        </span>
+                        <span className="setting-option-desc">{tCardOptionDesc}</span>
+                    </button>
                 </div>
-                <p className="setting-hint">{tSimpleThemeDesc}</p>
+                <p className="setting-current">{tCurrentStyle}</p>
             </section>
 
             <section className="setting-card">

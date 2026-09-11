@@ -49,7 +49,7 @@
     -webkit-backdrop-filter: var(--article-backdrop);
     backdrop-filter: var(--article-backdrop);
 
-    & + .setting-card {
+    &+.setting-card {
         margin-top: 20px;
     }
 
@@ -59,20 +59,59 @@
     }
 }
 
-.setting-card-head {
+.setting-options {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
 
-    h2 {
-        margin: 0;
+.setting-option {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+    border: 1px solid var(--hr);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--textNormal);
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--systemFont);
+    transition: border-color 0.3s ease, background 0.3s ease;
+
+    &:hover {
+        border-color: var(--tag-bg);
     }
 }
 
-.setting-toggle-icon {
-    color: #fff;
-    font-size: 12px;
-    line-height: 17px;
+.setting-option-active {
+    border-color: var(--tag-bg);
+    background: var(--bg);
+}
+
+.setting-option-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.setting-option-mark {
+    color: var(--tag-bg);
+}
+
+.setting-option-desc {
+    margin-top: 6px;
+    color: var(--breadcrumbsTextColorActive);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.setting-current {
+    margin: 14px 0 0;
+    color: var(--tag-bg);
+    font-size: 13px;
 }
 
 .setting-hint {
