@@ -12,8 +12,8 @@ import TranslationsLink from 'components/TranslationsLink';
 import Private from 'components/Private';
 import Love from 'components/Love';
 import Comments from 'components/Comments';
-import BPlusTreeDemo from 'components/BPlusTree/BPlusTreeDemo';
 
+import articleComponents from 'lib/generated/articleComponents';
 import withBasePath from 'utils/basePath';
 import { formatReadingTime } from 'utils/helpers';
 import { formatDate, formatMessage } from 'utils/i18n';
@@ -22,14 +22,15 @@ import setCatalog from 'utils/setCatalog';
 import { useLang } from 'context/LanguageContext';
 
 /**
- * Components that articles may embed through plain HTML tags, eg:
- *   <b-plus-tree-demo></b-plus-tree-demo>
- * The MDX pipeline parses raw HTML, so the tag is looked up in `_components`
- * and resolved to the React component registered here.
+ * Components available to *every* article. The MDX pipeline parses raw HTML, so a
+ * tag written in the body is looked up in this map and rendered as the matching
+ * React component.
+ *
+ * Article specific components are no longer listed here: they live next to their
+ * MDX in `content/blog/<dir>/components/` and are wired up per article by the
+ * generated registry (see `scripts/gen-article-registry.js`).
  */
-const MDX_COMPONENTS = {
-  'b-plus-tree-demo': BPlusTreeDemo,
-};
+const MDX_COMPONENTS = {};
 
 const BlogPostTemplate = function ({
     post,
@@ -42,6 +43,8 @@ const BlogPostTemplate = function ({
     translationsLink = [],
 }) {
     const { frontmatter } = post;
+    // Shared components plus the ones shipped by this article's own folder.
+    const mdxComponents = { ...MDX_COMPONENTS, ...(articleComponents[post.dirName] || {}) };
     const siteTitle = formatMessage('title');
     const { lang, homeLink } = useLang();
 
@@ -181,7 +184,7 @@ const BlogPostTemplate = function ({
                 {showUnreal ? (
                     '小机灵鬼，这是私密内容，老实回答正确问题才可以查看内容哦O(∩_∩)O'
                 ) : (
-                    <MDXRemote {...mdxSource} components={MDX_COMPONENTS} />
+                    <MDXRemote {...mdxSource} components={mdxComponents} />
                 )}
             </div>
             <div

@@ -4,10 +4,11 @@
     "private": true,
     "description": "Next.js + MDX port of the gatsby-simple-blog (anyspace) article features",
     "scripts": {
-        "dev": "next dev",
-        "build": "npm run typography && next build",
+        "dev": "npm run gen:articles && next dev",
+        "build": "npm run typography && npm run gen:articles && next build",
         "start": "next start",
         "typography": "node scripts/gen-typography.js",
+        "gen:articles": "node scripts/gen-article-registry.js",
         "lint": "next lint"
     },
     "dependencies": {

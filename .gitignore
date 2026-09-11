@@ -39,3 +39,10 @@ yarn-error.log*
 # ------------------------------------------------------------------------- ide
 .idea/
 *.swp
+
+# ---------------------------------------------------------- article publishing
+# Article images and covers are authored next to their MDX in `content/blog/<dir>/`
+# and copied to `public/blog/<dir>/` by `npm run gen:articles`. A static export only
+# publishes what lives under `public/`, but those copies are build output.
+/public/blog/*/
+/lib/generated/

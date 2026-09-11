@@ -43,10 +43,47 @@ npm install
 # 配置环境变量（map-space 需要 Mapbox 公共 token）
 cp .env.example .env.local   # 填入自己的 NEXT_PUBLIC_MAPBOX_TOKEN
 
-npm run dev      # http://localhost:3000
-npm run build    # 生产构建（会先生成 typography CSS）
+npm run dev      # http://localhost:3000（会先生成 typography 与文章资源/组件注册表）
+npm run build    # 生产构建
 npm start
+
+npm run gen:articles   # 仅重新生成文章资源与组件注册表，不启动服务
 ```
+
+## 写文章：一篇文章一个文件夹
+
+文章正文、图片、封面、专用组件全部放在同一个目录下，新增组件**不需要**再改其它文件：
+
+```
+content/blog/<dir>/
+  index.mdx          默认语言正文
+  index.en.mdx       英文正文（可选）
+  images/**          正文图片，mdx 里写 `images/xxx.png`
+  cover.svg          封面，frontmatter 写 `cover: /blog/<dir>/cover.svg`
+  components/**      这篇文章专用的 MDX 组件（可选）
+```
+
+`components/index.js` 默认导出「标签名 → 组件」的映射，正文里直接写该标签即可：
+
+```js
+// content/blog/bPlusTree/components/index.js
+import BPlusTreeDemo from './BPlusTreeDemo';
+
+export default {
+    'b-plus-tree-demo': BPlusTreeDemo,
+};
+```
+
+```mdx
+<b-plus-tree-demo order="3" keys="1,2,3,4,5,6,7,8"></b-plus-tree-demo>
+```
+
+有两件事必须在构建前完成，由 `scripts/gen-article-registry.js` 自动处理（`dev` / `build` 会先跑，也可单独执行 `npm run gen:articles`）：
+
+1. **组件注册表**：MDX 组件映射必须是静态 import（组件引用无法通过 `getStaticProps` 传递），所以扫描各文章的 `components/index.js` 生成 `lib/generated/articleComponents.js`。
+2. **资源发布**：站点是静态导出，只有 `public/` 下的文件会被发布，所以把文章目录里的图片与封面复制到 `public/blog/<dir>/`。该目录是构建产物（已在 `.gitignore` 中忽略），**不要手工编辑**，否则下次生成会被覆盖。
+
+注意：**新增或删除组件文件后需要重启 `npm run dev`**，因为注册表只在启动时生成一次。
 
 ## 已实现的功能
 
@@ -67,9 +104,9 @@ npm start
 
 ## 说明
 
-- 文章里的封面图引用的是 `img.picgo.net` 等外链；沙箱/离线环境下无法加载属正常现象。
+- 封面与正文图片随文章放在 `content/blog/<dir>/` 下，构建时复制到 `public/blog/<dir>/`；部分历史文章的正文里仍引用 `img.picgo.net` 外链，沙箱/离线环境下无法加载属正常现象。
 - `map-space` 依赖 Mapbox 在线样式与瓦片，看板娘依赖 jsDelivr / Cubism 的 CDN 资源，都需要联网；看板娘在宽度 ≤650px 时会自动隐藏（与原项目一致）。
-- `map-space` 的 Mapbox token 通过 `NEXT_PUBLIC_MAPBOX_TOKEN` 注入（见 `.env.example`），不再硬编码在源码里；未配置时该页会提示「未配置 NEXT_PUBLIC_MAPBOX_TOKEN」。
+- `map-space` 的 Mapbox token 通过 `NEXT_PUBLIC_MAPBOX_TOKEN` 注入（见 `.env.example`），不硬编码在源码里（GitHub push protection 会拦截）。该页**没有任何兜底 UI**：token 或样式加载失败时就是白屏，只在 console 报错。
 - 文章内容通过 MDX 的 `format: 'md'` 编译，因此保留了原 Markdown 中的内联 HTML（如 `resume` 的样式块）与自动链接，渲染效果与原项目一致。
 
 ## 部署
